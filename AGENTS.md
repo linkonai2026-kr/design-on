@@ -1,4 +1,4 @@
-# design-kit
+# designon
 
 이 저장소는 **한 문장 요청에서 완성된 웹페이지를 만드는 디자인 스킬**이다. Codex·Claude Code·Cursor 등 어느 에이전트에서 읽든 동작한다.
 

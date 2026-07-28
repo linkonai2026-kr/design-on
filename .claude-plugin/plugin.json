@@ -1,9 +1,15 @@
 {
-  "name": "design-kit",
+  "name": "designon",
   "version": "1.0.0",
-  "description": "한 문장으로 완성된 웹페이지를 만드는 디자인 플러그인. 883개 디자인 툴과 78개 컬러 팔레트 DB를 내장하고, AI 티가 나지 않는 실무형 레이아웃 규칙으로 단일 HTML 파일을 생성한다.",
+  "description": "한 문장으로 완성된 웹페이지를 만드는 디자인 스킬. 디자인 툴 883개와 컬러 팔레트 78세트 DB를 내장하고, 팔레트를 먼저 조회한 뒤 한 번만 질문해 AI 티가 나지 않는 단일 HTML 페이지를 생성한다. Claude Code와 Codex 모두 지원.",
   "author": {
     "name": "vionai2026-lab"
   },
-  "keywords": ["design", "landing-page", "color-palette", "korean", "web"]
+  "keywords": [
+    "design",
+    "landing-page",
+    "color-palette",
+    "korean",
+    "web"
+  ]
 }
