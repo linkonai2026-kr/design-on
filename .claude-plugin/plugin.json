@@ -1,0 +1,9 @@
+{
+  "name": "design-kit",
+  "version": "1.0.0",
+  "description": "한 문장으로 완성된 웹페이지를 만드는 디자인 플러그인. 883개 디자인 툴과 78개 컬러 팔레트 DB를 내장하고, AI 티가 나지 않는 실무형 레이아웃 규칙으로 단일 HTML 파일을 생성한다.",
+  "author": {
+    "name": "vionai2026-lab"
+  },
+  "keywords": ["design", "landing-page", "color-palette", "korean", "web"]
+}
