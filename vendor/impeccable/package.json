@@ -1,0 +1,12 @@
+{
+  "name": "designon-vendored-impeccable-detector",
+  "private": true,
+  "type": "module",
+  "description": "Local dependency anchor so the vendored Impeccable detector resolves its parsers offline. Not published.",
+  "dependencies": {
+    "css-select": "^7.0.0",
+    "css-tree": "^3.2.1",
+    "domutils": "^4.0.2",
+    "htmlparser2": "^12.0.0"
+  }
+}

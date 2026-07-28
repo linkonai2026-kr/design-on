@@ -1,4 +1,10 @@
+# 생성 결과물
 site/
 assets/
+
+# 벤더링한 디텍터의 파서. scripts/setup.sh가 설치한다
+vendor/*/node_modules/
+vendor/*/package-lock.json
+
 .DS_Store
 *.log
