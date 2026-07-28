@@ -1,0 +1,231 @@
+<!-- 카페 브랜드 소개 페이지 예시. 팔레트: Orchid/Amethyst. designon PLAYBOOK STEP 1~7로 생성 -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>달빛다방 — 연희동 로스터리 카페</title>
+<meta name="description" content="연희동 골목 안쪽 로스터리 카페입니다. 에티오피아 예가체프를 주로 쓰고 로스팅은 매주 화요일에 합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap">
+<style>
+:root{
+  --bg:#FBF1FF;
+  --surface:#E3D0EA;
+  --ink:#3A1C36;
+  --accent:#9B71B2;
+  --muted:#6B4A63;
+  --line:#CDB6D6;
+  --serif:"Nanum Myeongjo",serif;
+  --sans:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;
+  --pad:20px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--sans);font-size:17px;line-height:1.75;letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums;
+  /* 한국어는 어절 단위로 끊는다. 없으면 낱말 가운데가 갈라진다 */
+  word-break:keep-all;overflow-wrap:break-word;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.3;text-wrap:balance;margin:0}
+p{text-wrap:pretty;margin:0}
+a{color:inherit}
+
+/* ── 헤더 ─────────────────────────────── */
+.site-head{padding:22px 0;border-bottom:1px solid var(--line)}
+.site-head .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.mark{font-family:var(--serif);font-size:17px;font-weight:800;letter-spacing:.06em}
+.site-head nav{display:flex;gap:18px;font-size:13px;color:var(--muted)}
+.site-head nav a{text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent;transition:border-color 180ms cubic-bezier(.2,0,0,1)}
+.site-head nav a:hover,.site-head nav a:focus-visible{border-bottom-color:var(--accent)}
+
+/* ── 히어로 ───────────────────────────── */
+.hero{min-height:78vh;display:flex;align-items:center;padding:clamp(48px,8vw,88px) 0}
+.hero .wrap{display:grid;gap:36px}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.4rem);font-weight:800;letter-spacing:-.03em}
+.hero .lead{font-size:clamp(1.5rem,2.6vw,1.7rem);line-height:1.55;color:var(--muted);max-width:26ch;margin-top:24px}
+.hero .meta{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:28px;max-width:34ch}
+.hero-media{
+  aspect-ratio:4/5;background:var(--surface);position:relative;overflow:hidden;
+  padding:26px;display:flex;align-items:flex-end;
+}
+.hero-media::after{
+  content:'';position:absolute;inset:0;opacity:.07;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.hero-media span{
+  position:relative;z-index:1;
+  font-family:var(--serif);font-size:clamp(1.1rem,3vw,1.6rem);color:var(--ink);line-height:1.5;
+}
+.btn{
+  display:inline-block;background:var(--ink);color:var(--bg);
+  padding:14px 28px;text-decoration:none;font-size:17px;font-weight:600;border-radius:2px;
+  transition:transform 180ms cubic-bezier(.2,0,0,1);
+}
+.btn:hover,.btn:focus-visible{transform:translateY(-2px)}
+
+/* ── 섹션 공통 ────────────────────────── */
+section{padding-top:76px;padding-bottom:76px}
+.band{background:var(--surface)}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:28px}
+.note{color:var(--muted);max-width:62ch}
+
+/* ── 메뉴 ─────────────────────────────── */
+.menu li{
+  list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+  padding:22px 0;border-top:1px solid var(--line);
+}
+.menu li:last-child{border-bottom:1px solid var(--line)}
+.menu ul{margin:0;padding:0}
+.menu .name{font-family:var(--serif);font-size:1.06rem}
+.menu .desc{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:4px;max-width:46ch}
+.menu .price{font-size:13px;color:var(--muted);white-space:nowrap}
+
+/* ── 공간 ─────────────────────────────── */
+.room{display:grid;gap:28px}
+.room .frame{aspect-ratio:3/2;background:var(--bg);border:1px solid var(--line)}
+.band .room .frame{background:var(--bg)}
+
+/* ── 찾아오는 길 ──────────────────────── */
+.info dt{font-size:13px;color:var(--muted);margin-top:20px}
+.info dd{margin:2px 0 0;font-size:17px}
+.info dl{margin:0}
+
+/* ── 푸터 ─────────────────────────────── */
+.site-foot{border-top:1px solid var(--line);padding:32px 0 44px;font-size:13px;color:var(--muted)}
+.site-foot .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+/* ── 데스크톱 ─────────────────────────── */
+@media (min-width:768px){
+  :root{--pad:48px}
+  section{padding-top:120px;padding-bottom:120px}
+  .hero .wrap{grid-template-columns:5fr 7fr;align-items:center;gap:56px}
+  .room{grid-template-columns:7fr 5fr;align-items:end}
+  .info{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+}
+
+/* ── authored moment: 히어로 진입 1회 ── */
+@media (prefers-reduced-motion:no-preference){
+  .hero h1,.hero .lead,.hero .meta,.hero .cta{animation:rise 520ms cubic-bezier(.2,0,0,1) both}
+  .hero .lead{animation-delay:70ms}
+  .hero .meta{animation-delay:120ms}
+  .hero .cta{animation-delay:170ms}
+  @keyframes rise{from{transform:translateY(14px);opacity:.001}to{transform:none;opacity:1}}
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <span class="mark">달빛다방</span>
+    <nav>
+      <a href="#menu">메뉴</a>
+      <a href="#room">공간</a>
+      <a href="#visit">찾아오는 길</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>화요일에 볶은 원두로 수요일 아침을 엽니다</h1>
+        <p class="lead">연희동 골목 안쪽, 좌석 열두 개짜리 로스터리입니다. 에티오피아 예가체프를 주로 씁니다.</p>
+        <p class="meta">매일 8시 30분에 문을 엽니다. 월요일은 쉽니다.</p>
+        <p class="cta" style="margin-top:26px"><a class="btn" href="#visit">찾아오는 길 보기</a></p>
+      </div>
+      <div class="hero-media">
+        <span>로스팅은 매주 화요일 오후에 합니다. 그날은 가게 안이 조금 시끄럽습니다.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <h2>작은 가게라 할 수 있는 것만 합니다</h2>
+      <p class="note">원두는 두 종류만 둡니다. 예가체프는 산미가 있고, 브라질 세하도는 묵직합니다. 둘 중에 뭘 드릴지 물어보고 내립니다. 우유는 서울우유를 쓰고, 디카페인은 스위스 워터 방식으로 처리한 콜롬비아 원두입니다.</p>
+    </div>
+  </section>
+
+  <section id="menu" class="band">
+    <div class="wrap">
+      <h2>메뉴</h2>
+      <div class="menu">
+        <ul>
+          <li>
+            <span class="name">핸드드립<span class="desc">예가체프 또는 브라질 세하도. 한 잔에 4분 정도 걸립니다.</span></span>
+            <span class="price">5,500원</span>
+          </li>
+          <li>
+            <span class="name">라떼<span class="desc">기본은 예가체프로 내립니다. 세하도로 바꿔드릴 수 있습니다.</span></span>
+            <span class="price">5,000원</span>
+          </li>
+          <li>
+            <span class="name">디카페인 아메리카노<span class="desc">스위스 워터 방식 콜롬비아 원두.</span></span>
+            <span class="price">4,800원</span>
+          </li>
+          <li>
+            <span class="name">스콘<span class="desc">플레인과 얼그레이 두 가지. 오전 11시쯤 나옵니다.</span></span>
+            <span class="price">3,500원</span>
+          </li>
+          <li>
+            <span class="name">원두 200g<span class="desc">화요일 로스팅분은 수요일부터 나갑니다.</span></span>
+            <span class="price">16,000원</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="room">
+    <div class="wrap room">
+      <div class="frame"></div>
+      <div>
+        <h2>좌석은 열두 개입니다</h2>
+        <p class="note">4인 테이블 두 개, 2인 테이블 세 개, 창가 바 자리 두 개가 있습니다. 콘센트는 창가 자리에만 있습니다. 노트북 작업은 평일 오후에 여유롭습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" class="band">
+    <div class="wrap">
+      <h2>찾아오는 길</h2>
+      <div class="info">
+        <dl>
+          <dt>주소</dt>
+          <dd>서울 서대문구 연희로11가길 00, 1층</dd>
+          <dt>전화</dt>
+          <dd><a href="tel:0212345678">02-1234-5678</a></dd>
+        </dl>
+        <dl>
+          <dt>영업시간</dt>
+          <dd>화~일 8:30 – 19:00</dd>
+          <dt>휴무</dt>
+          <dd>매주 월요일</dd>
+        </dl>
+      </div>
+      <p class="note" style="margin-top:28px">2호선 홍대입구역 3번 출구에서 마을버스 서대문03을 타고 연희동주민센터에서 내리면 걸어서 4분입니다. 가게 앞에는 주차 공간이 없습니다.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>달빛다방</span>
+    <span>서울 서대문구 연희로11가길 00</span>
+    <span>02-1234-5678</span>
+  </div>
+</footer>
+
+<!-- 아래 정보는 예시입니다. 실제 정보로 교체하세요: 상호, 주소, 전화번호, 영업시간, 메뉴, 가격, 원두 종류 -->
+</body>
+</html>
