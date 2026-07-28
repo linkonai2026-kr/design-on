@@ -1,6 +1,6 @@
 # designon
 
-이 저장소는 **한 문장 요청에서 완성된 웹페이지를 만드는 디자인 스킬**이다. Codex·Claude Code·Cursor 등 어느 에이전트에서 읽든 동작한다.
+이 저장소는 **한 문장 요청에서 완성된 웹페이지를 만드는 디자인 오케스트레이터**다. Codex·Claude Code·Cursor 등 어느 에이전트에서 읽든 동작한다.
 
 ## 언제 발동하나
 
@@ -18,12 +18,67 @@
 
 **이 폴더의 `PLAYBOOK.md`를 읽고 그 절차를 처음부터 끝까지 실행한다.** 전체 방법론이 거기 있다. 요약본으로 대충 만들지 말고 반드시 원문을 읽어라.
 
-데이터는 `data/palettes.json`(팔레트 78세트)과 `data/tools.json`(툴 883개)에 있다.
+```
+STEP 1  브리프 해석 + 팔레트 조회 → 질문 딱 1회
+STEP 2  아트 디렉션 확정
+STEP 3  ⚡병렬 제작 4트랙   리서치 · 카피 · 사진 · 모션
+STEP 4  통합 빌드
+STEP 5  ⚡병렬 검수 3트랙   기계검사 · 크래프트 · 한국어
+STEP 6  일괄 수정 → 재검사 1회 → 종료
+STEP 7  보고
+```
+
+## 병렬 실행
+
+STEP 3과 STEP 5는 병렬이다. 서브에이전트를 띄울 수 있는 환경이면 `agents/` 폴더의 정의를 쓰고 **한 번에 전부 발사한다.**
+
+| 트랙 | 에이전트 정의 |
+|---|---|
+| 리서치 | `agents/designon-researcher.md` |
+| 카피 | `agents/designon-copywriter.md` |
+| 사진 | `agents/designon-photographer.md` |
+| 모션 | `agents/designon-motion.md` |
+| 크래프트 검수 | `agents/designon-critic.md` |
+| 한국어 검수 | `agents/designon-korean.md` |
+
+**서브에이전트를 못 쓰는 환경이면** 각 정의 파일을 순서대로 읽고 그 역할대로 산출물을 따로 작성한다. 단, 한 트랙이 끝나기 전에 다음 트랙 내용을 섞지 마라. 섞으면 병렬로 나눈 의미가 없다.
+
+## 기계 검사 (필수)
+
+STEP 5에서 반드시 실행한다. 이걸 건너뛰면 designon을 쓰는 의미가 없다.
+
+```bash
+node scripts/slopcheck.mjs site/
+```
+
+Impeccable 디텍터가 안티패턴 59종을 검사한다. 그라디언트 텍스트, 컬러 글로우, 중첩 카드, 크림 배경, 대비 미달, 눈썹 라벨, 남용 서체 등을 잡는다.
+
+첫 실행 전에 파서를 한 번 설치해야 전체 검사가 켜진다. 안 하면 축소 모드로 떨어진다.
+
+```bash
+npm install --prefix vendor/impeccable
+```
+
+## 데이터
+
+| 경로 | 내용 |
+|---|---|
+| `data/palettes.json` | 팔레트 78세트 |
+| `data/tools.json` | 툴 883개 |
+| `vendor/impeccable/reference/craft-floor.md` | 품질 하한선. STEP 4 빌드 직전에 읽는다 |
+| `vendor/taste-skill/skills/taste-skill/SKILL.md` | 브리프 추론·다이얼. STEP 2에서 읽는다 |
+| `vendor/ui-skills/skills/baseline-ui/SKILL.md` | 컴포넌트·모션 제약 |
+| `vendor/emil-skill/skills/emil-design-eng/SKILL.md` | 애니메이션 설계 |
 
 ## 지켜야 할 것
 
-- 중간에 되묻지 않는다. 미지정 항목은 업종 통념으로 직접 정하고 끝까지 만든다.
-- 이미지 생성 기능이 내장된 환경이면 그것을 최우선으로 쓴다. 없으면 `GEMINI_API_KEY` → 실사 스톡 → 타이포그래피 주도 순으로 폴백한다.
-- 동료 스킬(lazyweb, emil-design-eng, ui-skills)이 설치돼 있으면 해당 작업을 위임하고, 없으면 조용히 건너뛴다. 설치를 요구하며 멈추지 마라.
+- **질문은 STEP 1에서 딱 한 번, 묶어서 한다.** 팔레트를 먼저 조회한 근거로 3개 이하를 묻는다. 답을 받으면 더 묻지 말고 끝까지 만든다.
+- **이미지 생성이 내장된 환경이면 그것을 최우선으로 쓴다.** Codex가 여기 해당한다. 없으면 `GEMINI_API_KEY` → 실사 스톡 → 타이포그래피 주도 순으로 폴백한다.
+- **브리프가 디텍터 경고를 이긴다.** 사용자가 명시적으로 요청한 색·스타일은 유지하고, 그 사실을 보고에 남긴다. 예외는 제목 위 눈썹 라벨 하나다.
+- **서체를 페어링한다.** 제목과 본문을 다르게 간다. Inter 단독 사용 금지.
+- **크림·베이지 배경으로 반사적으로 도망치지 않는다.** 배경은 고른 팔레트에서 유래해야 한다.
+- **검수 루프를 돌지 않는다.** 일괄 수정 후 재검사 1회로 끝낸다. 남은 것은 고치지 말고 보고한다.
+- 외부 스킬(`lazyweb`, `originkit MCP`)이 있으면 위임하고, 없으면 조용히 건너뛴다. 설치를 요구하며 멈추지 마라.
+- originkit 컴포넌트를 쓸 때는 원본 그대로 넣지 않는다. 팔레트 색상·카피 규칙으로 변형한 뒤 쓰고, 소스를 이 저장소에 영구 저장하지 않는다.
 - 결과물은 `site/index.html` 단일 파일이다.
 - 한국어로 답하고 문장은 마침표로 끝낸다.

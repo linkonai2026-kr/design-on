@@ -1,15 +1,29 @@
 {
   "name": "designon",
-  "version": "1.0.0",
-  "description": "한 문장으로 완성된 웹페이지를 만드는 디자인 스킬. 디자인 툴 883개와 컬러 팔레트 78세트 DB를 내장하고, 팔레트를 먼저 조회한 뒤 한 번만 질문해 AI 티가 나지 않는 단일 HTML 페이지를 생성한다. Claude Code와 Codex 모두 지원.",
+  "version": "2.0.0",
+  "description": "한 문장으로 완성된 웹페이지를 만드는 디자인 오케스트레이터. 컬러 팔레트 78세트와 디자인 툴 883개 DB를 내장하고, 제작 4트랙·검수 3트랙을 병렬로 돌린다. Impeccable 안티패턴 디텍터로 AI 티를 기계 검사해 0건까지 잡고, tasteskill·ui-skills·emil-skill을 하위 지식으로 함께 싣는다. Claude Code와 Codex 모두 지원.",
   "author": {
     "name": "vionai2026-lab"
   },
+  "homepage": "https://github.com/linkonai2026-kr/designon",
+  "repository": "https://github.com/linkonai2026-kr/designon",
+  "license": "MIT",
   "keywords": [
     "design",
     "landing-page",
     "color-palette",
+    "anti-slop",
     "korean",
-    "web"
+    "web",
+    "orchestrator"
+  ],
+  "skills": "./skills/",
+  "agents": [
+    "./agents/designon-researcher.md",
+    "./agents/designon-copywriter.md",
+    "./agents/designon-photographer.md",
+    "./agents/designon-motion.md",
+    "./agents/designon-critic.md",
+    "./agents/designon-korean.md"
   ]
 }
