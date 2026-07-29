@@ -68,7 +68,7 @@ Apache-2.0 4조에 따라 원본 `LICENSE`와 `NOTICE.md`를 `vendor/impeccable/
 
 designon은 `baseline-ui`의 애니메이션·타이포 절을 STEP 3 모션 트랙과 STEP 4 빌드 규칙에 반영했다.
 
-> 원본은 Tailwind + React 스택을 전제한다. designon은 단일 HTML 파일을 만들므로 스택 종속 규칙(`cn` 유틸, `motion/react`, Base UI 등)은 빼고 **원칙만** 가져왔다.
+> 원본은 Tailwind + React 스택을 전제한다. designon은 순수 HTML/CSS를 만들므로 스택 종속 규칙(`cn` 유틸, `motion/react`, Base UI 등)은 빼고 **원칙만** 가져왔다.
 
 ---
 

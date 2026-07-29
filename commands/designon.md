@@ -35,4 +35,8 @@ node ${CLAUDE_PLUGIN_ROOT}/scripts/slopcheck.mjs site/
 | 컴포넌트 제약 | `${CLAUDE_PLUGIN_ROOT}/vendor/ui-skills/skills/baseline-ui/SKILL.md` |
 | 애니메이션 | `${CLAUDE_PLUGIN_ROOT}/vendor/emil-skill/skills/emil-design-eng/SKILL.md` |
 
-결과물은 `site/index.html` 단일 파일이다.
+## 페이지 구성
+
+**원페이지가 기본이지만 고집하지 마라.** 사용자가 나눠달라고 하면 나눈다. 내용이 원페이지에 안 들어갈 때(시술 목록, 작품 갤러리, 공지사항 등)도 나눈다. 3~5개가 적당하다.
+
+결과물은 `site/` 아래에 둔다. 원페이지면 `site/index.html` 한 파일, 멀티페이지면 여러 파일 + 공통 `site/assets/style.css`.
