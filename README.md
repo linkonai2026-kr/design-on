@@ -109,6 +109,7 @@ flat-type-hierarchy  글자 크기 단계가 촘촘해 위계가 없음
             본문/배경 대비 13.68:1
 서체        제목 Nanum Myeongjo / 본문 Pretendard
 목적        방문 유도
+구성        원페이지
 ```
 
 **검증 결과**
