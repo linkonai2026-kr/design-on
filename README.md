@@ -81,12 +81,15 @@ flat-type-hierarchy  글자 크기 단계가 촘촘해 위계가 없음
 
 ## 실제 결과물
 
-이 저장소에 위 절차를 그대로 돌려 나온 결과물이 두 개 있습니다. 브라우저로 바로 열어볼 수 있습니다.
+이 저장소에 위 절차를 그대로 돌려 나온 결과물이 세 개 있습니다. 전부 실제 요청 한 문장에서 나온 것이고 손으로 다듬지 않았습니다. 브라우저로 바로 열어볼 수 있습니다.
 
-| 예시 | 구성 | 팔레트 |
-|---|---|---|
-| [`examples/cafe/`](examples/cafe/index.html) | **원페이지** — CSS 인라인 단일 파일 | Orchid/Amethyst |
-| [`examples/salon/`](examples/salon/index.html) | **멀티페이지** — 3페이지 + 공통 CSS | Crimson/Alabaster |
+| 예시 | 요청 한 문장 | 구성 | 팔레트 |
+|---|---|---|---|
+| [`examples/cafe/`](examples/cafe/index.html) | 카페 하는데 보라색 계열 사이트 만들어줘 | **원페이지** — CSS 인라인 단일 파일 | Orchid/Amethyst |
+| [`examples/salon/`](examples/salon/index.html) | 미용실 홈페이지, 시술 종류가 많아서 페이지 나눠줘 | **멀티페이지** — 3페이지 + 공통 CSS | Crimson/Alabaster |
+| [`examples/shop/`](examples/shop/index.html) | 파란색 계열의 온라인 쇼핑몰 사이트 만들어줘 | **원페이지** — 상품 6개, 비교표, 가입폼, FAQ까지 포함 | Dynamic Blue |
+
+`examples/shop/`은 이커머스 실전 요소를 요청하지 않았는데도 알아서 챙겼습니다. 재고 표시, 가격 비교표(`scope` 속성 포함 접근성 대응), 통신판매업신고번호·사업자등록번호 같은 국내 이커머스 필수 고지, 상품 사진이 예시라는 안내까지 들어갔습니다.
 
 아래는 원페이지 예시를 만든 과정입니다.
 
@@ -422,6 +425,7 @@ designon/
 │   └── emil-skill/          애니메이션 (MIT)
 ├── examples/cafe/           실제 생성 결과물 (원페이지)
 ├── examples/salon/          실제 생성 결과물 (멀티페이지 3장 + 공통 CSS)
+├── examples/shop/           실제 생성 결과물 (온라인 쇼핑몰, 상품·비교표·가입폼)
 └── scripts/
     ├── setup.sh / .ps1      설치
     ├── slopcheck.mjs        안티패턴 검사기

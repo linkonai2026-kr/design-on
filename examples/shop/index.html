@@ -1,0 +1,486 @@
+<!-- 포트나인 테크 액세서리 온라인몰 메인 페이지. 팔레트: 세트4 Dynamic Blue -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>포트나인 — 데스크 정리 기획전</title>
+<meta name="description" content="USB-C 케이블, 충전기, 무선 이어버드를 파는 온라인몰. 8월 11일까지 최대 40% 할인.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap">
+<style>
+:root{
+  --bg:#F4F5FA;
+  --surface:#D4EAFF;
+  --ink:#112358;
+  --accent:#004499;
+  --pop:#F1FF62;
+  --muted:#43568F;
+  --line:#C3D6EE;
+  --on-ink:#F4F5FA;
+  --on-ink-muted:#A9BEE8;
+  --wrap:1180px;
+  --pad:20px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Pretendard Variable',Pretendard,system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.75;
+  letter-spacing:-0.01em;
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+h1,h2,h3{margin:0;text-wrap:balance;line-height:1.28}
+p{margin:0;text-wrap:pretty}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent);text-underline-offset:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.display{font-family:'Black Han Sans',sans-serif;font-weight:400;letter-spacing:-0.02em}
+.small{font-size:13px;line-height:1.6}
+
+/* 헤더 */
+.site-head{border-bottom:1px solid var(--line);background:var(--bg)}
+.head-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;padding-top:16px;padding-bottom:16px}
+.brand{font-family:'Black Han Sans',sans-serif;font-size:24px;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;line-height:1.2}
+.brand span{color:var(--accent)}
+.site-nav{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;font-weight:600;margin-left:auto}
+.site-nav a{color:var(--muted);text-decoration:none;padding-top:4px;padding-bottom:4px}
+.site-nav a:hover{color:var(--accent);text-decoration:underline}
+.site-nav a.on{color:var(--ink)}
+.cart{font-size:13px;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--ink);border-radius:2px;padding:6px 12px;white-space:nowrap}
+.cart:hover{background:var(--ink);color:var(--on-ink)}
+
+/* 히어로 */
+.hero{padding-top:44px;padding-bottom:56px;min-height:78vh;display:flex;align-items:center}
+.hero-grid{display:grid;gap:32px;width:100%}
+.hero h1{font-size:clamp(2.2rem,4.4vw,3rem);margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-lead{font-size:17px;color:var(--muted);max-width:34em;margin-bottom:14px}
+.hero-note{font-size:13px;color:var(--muted);margin-bottom:32px}
+.hero-media{position:relative}
+.hero-media img{width:100%;aspect-ratio:3/2;object-fit:cover;object-position:center 60%}
+.hero-tag{position:absolute;left:0;bottom:0;background:var(--pop);color:var(--ink);font-weight:800;font-size:13px;padding:8px 14px;letter-spacing:0}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.btn{
+  display:inline-block;background:var(--accent);color:var(--on-ink);
+  font-size:17px;font-weight:700;text-decoration:none;
+  padding:14px 28px;border:1px solid var(--accent);border-radius:2px;
+  cursor:pointer;font-family:inherit;letter-spacing:-0.01em;
+  transition:background 160ms ease-out,border-color 160ms ease-out;
+}
+.btn:hover{background:var(--ink);border-color:var(--ink)}
+.btn:disabled{background:var(--line);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+.textlink{font-size:17px;font-weight:600;color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* 세일 띠 */
+.strip{background:var(--ink);color:var(--on-ink)}
+.strip-row{display:flex;flex-wrap:wrap;gap:8px 32px;padding-top:18px;padding-bottom:18px;font-size:13px;font-weight:600}
+.strip b{color:var(--pop);font-weight:800}
+
+/* 섹션 공통 */
+section{padding-top:72px;padding-bottom:72px}
+.sec-head{margin-bottom:40px}
+.sec-head h2{font-size:34px;margin-bottom:12px}
+.sec-head p{font-size:17px;color:var(--muted);max-width:38em}
+
+/* 상품 그리드 */
+.goods{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 16px}
+.good{display:flex;flex-direction:column;background:transparent}
+.good-media{position:relative;overflow:hidden;background:var(--surface)}
+.good-media img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform 240ms cubic-bezier(.22,.61,.36,1)}
+.badge{position:absolute;left:0;top:0;font-size:13px;font-weight:800;padding:5px 10px;letter-spacing:0}
+.badge.sale{background:var(--pop);color:var(--ink)}
+.badge.new{background:var(--ink);color:var(--pop)}
+.good h3{font-size:24px;margin-top:16px;margin-bottom:8px}
+.good p{font-size:13px;color:var(--muted);margin-bottom:14px}
+.price{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;margin-top:auto}
+.price .was{font-size:13px;color:var(--muted);text-decoration:line-through}
+.price .now{font-size:24px;font-weight:800;letter-spacing:-0.02em}
+.price .off{font-size:13px;font-weight:800;color:var(--accent)}
+.good-btn{
+  margin-top:14px;width:100%;background:transparent;color:var(--accent);
+  border:1px solid var(--accent);border-radius:2px;padding:11px 16px;
+  font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;
+  transition:background 160ms ease-out,color 160ms ease-out,transform 200ms cubic-bezier(.22,.61,.36,1),opacity 200ms ease-out;
+}
+.good-btn:hover{background:var(--accent);color:var(--on-ink)}
+@media (min-width:768px){
+  .good-btn{opacity:0;transform:translateY(8px)}
+  .good:hover .good-btn,.good:focus-within .good-btn{opacity:1;transform:translateY(0)}
+  .good:hover .good-media img{transform:scale(1.04)}
+}
+
+/* 비교표 */
+.compare{background:var(--surface)}
+.table-scroll{overflow-x:auto;background:var(--bg);border:1px solid var(--line);padding:16px}
+table{border-collapse:collapse;width:100%;min-width:600px}
+caption{text-align:left;font-size:13px;color:var(--muted);padding:14px 16px;border-bottom:1px solid var(--line)}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--line);font-size:13px;line-height:1.6}
+thead th{font-size:17px;font-weight:800;background:var(--surface);border-bottom:2px solid var(--ink)}
+tbody th{font-weight:600;color:var(--muted);white-space:nowrap}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+td.pick{font-weight:800;color:var(--accent)}
+
+/* 브랜드 밴드 */
+.band{background:var(--ink);color:var(--on-ink)}
+.band h2{font-size:34px;margin-bottom:20px}
+.band p{color:var(--on-ink-muted);margin-bottom:16px;max-width:36em}
+.band .keep{color:var(--pop);font-weight:700}
+.band-grid{display:grid;gap:32px}
+.band img{width:100%;aspect-ratio:4/3;object-fit:cover}
+
+/* 가입 */
+.join-grid{display:grid;gap:32px}
+.join h2{font-size:34px;margin-bottom:16px}
+.join p{color:var(--muted);margin-bottom:12px}
+.join form{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.join label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.field{flex:1 1 220px}
+.join input{
+  width:100%;font-family:inherit;font-size:17px;color:var(--ink);
+  background:var(--bg);border:1px solid var(--muted);border-radius:2px;padding:13px 14px;
+}
+.join input::placeholder{color:var(--muted)}
+.join input:focus{border-color:var(--accent)}
+.join .btn{align-self:flex-end}
+.join-msg{margin-top:16px;font-size:13px;font-weight:700;color:var(--accent);background:var(--surface);padding:12px 14px}
+.perk{background:var(--surface);padding:28px 24px}
+.perk h3{font-size:24px;margin-bottom:16px}
+.perk ul{margin:0;padding-left:18px}
+.perk li{font-size:13px;color:var(--muted);margin-bottom:8px}
+.perk li b{color:var(--ink)}
+
+/* 안내 */
+.faq dl{margin:0;border-top:1px solid var(--line)}
+.faq dt{font-size:24px;font-weight:700;padding-top:28px;margin-bottom:10px;line-height:1.35}
+.faq dd{margin:0;padding-bottom:28px;border-bottom:1px solid var(--line);color:var(--muted);max-width:40em}
+
+/* 푸터 */
+.site-foot{background:var(--ink);color:var(--on-ink-muted);padding-top:56px;padding-bottom:56px}
+.foot-grid{display:grid;gap:28px}
+.site-foot .brand{color:var(--on-ink)}
+.site-foot .brand span{color:var(--pop)}
+.site-foot h3{font-size:13px;color:var(--on-ink);margin-bottom:10px}
+.site-foot p,.site-foot li{font-size:13px;line-height:1.7}
+.site-foot ul{margin:0;padding:0;list-style:none}
+.site-foot a{color:var(--on-ink-muted)}
+.tel{font-family:'Black Han Sans',sans-serif;font-size:24px;color:var(--on-ink);letter-spacing:-0.02em;line-height:1.3}
+.credit{margin-top:32px;padding-top:20px;border-top:1px solid #2C3F73;font-size:13px}
+
+@media (min-width:768px){
+  :root{--pad:48px}
+  section{padding-top:120px;padding-bottom:120px}
+  .hero{padding-top:72px;padding-bottom:88px}
+  .table-scroll{padding:24px}
+  .hero-grid{grid-template-columns:5fr 7fr;align-items:center;gap:56px}
+  .goods{grid-template-columns:repeat(3,1fr);gap:44px 28px}
+  .band-grid{grid-template-columns:7fr 5fr;align-items:center;gap:56px}
+  .join-grid{grid-template-columns:7fr 5fr;align-items:start;gap:56px}
+  .foot-grid{grid-template-columns:2fr 1fr 1fr 1.4fr;gap:40px}
+  .perk{padding:36px 32px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .good-btn{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="#">포트<span>나인</span></a>
+    <nav class="site-nav" aria-label="상품 분류">
+      <a class="on" href="#goods">기획전</a>
+      <a href="#goods">이어폰</a>
+      <a href="#goods">케이블·충전</a>
+      <a href="#goods">키보드·마우스</a>
+      <a href="#goods">데스크</a>
+      <a href="#faq">배송·교환</a>
+    </nav>
+    <a class="cart" href="#">장바구니 0</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="display">8월 11일까지 데스크 정리 <em>기획전</em></h1>
+        <p class="hero-lead">USB&#8209;C 케이블과 충전기를 최대 40% 내렸습니다. 책상 밑에 엉킨 선을 이번에 정리하시라고 재고를 다 풀었습니다.</p>
+        <p class="hero-note">3만 원 넘게 사면 배송비는 저희가 냅니다. 평일 오후 2시 전 주문은 그날 나갑니다.</p>
+        <div class="actions">
+          <a class="btn" href="#goods">기획전 상품 보기</a>
+          <a class="textlink" href="#compare">이어버드 3종 비교표</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=1400&q=80&fm=jpg&fit=crop"
+             alt="밝은 책상 위에 모니터와 기계식 키보드, 마우스와 스피커가 선 정리된 상태로 놓여 있다" width="1400" height="1050">
+        <p class="hero-tag">8월 11일 자정 마감</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap strip-row">
+      <span>3만 원 이상 <b>무료배송</b></span>
+      <span>평일 오후 2시 전 주문 <b>당일 발송</b></span>
+      <span>고장 나면 <b>12개월 안에 교체</b></span>
+      <span>세금계산서 발행</span>
+    </div>
+  </div>
+
+  <section id="goods">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="display">이번 주 많이 나간 순서</h2>
+        <p>지난주 월요일부터 일요일까지 팔린 수량으로 줄을 세웠습니다. 재고가 열 개 밑으로 떨어지면 표시가 붙습니다.</p>
+      </div>
+
+      <div class="goods">
+
+        <article class="good">
+          <div class="good-media">
+            <img src="https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=800&q=80&fm=jpg&fit=crop"
+                 alt="민트빛 배경 위에 놓인 흰색 무선 이어버드와 열린 충전 케이스" loading="lazy" width="800" height="800">
+            <p class="badge sale">25% 할인</p>
+          </div>
+          <h3>C1 무선 이어버드</h3>
+          <p>한 번 충전에 7시간, 케이스까지 28시간 갑니다.</p>
+          <div class="price">
+            <span class="now">59,000원</span>
+            <span class="was">79,000원</span>
+          </div>
+          <button class="good-btn" type="button" aria-label="C1 무선 이어버드 장바구니에 담기">장바구니에 담기</button>
+        </article>
+
+        <article class="good">
+          <div class="good-media">
+            <img src="https://images.unsplash.com/photo-1595756630452-736bc8ef3693?w=800&q=80&fm=jpg&fit=crop"
+                 alt="회색 바닥에 동그랗게 말아 놓은 검은색 편조 충전 케이블" loading="lazy" width="800" height="800">
+            <p class="badge sale">30% 할인</p>
+          </div>
+          <h3>브레이드 USB&#8209;C 케이블 2m</h3>
+          <p>100W까지 견딥니다. 꺾임 시험 1만 회를 통과했습니다.</p>
+          <div class="price">
+            <span class="now">12,600원</span>
+            <span class="was">18,000원</span>
+          </div>
+          <button class="good-btn" type="button" aria-label="브레이드 USB-C 케이블 2m 장바구니에 담기">장바구니에 담기</button>
+        </article>
+
+        <article class="good">
+          <div class="good-media">
+            <img src="https://images.unsplash.com/photo-1584727129739-cd30984745bc?w=800&q=80&fm=jpg&fit=crop"
+                 alt="회색 배경 위에 놓인 회색 저소음 기계식 키보드" loading="lazy" width="800" height="800">
+            <p class="badge sale">20% 할인</p>
+          </div>
+          <h3>저소음 갈축 키보드</h3>
+          <p>타건음 46dB. 밤에 써도 옆방에서 안 들립니다.</p>
+          <div class="price">
+            <span class="now">119,000원</span>
+            <span class="was">149,000원</span>
+          </div>
+          <button class="good-btn" type="button" aria-label="저소음 갈축 키보드 장바구니에 담기">장바구니에 담기</button>
+        </article>
+
+        <article class="good">
+          <div class="good-media">
+            <img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80&fm=jpg&fit=crop"
+                 alt="흰색 전원 어댑터와 옆에 감아 놓은 흰색 충전 케이블" loading="lazy" width="800" height="800">
+            <p class="badge sale">30% 할인</p>
+          </div>
+          <h3>65W 3구 충전기</h3>
+          <p>노트북과 폰, 이어폰을 콘센트 하나로 씁니다.</p>
+          <div class="price">
+            <span class="now">29,400원</span>
+            <span class="was">42,000원</span>
+          </div>
+          <button class="good-btn" type="button" aria-label="65W 3구 충전기 장바구니에 담기">장바구니에 담기</button>
+        </article>
+
+        <article class="good">
+          <div class="good-media">
+            <img src="https://images.unsplash.com/photo-1580477371194-4593e3c7c6cf?w=800&q=80&fm=jpg&fit=crop"
+                 alt="흰 배경 위에 뚜껑을 연 흰색 이어버드 충전 케이스" loading="lazy" width="800" height="800">
+            <p class="badge new">7월 22일 입고</p>
+          </div>
+          <h3>A2 오픈형 이어버드</h3>
+          <p>귀를 막지 않습니다. 자전거 탈 때 쓰라고 만들었습니다.</p>
+          <div class="price">
+            <span class="now">89,000원</span>
+            <span class="off">기획전 제외</span>
+          </div>
+          <button class="good-btn" type="button" aria-label="A2 오픈형 이어버드 장바구니에 담기">장바구니에 담기</button>
+        </article>
+
+        <article class="good">
+          <div class="good-media">
+            <img src="https://images.unsplash.com/photo-1586952518485-11b180e92764?w=800&q=80&fm=jpg&fit=crop"
+                 alt="모니터와 키보드가 놓인 책상 전체를 덮은 넓은 데스크 매트" loading="lazy" width="800" height="800">
+            <p class="badge sale">20% 할인</p>
+          </div>
+          <h3>재생 펠트 데스크 매트 90×40</h3>
+          <p>마우스가 잘 굴러갑니다. 물을 쏟아도 털어내면 됩니다.</p>
+          <div class="price">
+            <span class="now">27,200원</span>
+            <span class="was">34,000원</span>
+          </div>
+          <button class="good-btn" type="button" aria-label="재생 펠트 데스크 매트 90×40 장바구니에 담기">장바구니에 담기</button>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="compare" class="compare">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="display">이어버드 셋 중에 뭘 살까</h2>
+        <p>세 모델 다 USB&#8209;C로 충전합니다. 노이즈 캔슬링이 필요하면 C1, 밖에서 소리를 들어야 하면 A2입니다.</p>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <caption>2026년 7월 29일 기준 판매가입니다. 재생 시간은 볼륨 50%에서 잰 값입니다.</caption>
+          <thead>
+            <tr>
+              <th scope="col">항목</th>
+              <th scope="col">C1</th>
+              <th scope="col">C1 라이트</th>
+              <th scope="col">A2 오픈형</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">한 번 충전에</th><td>7시간</td><td>5시간</td><td>6시간</td></tr>
+            <tr><th scope="row">케이스 포함</th><td>28시간</td><td>20시간</td><td>24시간</td></tr>
+            <tr><th scope="row">노이즈 캔슬링</th><td class="pick">있음, 최대 32dB</td><td>없음</td><td>없음, 귀를 막지 않음</td></tr>
+            <tr><th scope="row">생활 방수</th><td>IPX4</td><td>IPX4</td><td class="pick">IPX5</td></tr>
+            <tr><th scope="row">한쪽 무게</th><td>4.8g</td><td class="pick">4.2g</td><td>5.6g</td></tr>
+            <tr><th scope="row">판매가</th><td class="pick">59,000원</td><td>39,000원</td><td>89,000원</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap band-grid">
+      <div>
+        <h2 class="display">쓰다 망가지면 <span class="keep">12개월</span> 안에 바꿔 드립니다</h2>
+        <p>포트나인은 2019년에 창고 한 칸에서 케이블을 팔며 시작했습니다. 지금은 성수동 사무실에서 여덟 명이 일합니다.</p>
+        <p>파는 물건은 저희가 먼저 6개월씩 씁니다. 케이블은 매일 가방에 넣고 다니며 꺾어 보고, 이어버드는 출퇴근길에 씁니다. 쓰다가 못 쓰겠다 싶은 물건은 올리지 않습니다. 지난해에는 스물세 개를 검토해서 아홉 개만 올렸습니다.</p>
+        <p>그래서 교체 기준을 12개월로 잡았습니다. 떨어뜨려 깨진 것도 포함입니다.</p>
+      </div>
+      <div>
+        <img src="https://images.unsplash.com/photo-1584727151652-d09b17ebf23f?w=900&q=80&fm=jpg&fit=crop"
+             alt="어두운 책상 위에 놓인 검은색 키보드를 가까이서 찍은 사진" loading="lazy" width="900" height="675">
+      </div>
+    </div>
+  </section>
+
+  <section class="join">
+    <div class="wrap join-grid">
+      <div>
+        <h2 class="display">가입하면 첫 주문에서 5,000원 빠집니다</h2>
+        <p>이메일만 넣으면 끝납니다. 주소나 전화번호는 주문할 때 받습니다.</p>
+        <p>새 물건이 들어오는 날과 세일 시작일만 보냅니다. 한 달에 두 번 정도입니다.</p>
+        <form id="join">
+          <div class="field">
+            <label for="email">이메일 주소</label>
+            <input id="email" name="email" type="email" placeholder="port9@example.com" required autocomplete="email">
+          </div>
+          <button class="btn" type="submit">5,000원 쿠폰 받기</button>
+        </form>
+        <p class="join-msg" id="join-msg" hidden>쿠폰을 보냈습니다. 메일함에서 확인하세요.</p>
+      </div>
+      <div class="perk">
+        <h3>가입하면 생기는 것</h3>
+        <ul>
+          <li><b>첫 주문 5,000원 할인.</b> 최소 주문 금액 없이 씁니다.</li>
+          <li><b>기획전 하루 먼저.</b> 재고가 적은 물건은 이때 거의 나갑니다.</li>
+          <li><b>주문 내역 보관.</b> 교체 요청할 때 영수증을 찾지 않아도 됩니다.</li>
+          <li><b>탈퇴는 한 번 누르면 끝.</b> 붙잡는 화면을 띄우지 않습니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="display">주문하기 전에 많이 묻는 것</h2>
+      </div>
+      <dl>
+        <dt>배송은 얼마나 걸리나요</dt>
+        <dd>평일 오후 2시 전에 주문하면 그날 나갑니다. 서울과 경기는 다음 날, 그 밖의 지역은 이틀 걸립니다. 제주와 도서 지역은 하루가 더 붙습니다.</dd>
+        <dt>받아 보고 마음에 안 들면 어떻게 하나요</dt>
+        <dd>받은 날부터 7일 안에 연락 주시면 왕복 배송비 없이 가져갑니다. 포장은 뜯으셔도 됩니다. 다만 이어버드는 위생상 이어팁을 끼운 뒤에는 교환만 됩니다.</dd>
+        <dt>고장 나면요</dt>
+        <dd>구매일에서 12개월 안이면 새것으로 바꿔 드립니다. 영수증이 없어도 주문번호나 가입한 이메일로 찾습니다. 회수 택배는 저희가 부릅니다.</dd>
+        <dt>세금계산서를 받을 수 있나요</dt>
+        <dd>주문서 요청사항에 사업자등록번호를 남기시면 발송일에 맞춰 발행합니다. 현금영수증은 결제할 때 바로 선택하시면 됩니다.</dd>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="brand">포트<span>나인</span></p>
+        <p>책상 위에서 쓰는 물건만 팝니다.</p>
+      </div>
+      <div>
+        <h3>쇼핑</h3>
+        <ul>
+          <li><a href="#goods">기획전</a></li>
+          <li><a href="#goods">이어폰</a></li>
+          <li><a href="#goods">케이블·충전</a></li>
+          <li><a href="#goods">데스크</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>안내</h3>
+        <ul>
+          <li><a href="#faq">배송·교환</a></li>
+          <li><a href="#faq">12개월 교체</a></li>
+          <li><a href="#join">회원 혜택</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>고객센터</h3>
+        <p class="tel">1544-0000</p>
+        <p>평일 10:00–18:00, 점심시간 12:30–13:30<br>주말과 공휴일은 쉽니다. 메일은 다음 영업일에 답합니다.</p>
+        <p><a href="mailto:help@example.com">help@example.com</a></p>
+      </div>
+    </div>
+    <div class="credit">
+      <p>포트나인 · 대표 김하늘 · 서울특별시 성동구 아차산로 00, 3층 · 사업자등록번호 000-00-00000 · 통신판매업신고 2026-서울성동-0000</p>
+      <p>상품 사진은 Unsplash의 무료 이미지입니다. 실제 상품 사진으로 교체하세요.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 가입 폼은 예시입니다. 실제 전송은 붙어 있지 않습니다.
+document.getElementById('join').addEventListener('submit', function (e) {
+  e.preventDefault();
+  document.getElementById('join-msg').hidden = false;
+});
+</script>
+
+<!-- 아래 정보는 예시입니다. 실제 정보로 교체하세요: 상호(포트나인), 상품명·가격·할인율, 재고와 입고일, 스펙 수치, 고객센터 번호, 이메일, 주소, 사업자등록번호, 통신판매업신고번호, 대표자명, 상품 사진 -->
+</body>
+</html>
