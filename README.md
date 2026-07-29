@@ -621,6 +621,17 @@ design-on/
 
 ---
 
+## 만든 과정을 더 깊게 보고 싶다면
+
+**design-on은 무료 MIT 오픈소스이며, 아래 상품을 구매하지 않아도 모든 기능을 쓸 수 있습니다.**
+
+이 도구를 포함해 비전공자가 AI에게 코딩을 시키고, 결과를 검수하고, 실제 서비스로 배포한 과정을 56쪽 실전서에 정리했습니다. 성공한 화면만 보여주지 않고 잘못된 완료 보고, 깨진 배포, 검증 규칙도 함께 담았습니다.
+
+- [『AI에게 코딩을 시켜라』 실제 지면 4쪽 보기](https://ai-coding-book.vercel.app/read/ai-coding-book/?utm_source=github&utm_medium=readme&utm_campaign=design-on-v4)
+- [14,900원에 카드로 구매하기](https://www.latpeed.com/products/B8SQy?utm_source=github&utm_medium=readme&utm_campaign=design-on-v4)
+
+---
+
 ## 라이선스
 
 design-on 자체는 MIT입니다. `vendor/` 아래는 각 원저작자의 라이선스를 따릅니다(`vendor/impeccable/`은 Apache-2.0). 자세한 내용은 [CREDITS.md](CREDITS.md)에 있습니다.
