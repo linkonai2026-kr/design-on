@@ -1,0 +1,112 @@
+{
+  "_comment": "업종별 사진 생성 레시피. 구조화 스키마(subject/light/camera/mood/negative)는 YouMind ai-image-prompts-skill(MIT)에서 배운 형식이고, 내용은 designon이 한국 소상공인 기준으로 새로 썼다. 원본 라이브러리 프롬프트는 3D 렌더·패션 에디토리얼이 많아 그대로 쓰지 않는다.",
+  "schema": {
+    "why": "한 문장으로 길게 쓰면 모델이 앞부분만 반영한다. 항목을 나눠 쓰면 다 반영된다.",
+    "fields": ["subject", "light", "camera", "mood", "palette", "negative"],
+    "assemble": "subject. light. camera. mood, palette tones. negative."
+  },
+  "universal": {
+    "camera": "shot on 35mm film, shallow depth of field, slightly off-center composition",
+    "negative": "no text, no logo, no watermark, not oversaturated, not glossy, no perfect symmetry, no 3D render, no stock-photo smile",
+    "rules": [
+      "사람은 정면 클로즈업을 피한다. 손·뒷모습·측면이 자연스럽다.",
+      "팔레트 색을 프롬프트에 녹인다. 예: muted plum and warm cream tones.",
+      "불완전함을 명시한다. lived-in, natural imperfections, unstyled.",
+      "완벽하게 정돈된 플랫레이는 AI 티가 가장 크게 난다."
+    ]
+  },
+  "recipes": [
+    {
+      "industry": "카페·베이커리",
+      "hero": {
+        "subject": "A ceramic cup of latte on a worn wooden counter, a folded cloth and a used tamper beside it",
+        "light": "morning light from a side window, soft long shadows",
+        "mood": "quiet, lived-in, before opening hours"
+      },
+      "detail": [
+        { "subject": "Hands pouring milk into a cup, mid-pour, slight spill on the saucer", "light": "overcast daylight", "mood": "unposed, candid" },
+        { "subject": "A tray of scones cooling on a rack, one broken open", "light": "warm afternoon light", "mood": "homemade, imperfect" }
+      ],
+      "space": { "subject": "An empty corner table by the window with two mismatched chairs", "light": "late afternoon sun", "mood": "calm, no people" }
+    },
+    {
+      "industry": "미용실·에스테틱",
+      "hero": {
+        "subject": "A styling chair by a mirror, scissors and a comb resting on the counter, seen from the side",
+        "light": "soft diffused daylight from a large window",
+        "mood": "clean but not sterile, one-person shop"
+      },
+      "detail": [
+        { "subject": "Hands sectioning hair with a comb, close on the hands only", "light": "warm indoor light", "mood": "focused, working" },
+        { "subject": "A shelf of shampoo bottles, labels turned away", "light": "even indoor light", "mood": "ordinary, unstyled" }
+      ],
+      "space": { "subject": "A narrow salon interior with one chair and a plant, shot from the doorway", "light": "natural window light", "mood": "small, personal" }
+    },
+    {
+      "industry": "공방·스튜디오",
+      "hero": {
+        "subject": "A potter's wheel with dried clay on the rim, tools scattered on a canvas-covered table",
+        "light": "north-facing window light",
+        "mood": "in the middle of work, not cleaned up"
+      },
+      "detail": [
+        { "subject": "Hands shaping clay, clay under the fingernails", "light": "side window light", "mood": "close, tactile" },
+        { "subject": "Finished bowls drying on a wooden shelf, slightly uneven", "light": "soft daylight", "mood": "handmade, varied" }
+      ],
+      "space": { "subject": "A small workshop with shelves of unfired pieces and a broom in the corner", "light": "afternoon light through dust", "mood": "working space, not a showroom" }
+    },
+    {
+      "industry": "필라테스·헬스",
+      "hero": {
+        "subject": "A reformer machine in an empty studio, straps hanging loose, seen at an angle",
+        "light": "bright even daylight from tall windows",
+        "mood": "open, uncrowded, before class"
+      },
+      "detail": [
+        { "subject": "Feet on a reformer footbar, close on the feet and the wood floor", "light": "natural daylight", "mood": "mid-movement, unposed" },
+        { "subject": "Rolled mats and small props stacked on a low shelf", "light": "soft indoor light", "mood": "tidy, ordinary" }
+      ],
+      "space": { "subject": "A studio room with wooden floor, mirrors and two machines, no people", "light": "morning light", "mood": "spacious, quiet" }
+    },
+    {
+      "industry": "세무·법률·병원",
+      "hero": {
+        "subject": "A desk with a closed notebook, a pen and reading glasses, a window behind",
+        "light": "soft daylight, no harsh shadows",
+        "mood": "calm, orderly, trustworthy"
+      },
+      "detail": [
+        { "subject": "Hands stacking documents on a desk, close on the hands", "light": "even indoor light", "mood": "careful, unhurried" },
+        { "subject": "A waiting area with two chairs and a small table", "light": "natural light", "mood": "plain, comfortable" }
+      ],
+      "space": { "subject": "A small consultation room with a table and two chairs facing each other", "light": "window light", "mood": "private, unintimidating" }
+    },
+    {
+      "industry": "이커머스·쇼핑몰",
+      "hero": {
+        "subject": "A desk with a laptop, a coiled charging cable and earbuds in a case, arranged as someone actually left them",
+        "light": "clean daylight from the left",
+        "mood": "everyday desk, not a product shoot"
+      },
+      "detail": [
+        { "subject": "A single braided cable coiled on a plain grey surface, shot from above", "light": "soft even light", "mood": "simple, honest, no props" },
+        { "subject": "Hands holding a charger, plugging in a cable", "light": "indoor daylight", "mood": "in use, not on display" }
+      ],
+      "space": { "subject": "A tidy desk setup with monitor, keyboard and a mug, cables managed", "light": "afternoon window light", "mood": "real workspace" },
+      "note": "이커머스는 상품 사진이 매출을 좌우한다. 생성 이미지는 예시일 뿐이라고 반드시 페이지에 밝히고, 실제 상품 사진으로 교체하라고 안내한다."
+    },
+    {
+      "industry": "식당·주점",
+      "hero": {
+        "subject": "A plated dish on a worn table, chopsticks resting on the rim, one bite already taken",
+        "light": "warm overhead light, slight shadow",
+        "mood": "mid-meal, real portion size"
+      },
+      "detail": [
+        { "subject": "A pot on a stove with steam rising, seen from the side", "light": "kitchen light", "mood": "cooking, unposed" },
+        { "subject": "Side dishes in mismatched small bowls on a tray", "light": "warm indoor light", "mood": "everyday, homemade" }
+      ],
+      "space": { "subject": "A small dining room with four tables and a menu on the wall", "light": "evening interior light", "mood": "neighborhood, no people" }
+    }
+  ]
+}

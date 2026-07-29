@@ -1,0 +1,95 @@
+{
+  "_comment": "서체 페어링 표. 한국어 본문은 Pretendard 고정, 제목은 업종·분위기로 고른다. 라틴 디스플레이는 Fontshare(ITF, 무료 상용). 디텍터의 overused-font/single-font를 피하는 것이 목적이다.",
+  "howToLoad": {
+    "pretendard": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css\">",
+    "googleFonts": "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family={FAMILY}:wght@400;700&display=swap\">",
+    "fontshare": "<link rel=\"stylesheet\" href=\"https://api.fontshare.com/v2/css?f[]={slug}@{weights}&display=swap\">",
+    "fontshareNote": "slug는 소문자 하이픈(clash-display). weights는 쉼표(400,600,700). 예: https://api.fontshare.com/v2/css?f[]=clash-display@400,600&display=swap",
+    "preconnect": "<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>"
+  },
+  "avoid": {
+    "reason": "디텍터가 overused-font로 잡는다. 한 서체만 쓰면 single-font로도 잡힌다.",
+    "fonts": ["Inter", "Roboto", "Open Sans", "Lato", "Montserrat", "Arial", "Helvetica", "Fraunces", "Instrument Sans", "Instrument Serif", "Geist", "Mona Sans", "Plus Jakarta Sans", "Space Grotesk", "Recoleta"],
+    "fontshareCaution": "Fontshare에도 Plus Jakarta Sans·Montserrat·Poppins가 있다. 이 셋은 고르지 마라."
+  },
+  "pairings": [
+    {
+      "lang": "ko",
+      "mood": "따뜻함·수공예",
+      "industry": ["카페", "베이커리", "공방", "서점", "꽃집", "식당"],
+      "body": { "family": "Pretendard", "source": "cdn" },
+      "display": { "family": "Nanum Myeongjo", "source": "google", "weights": "400;700;800" },
+      "latinAccent": { "family": "Gambetta", "slug": "gambetta", "source": "fontshare", "weights": "400,500", "use": "숫자·영문 상호·가격에만" },
+      "why": "명조 계열이 손맛과 시간의 느낌을 준다. 라틴 숫자는 Gambetta가 명조와 어울린다."
+    },
+    {
+      "lang": "ko",
+      "mood": "감각적·편집",
+      "industry": ["미용실", "네일", "에스테틱", "패션", "스튜디오", "갤러리"],
+      "body": { "family": "Pretendard", "source": "cdn" },
+      "display": { "family": "Gowun Batang", "source": "google", "weights": "400;700" },
+      "latinAccent": { "family": "Sentient", "slug": "sentient", "source": "fontshare", "weights": "400,500", "use": "숫자·영문 상호·가격에만" },
+      "why": "고운바탕은 얇고 단정해 편집 디자인 톤이 난다. Sentient가 같은 결의 라틴 세리프다."
+    },
+    {
+      "lang": "ko",
+      "mood": "단정·신뢰",
+      "industry": ["병원", "세무", "법률", "회계", "학원", "부동산"],
+      "body": { "family": "Pretendard", "source": "cdn" },
+      "display": { "family": "Gowun Dodum", "source": "google", "weights": "400" },
+      "latinAccent": { "family": "Switzer", "slug": "switzer", "source": "fontshare", "weights": "400,500,600", "use": "숫자·영문 표기에만" },
+      "why": "장식을 뺀 고딕이 신뢰를 만든다. Switzer는 중립적이면서 Inter처럼 흔하지 않다."
+    },
+    {
+      "lang": "ko",
+      "mood": "활동적·직관",
+      "industry": ["헬스", "필라테스", "요가", "학원", "이커머스", "쇼핑몰"],
+      "body": { "family": "Pretendard", "source": "cdn" },
+      "display": { "family": "Black Han Sans", "source": "google", "weights": "400" },
+      "latinAccent": { "family": "Clash Display", "slug": "clash-display", "source": "fontshare", "weights": "500,600,700", "use": "숫자·영문 헤드라인" },
+      "why": "굵은 헤드라인이 가격과 혜택을 밀어준다. Clash Display가 같은 무게의 라틴을 받쳐준다."
+    },
+    {
+      "lang": "ko",
+      "mood": "친근·귀여움",
+      "industry": ["키즈", "펫", "분식", "디저트", "문구"],
+      "body": { "family": "Pretendard", "source": "cdn" },
+      "display": { "family": "Jua", "source": "google", "weights": "400" },
+      "latinAccent": { "family": "Chillax", "slug": "chillax", "source": "fontshare", "weights": "400,500,600", "use": "숫자·영문 표기에만" },
+      "why": "둥근 획이 경계심을 낮춘다. Chillax도 모서리가 부드러워 같이 간다."
+    },
+    {
+      "lang": "ko",
+      "mood": "묵직·전통",
+      "industry": ["한식", "전통주", "차", "공예", "박물관"],
+      "body": { "family": "Pretendard", "source": "cdn" },
+      "display": { "family": "Song Myung", "source": "google", "weights": "400" },
+      "latinAccent": { "family": "Boska", "slug": "boska", "source": "fontshare", "weights": "300,400", "use": "숫자·영문 표기에만" },
+      "why": "송명은 붓의 흔적이 남아 전통 소재에 맞는다. Boska는 대비가 큰 라틴 세리프다."
+    },
+    {
+      "lang": "en",
+      "mood": "editorial",
+      "industry": ["portfolio", "studio", "agency", "magazine"],
+      "body": { "family": "Switzer", "slug": "switzer", "source": "fontshare", "weights": "400,500" },
+      "display": { "family": "Boska", "slug": "boska", "source": "fontshare", "weights": "300,400,700" },
+      "why": "영문 전용 페이지. 대비 큰 세리프 제목 + 중립 산세리프 본문."
+    },
+    {
+      "lang": "en",
+      "mood": "modern product",
+      "industry": ["saas", "startup", "app", "tech"],
+      "body": { "family": "General Sans", "slug": "general-sans", "source": "fontshare", "weights": "400,500,600" },
+      "display": { "family": "Cabinet Grotesk", "slug": "cabinet-grotesk", "source": "fontshare", "weights": "700,800" },
+      "why": "Inter를 쓰지 않고도 현대적인 제품 톤을 낸다. 둘 다 Fontshare 무료 상용."
+    },
+    {
+      "lang": "en",
+      "mood": "bold retail",
+      "industry": ["ecommerce", "shop", "sale", "fitness"],
+      "body": { "family": "Satoshi", "slug": "satoshi", "source": "fontshare", "weights": "400,500,700" },
+      "display": { "family": "Clash Display", "slug": "clash-display", "source": "fontshare", "weights": "600,700" },
+      "why": "가격과 할인율을 크게 밀어야 하는 페이지."
+    }
+  ]
+}

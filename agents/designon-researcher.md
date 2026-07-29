@@ -21,6 +21,13 @@ model: inherit
 
 lazyweb 스킬이 있으면 업종 키워드로 실제 제품 화면을 찾아 구조를 참고한다. **베끼지 마라.** 섹션 순서와 정보 위계만 본다. 비주얼은 참고 대상이 아니다.
 
+레퍼런스 툴을 찾을 때 `data/tools.json`을 읽지 마라. 262KB, 약 87,000 토큰이다. 조회 명령을 쓴다.
+
+```bash
+node {ROOT}/scripts/pick.mjs tools --section 인스피레이션 --limit 8
+node {ROOT}/scripts/pick.mjs sections
+```
+
 lazyweb이 없으면 웹 검색으로 같은 업종 국내 사이트 2~3개를 훑거나, 아래 기본값을 쓴다.
 
 | 업종 | 섹션 순서 |

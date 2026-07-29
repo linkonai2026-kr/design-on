@@ -33,14 +33,33 @@ designon은 아래를 **저장소 안에 이미 갖고 있다.** 설치를 기�
 
 | 경로 | 내용 | 쓰는 곳 |
 |---|---|---|
-| `{ROOT}/data/palettes.json` | 컬러 팔레트 78세트 | STEP 1 |
-| `{ROOT}/data/tools.json` | 디자인 툴·사이트 883개 | STEP 3 리서치 |
+| `{ROOT}/scripts/pick.mjs` | **데이터 조회 CLI. JSON을 통째로 읽지 말고 이걸 써라** | STEP 1·2·3 |
+| `{ROOT}/data/palettes.json` | 컬러 팔레트 78세트 | `pick palettes`로 조회 |
+| `{ROOT}/data/fonts.json` | 서체 페어링 9종 (Pretendard + 한글 제목 + Fontshare 라틴) | `pick fonts`로 조회 |
+| `{ROOT}/data/photo-recipes.json` | 업종별 사진 프롬프트 레시피 7종 | `pick photo`로 조회 |
+| `{ROOT}/data/tools.json` | 디자인 툴·사이트 883개 | `pick tools`로 조회 |
 | `{ROOT}/vendor/impeccable/reference/craft-floor.md` | 품질 하한선, 절대 금지 | STEP 4, STEP 5 |
 | `{ROOT}/vendor/impeccable/reference/*.md` | 25종 레퍼런스 (new-work, typeset, layout, animate, clarify, colorize, audit, critique …) | 필요할 때 |
 | `{ROOT}/vendor/taste-skill/skills/taste-skill/SKILL.md` | 브리프 추론, 3다이얼, 디자인시스템 매핑 | STEP 2 |
 | `{ROOT}/vendor/ui-skills/skills/baseline-ui/SKILL.md` | 컴포넌트·타이포·모션 제약 | STEP 4 |
 | `{ROOT}/vendor/emil-skill/skills/emil-design-eng/SKILL.md` | 애니메이션 설계 | STEP 3 모션 트랙 |
 | `{ROOT}/scripts/slopcheck.mjs` | 안티패턴 기계 검사 | STEP 5 |
+
+### 0-1-1. 데이터는 반드시 `pick.mjs`로 조회한다
+
+**`data/*.json`을 Read로 통째 읽지 마라.** `tools.json` 하나가 262KB, 약 87,000 토큰이다. 한 번 읽으면 그 세션의 남은 예산이 사라진다.
+
+```bash
+node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --limit 3
+node {ROOT}/scripts/pick.mjs fonts    --industry 카페
+node {ROOT}/scripts/pick.mjs photo    --industry 카페
+node {ROOT}/scripts/pick.mjs tools    --section 색상 --limit 8
+node {ROOT}/scripts/pick.mjs sections
+```
+
+같은 답을 실측 기준 **91,885 토큰 → 1,621 토큰(98% 절감)** 으로 준다. 팔레트 조회는 역할 배정(`bg`·`surface`·`ink`·`accent`·`muted`)과 대비 계산까지 끝내서 돌려주므로 STEP 2에서 다시 계산할 필요가 없다.
+
+`warn` 배열이 비어 있지 않으면 그 경고를 반드시 반영해라. 예를 들어 `muted`가 `null`이면 그 팔레트에는 본문 보조색으로 쓸 색이 없다는 뜻이다.
 
 ### 0-2. 외부 스킬은 있으면 쓰고 없으면 넘어간다
 
@@ -99,18 +118,28 @@ designon은 아래를 **저장소 안에 이미 갖고 있다.** 설치를 기�
 
 ### 1-3. 팔레트를 먼저 조회한다
 
-`{ROOT}/data/palettes.json`을 읽고 후보를 **3개 이내로** 추린다. 구조는 이렇다.
+**JSON을 읽지 말고 조회 명령을 써라.**
 
-```json
-{"name":"...","tone":"전체 톤 설명","hex":["#RRGGBB",...],"industry":"어울리는 업종","note":"..."}
+```bash
+node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --limit 3
 ```
 
-추리는 기준.
+`--hue`는 한국어로 넣어도 된다. "보라"를 넣으면 퍼플·라벤더·자수정·오키드·라일락·플럼까지 같이 잡는다. 색 언급이 없으면 `--hue`를 빼고 `--industry`만 준다.
 
-1. 색상 언급이 있으면 `tone`·`name`에서 그 계열을 찾는다. "보라색" → 퍼플·라벤더·자수정·오키드·라일락·플럼.
-2. 언급이 없으면 `industry`로 매칭한다.
-3. **HEX 4개 이상 + 명도 폭이 넓은** 세트를 우선한다. 밝은 배경·중간 톤·어두운 텍스트가 다 있어야 페이지를 만들 수 있다.
-4. 밝은 배경색이 없으면 가장 밝은 색을 채도 8~12%로 희석해 직접 만든다.
+돌아오는 것.
+
+- `roles` — `bg`·`surface`·`ink`·`accent`·`muted` 역할 배정이 끝난 상태
+- `contrast` — 실측 대비값. 별도로 계산하지 마라
+- `warn` — 비어 있지 않으면 반드시 반영한다
+
+```
+warn: ["muted 후보가 4.5:1을 못 넘는다. ink를 20~30% 밝힌 색을 직접 만들어라."]
+warn: ["accent가 4.5:1 미만이다. 버튼 배경으로 쓰지 말고 ink 배경을 써라."]
+```
+
+랭킹은 **색 일치 > 업종 일치 > 명도 폭** 순이다. 업종은 필터가 아니라 가산점이라, "보라 + 카페"처럼 교집합이 없어도 0건이 나오지 않는다.
+
+밝은 배경색이 아예 없는 팔레트면 가장 밝은 색을 채도 8~12%로 희석해 직접 만든다.
 
 ### 1-4. 한 번에 묶어서 질문한다
 
@@ -190,22 +219,35 @@ Claude Code에서는 선택지 제시 도구를 쓴다. 그 외 환경에서는 
 
 한 서체로 전체를 처리하면 디텍터가 `single-font`로 잡는다. 제목과 본문을 반드시 다르게 간다.
 
-본문은 Pretendard를 CDN으로 부른다.
+**조회해서 정한다.**
 
-```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+```bash
+node {ROOT}/scripts/pick.mjs fonts --industry 카페
 ```
 
-제목은 대비되는 서체를 하나 고른다.
+돌아오는 것은 세 겹이다.
 
-| 분위기 | 제목 서체 | 조달 |
+| 겹 | 역할 | 조달 |
 |---|---|---|
-| 따뜻함·수공예 (카페·베이커리·공방) | `Nanum Myeongjo` | Google Fonts |
-| 감각적·편집 (뷰티·패션·스튜디오) | `Gowun Batang` | Google Fonts |
-| 단정·신뢰 (병원·세무·법률) | `Gowun Dodum` | Google Fonts |
-| 활동적 (헬스·필라테스·학원) | `Black Han Sans` 또는 `Jua` | Google Fonts |
+| `body` | 한국어 본문. 항상 Pretendard | CDN |
+| `display` | 한국어 제목. 업종·분위기로 고른다 | Google Fonts |
+| `latinAccent` | **숫자·영문 상호·가격에만** | [Fontshare](https://www.fontshare.com/) |
 
-**`Inter` 단독 사용 금지.** 디텍터가 `overused-font`로 잡는다. 한국어 페이지에서는 특히 쓸 이유가 없다.
+`howToLoad`에 `<link>` 형식이 그대로 들어 있으니 복사해 쓴다. Fontshare는 인도 타입 파운드리(ITF)가 운영하고 **상업적 사용까지 무료**다. Google Fonts처럼 `<link>` 한 줄로 끝난다.
+
+```html
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap">
+```
+
+**왜 라틴을 따로 두는가.** 한글 서체는 라틴 글자와 숫자가 약한 경우가 많다. `1,200원`, `USB-C`, `OPEN 08:30` 같은 표기에서 티가 난다. 여기만 Fontshare 서체로 바꾸면 완성도가 눈에 띄게 올라간다. 본문 전체에 걸지 마라.
+
+```css
+.price, .num, .en { font-family: 'Clash Display', var(--sans); }
+```
+
+**남용 서체를 피하는 것이 목적이다.** 디텍터는 `Inter`·`Roboto`·`Montserrat`·`Geist`·`Plus Jakarta Sans`·`Space Grotesk` 등을 `overused-font`로 잡는다. Fontshare에도 `Plus Jakarta Sans`·`Montserrat`·`Poppins`가 있으니 **이 셋은 고르지 마라.** 조회 결과의 `avoid` 항목에 전체 목록이 있다.
+
+영문 전용 페이지면 `--lang en`으로 조회한다. 그때는 본문까지 Fontshare로 간다.
 
 ### 한국어 조판 필수 규칙
 
@@ -231,6 +273,43 @@ p{text-wrap:pretty}
 **크림·베이지 오프화이트를 반사적으로 쓰지 마라.** 디텍터가 `cream-palette`로 잡는다. "안전한 웜 오프화이트"는 AI가 가장 자주 도망치는 기본값이다.
 
 배경은 **STEP 1에서 고른 팔레트에서 유래해야 한다.** 팔레트에 크림이 실제로 들어 있으면 쓴다. 없는데 크림으로 가면 그건 팔레트를 무시한 것이다.
+
+### 2-6-1. 3D·인터랙티브는 요청하면 켠다
+
+**기본값은 끔이다.** 동네 카페 페이지에 회전하는 3D 모델을 넣으면 신뢰가 떨어지고 모바일에서 느려진다. 그래서 아무 말이 없으면 안 넣는다.
+
+**하지만 사용자가 원하면 제대로 만든다.** "3D로", "인터랙티브하게", "움직이는", "스크롤에 반응하는", "입체적으로" 같은 말이 나오면 켠다. 안 된다고 하지 마라.
+
+| 요청 | 레벨 | 조달 |
+|---|---|---|
+| "살짝 입체감" | **L1 — CSS만** | `transform: perspective()`, `rotate3d`, 시차 스크롤. 라이브러리 0개 |
+| "인터랙티브하게" | **L2 — 바닐라 JS + Canvas** | 마우스 반응 캔버스, 스크롤 연동. 라이브러리 0개 |
+| "3D 모델", "제품을 돌려보게" | **L3 — Three.js CDN** | ES 모듈 import map. 빌드 도구 없이 단일 HTML에서 동작 |
+| "이 3D 씬 그대로" | **L4 — Spline 임베드** | `<iframe>`. 사용자가 만든 씬이 있을 때만 |
+
+L3는 이렇게 붙인다. npm도 번들러도 필요 없다.
+
+```html
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+            "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
+</script>
+<script type="module">
+  import * as THREE from 'three';
+  // 씬은 10~40줄이면 충분하다
+</script>
+```
+
+**레벨이 올라가도 지킬 것.**
+
+- 히어로 **한 곳에만** 쓴다. 페이지 전체에 도배하지 마라
+- `@media (prefers-reduced-motion: reduce)`에서 정지 이미지로 대체한다
+- **JS가 죽어도 내용이 보여야 한다.** 3D 캔버스는 배경이고, 텍스트는 그 위 일반 DOM이다
+- 모바일에서는 해상도를 낮추거나(`renderer.setPixelRatio(Math.min(devicePixelRatio,1.5))`) 정지 이미지로 뺀다
+- 로딩 중에도 레이아웃이 흔들리지 않게 캔버스 자리를 미리 잡는다
+- **STEP 5 기계 검사는 그대로 통과해야 한다.** 3D를 넣었다고 면제되지 않는다
+
+**사진에서도 마찬가지다.** 기본 프롬프트는 `no 3D render`를 넣지만, 사용자가 3D 렌더 이미지를 원하면 그 금지어를 빼고 만든다. `pick.mjs photo` 결과의 `negative`에서 해당 항목만 제거하면 된다.
 
 ### 2-7. 브리프가 이긴다
 
@@ -334,21 +413,34 @@ curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-im
 background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 ```
 
-**생성 프롬프트 규칙 (C-1·C-2 공통).** 이걸 안 지키면 AI 티가 그대로 난다.
+**생성 프롬프트는 조회해서 쓴다 (C-1·C-2 공통).**
 
-- 카메라 스펙을 명시한다. `shot on 35mm film, natural window light, shallow depth of field`
-- 불완전함을 요청한다. `slightly off-center, natural imperfections, unstyled, lived-in`
-- 금지어를 넣는다. `no text, no logo, no watermark, not oversaturated, not glossy, no perfect symmetry`
+```bash
+node {ROOT}/scripts/pick.mjs photo --industry 카페
+```
+
+히어로 1개, 본문용 2개, 공간 1개가 **조립된 문장으로** 나온다. `{PALETTE}`만 STEP 2에서 고른 팔레트 색 이름으로 바꾸면 된다.
+
+```
+A ceramic cup of latte on a worn wooden counter, a folded cloth and a used tamper
+beside it. morning light from a side window, soft long shadows. shot on 35mm film,
+shallow depth of field, slightly off-center composition. quiet, lived-in, before
+opening hours, muted plum and warm cream tones. no text, no logo, no watermark,
+not oversaturated, not glossy, no perfect symmetry, no 3D render, no stock-photo smile.
+```
+
+`matched: false`가 오면 그 업종 레시피가 없다는 뜻이다. 카페 레시피로 폴백된 것이니 `subject`만 업종에 맞게 바꿔 쓴다.
+
+**왜 항목을 나눠 쓰는가.** 한 문장으로 길게 이어 쓰면 모델이 앞부분만 반영한다. `subject / light / camera / mood / negative`로 끊어 주면 전부 반영된다.
+
+이 규칙은 반드시 지킨다.
+
+- 카메라 스펙을 명시한다. `shot on 35mm film, shallow depth of field`
+- 불완전함을 요청한다. `lived-in, natural imperfections, unstyled`
+- 금지어를 넣는다. `no text, no logo, not oversaturated, no 3D render, no stock-photo smile`
 - 사람은 정면 클로즈업을 피한다. 손·뒷모습·측면이 자연스럽다
-- 팔레트 색을 프롬프트에 녹인다. `muted plum and warm cream tones`
-
-예시.
-
-```
-A ceramic cup of latte on a worn wooden counter, morning light from a side window,
-soft shadows, muted plum and cream tones, shot on 35mm film, slightly off-center
-composition, natural imperfections, no text, no logo, not oversaturated
-```
+- 팔레트 색을 프롬프트에 녹인다
+- **완벽하게 정돈된 플랫레이를 만들지 마라.** AI 티가 가장 크게 나는 구도다
 
 산출물. 이미지 파일 경로 + 각각의 `alt` 텍스트. 또는 "타이포 주도로 간다"는 결론.
 
@@ -475,7 +567,8 @@ nav a[aria-current="page"]{border-bottom-color:var(--accent)}
 - 이미지에 `alt`, `loading="lazy"`
 - 아이콘 전용 버튼에 `aria-label`
 - `h-screen` 대신 `100dvh`
-- 외부 JS 프레임워크 금지. 인터랙션은 순수 JS 10줄 이내
+- 기본은 외부 JS 프레임워크 없이. 인터랙션은 순수 JS 10줄 이내
+- 단 사용자가 3D·인터랙티브를 요청하면 STEP 2-6-1의 레벨에 따라 CDN 라이브러리를 쓴다. React·Vue 같은 UI 프레임워크는 그때도 쓰지 않는다 — 빌드 도구가 필요해져 단일 파일로 못 연다
 - CSS 조달은 위 "파일 구성"을 따른다. 원페이지면 인라인, 멀티페이지면 공통 파일 하나
 - 모든 페이지 첫 줄에 한국어 주석. 예: `<!-- 카페 브랜드 소개 페이지. 팔레트: Orchid/Amethyst -->`
 - 가짜 정보를 넣었으면 맨 아래 주석을 남긴다
