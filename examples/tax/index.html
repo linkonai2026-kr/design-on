@@ -1,0 +1,302 @@
+<!-- 세무사무소 소개 페이지. 구조: document(문서형, 사진 0장). 팔레트: Emerald/Crimson -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>남한강세무회계 — 개인사업자와 소규모 법인 기장</title>
+<meta name="description" content="경기 하남에서 개인사업자와 소규모 법인의 기장·신고를 맡습니다. 다가오는 신고 마감일과 비용을 먼저 밝혀 둡니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
+<style>
+/* document 아키텍처. maxWidth 720 / gutter 20·40 / sectionGap clamp(56px,7vw,96px) / measure 68ch
+   사진이 없으니 조판이 전부다. 행간과 표 정렬이 어긋나면 바로 허술해 보인다. */
+:root{
+  --bg:#D1F2EB;       /* 옅은 민트. 세무 사이트의 기본값인 감청·회색에서 일부러 벗어난다 */
+  --surface:#FBE4E3;
+  --ink:#3F0D12;      /* 배경 대비 13.78:1 */
+  --accent:#013220;   /* 배경 대비 11.91:1 */
+  --muted:#0B6E4F;    /* 배경 대비 5.25:1 */
+  --line:#8CC7B6;   /* 사진이 없는 구조에서 괘선은 유일한 구획 장치다. 배경에 묻히면 여백이 구멍으로 읽힌다 */
+  --serif:"Gowun Batang",serif;
+  --sans:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;
+  --num:"Switzer",var(--sans);
+  --pad:20px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  /* 본문 세리프는 document 구조에서만 허용된다. 긴 글을 읽히려는 것이다 */
+  font-family:var(--serif);font-size:18px;line-height:1.85;
+  word-break:keep-all;overflow-wrap:normal;
+  font-variant-numeric:tabular-nums;
+}
+.doc{max-width:720px;margin-left:auto;margin-right:auto;padding-left:var(--pad);padding-right:var(--pad)}
+/* 제목만 산세리프로 뒤집는다. 본문 세리프 + 제목 산세리프는 문서 조판의 관습이다 */
+h1,h2,h3{font-family:var(--sans);font-weight:700;line-height:1.35;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1{font-size:40px}
+h2{font-size:28px}
+h3{font-size:18px;font-weight:600}
+p{margin:0;text-wrap:pretty;max-width:68ch}
+p + p{margin-top:1.1em}
+a{color:var(--accent)}
+.num{font-family:var(--num);font-weight:500;letter-spacing:0}
+.label{font-size:13px;font-family:var(--sans);color:var(--muted);letter-spacing:.02em}
+
+/* 구분선을 모든 섹션에 준다. 머리말 아래가 선 없이 비면 조판이 아니라 구멍으로 읽힌다 */
+section{padding-top:clamp(48px,6vw,80px);padding-bottom:clamp(48px,6vw,80px);border-top:1px solid var(--line)}
+.masthead{padding-top:clamp(40px,5vw,64px);padding-bottom:clamp(32px,4vw,48px)}
+.masthead p{margin-top:24px}
+h2 + p,h2 + .note,h2 + table,h2 + dl,h2 + .deadlines,h2 + ol{margin-top:22px}
+
+/* ── 표. 사진이 없는 구조에서는 표가 유일한 시각 요소다 ── */
+table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:17px;line-height:1.6}
+caption{text-align:left;font-size:13px;color:var(--muted);padding-bottom:12px}
+th,td{text-align:left;padding-top:13px;padding-bottom:13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:13px;color:var(--muted);letter-spacing:.02em}
+td:last-child,th:last-child{text-align:right;white-space:nowrap}
+
+dl{margin:0}
+dt{font-family:var(--sans);font-weight:600;font-size:18px;margin-top:26px}
+dt:first-child{margin-top:0}
+dd{margin:6px 0 0;color:var(--ink)}
+
+ol.steps{margin:0;padding-left:1.3em}
+ol.steps li{margin-top:14px;padding-left:4px}
+ol.steps li::marker{font-family:var(--num);color:var(--muted);font-size:15px}
+
+/* ── 다가오는 마감. 이 사무소 페이지에만 있는 것 ── */
+.deadlines{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+.deadlines li{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
+  padding-top:15px;padding-bottom:15px;border-bottom:1px solid var(--line);
+  font-family:var(--sans);font-size:17px;line-height:1.6;
+}
+.deadlines .when{font-family:var(--num);font-weight:600;min-width:6.5rem}
+.deadlines .dday{font-family:var(--num);font-size:13px;color:var(--muted);margin-left:auto}
+.deadlines .why{flex-basis:100%;font-size:13px;color:var(--muted);line-height:1.5}
+.deadlines[data-soon="yes"] li:first-child .dday{color:var(--ink);font-weight:600}
+
+.note{background:var(--surface);padding:22px 24px;font-size:17px;line-height:1.7}
+.note p{max-width:none}
+
+/* ── 각주. 근거를 실제로 단다 ── */
+sup a{font-family:var(--num);font-size:12px;text-decoration:none;padding-left:2px}
+.footnotes{margin:0;padding-left:1.4em;font-size:15px;line-height:1.7;color:var(--muted)}
+.footnotes li{margin-top:10px}
+.footnotes li:target{color:var(--ink)}
+
+.foot{padding-top:36px;padding-bottom:56px;border-top:1px solid var(--line);font-family:var(--sans);font-size:15px;line-height:1.9;color:var(--muted)}
+.foot strong{color:var(--ink);font-weight:600}
+
+@media (min-width:768px){
+  :root{--pad:40px}
+  body{font-size:19px}
+  h1{font-size:52px}
+  h2{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<main class="doc">
+
+  <header class="masthead">
+    <h1>남한강세무회계</h1>
+    <p>경기 하남에서 개인사업자와 임직원 <span class="num">20</span>명 이하 법인의 기장과 신고를 맡습니다. <span class="num">2011</span>년에 열었고 지금 <span class="num">180</span>여 곳을 보고 있습니다.</p>
+    <p>상담 전에 알아두시면 좋을 것들을 아래에 적어 두었습니다. 비용도 숨기지 않고 적었습니다.</p>
+  </header>
+
+  <section>
+    <h2>다가오는 신고 마감</h2>
+    <p class="label">오늘 날짜를 기준으로 계산해 보여 드립니다.</p>
+    <ul class="deadlines" id="deadlines">
+      <li>
+        <span class="when">—</span>
+        <span>신고 일정은 아래 표를 봐주세요</span>
+        <span class="why">브라우저에서 날짜 계산이 동작하지 않아 자동 표시를 건너뛰었습니다. 연간 일정은 그대로 유효합니다.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>이런 일을 맡습니다</h2>
+    <dl>
+      <dt>기장 대리</dt>
+      <dd>매달 증빙을 받아 장부를 만들고 부가세와 종합소득세를 신고합니다. 카드 내역과 계산서는 홈택스에서 저희가 직접 받아 옵니다.</dd>
+
+      <dt>급여와 원천세</dt>
+      <dd>직원이 있으면 매달 급여대장을 만들고 <span class="num">10</span>일까지 원천세를 신고합니다. 사대보험 취득·상실 신고도 같이 합니다.</dd>
+
+      <dt>법인 결산</dt>
+      <dd><span class="num">12</span>월 결산 법인이면 <span class="num">3</span>월에 법인세를 신고합니다. 결산 두 달 전부터 미리 조정할 것을 알려 드립니다.</dd>
+
+      <dt>창업과 폐업</dt>
+      <dd>사업자등록, 법인 설립, 업종 추가, 폐업 신고를 대행합니다. 개인에서 법인으로 넘어갈 시점인지도 같이 봐 드립니다.<sup><a href="#fn1" id="fnref1">1</a></sup></dd>
+
+      <dt>세무조사 대응</dt>
+      <dd>조사 통지를 받으면 자료 정리부터 의견서 제출까지 동행합니다. 기장을 맡지 않은 곳도 받습니다.</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>연간 신고 일정</h2>
+    <table>
+      <caption>매년 반복되는 것들입니다. 마감일이 토·일·공휴일이면 다음 영업일로 밀립니다.</caption>
+      <thead>
+        <tr><th scope="col">시기</th><th scope="col">무엇을</th><th scope="col">누가</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">매월 10일</td><td>원천세 신고·납부</td><td>직원이 있는 곳</td></tr>
+        <tr><td class="num">1월 25일</td><td>부가가치세 확정신고</td><td>전부</td></tr>
+        <tr><td class="num">3월 31일</td><td>법인세 신고</td><td>12월 결산 법인</td></tr>
+        <tr><td class="num">4월 25일</td><td>부가가치세 예정신고</td><td>법인</td></tr>
+        <tr><td class="num">5월 31일</td><td>종합소득세 신고</td><td>개인사업자</td></tr>
+        <tr><td class="num">7월 25일</td><td>부가가치세 확정신고</td><td>전부</td></tr>
+        <tr><td class="num">10월 25일</td><td>부가가치세 예정신고</td><td>법인</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>비용</h2>
+    <table>
+      <caption>부가세 별도입니다. 처음 오시는 분께는 첫 달을 받지 않습니다.</caption>
+      <thead>
+        <tr><th scope="col">구분</th><th scope="col">기준</th><th scope="col">월</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>개인 기장</td><td>연매출 <span class="num">3</span>억 미만</td><td class="num">110,000원</td></tr>
+        <tr><td>개인 기장</td><td>연매출 <span class="num">3</span>억 이상</td><td class="num">150,000원</td></tr>
+        <tr><td>법인 기장</td><td>임직원 <span class="num">10</span>명 이하</td><td class="num">180,000원</td></tr>
+        <tr><td>법인 기장</td><td>임직원 <span class="num">20</span>명 이하</td><td class="num">250,000원</td></tr>
+        <tr><td>종소세 신고만</td><td>기장 없이 <span class="num">1</span>회</td><td class="num">330,000원부터</td></tr>
+        <tr><td>법인 결산·조정</td><td>기장 계약 시 별도</td><td class="num">550,000원부터</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="margin-top:26px">
+      <p>매출이 늘면 비용도 오릅니다. 다만 <strong>계약 중에 올릴 때는 두 달 전에 먼저 말씀드립니다.</strong> 통보하고 다음 달에 올리는 식으로 하지 않습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>상담은 이렇게 진행합니다</h2>
+    <ol class="steps">
+      <li>전화나 문자로 업종과 대략의 매출 규모를 알려주십니다. <span class="num">5</span>분이면 됩니다.</li>
+      <li>맞는 일인지 먼저 말씀드립니다. 저희가 잘 못 보는 업종이면 그렇다고 합니다.<sup><a href="#fn2" id="fnref2">2</a></sup></li>
+      <li>사무실에서 <span class="num">40</span>분쯤 봅니다. 지난 <span class="num">1</span>년 신고서를 가져오시면 이야기가 빨라집니다.</li>
+      <li>비용과 맡을 범위를 문서로 드립니다. 그 자리에서 결정하지 않으셔도 됩니다.</li>
+      <li>계약하면 홈택스 수임 동의를 받고 다음 달부터 시작합니다.</li>
+    </ol>
+    <div class="note" style="margin-top:26px">
+      <p>상담은 무료입니다. 다만 <strong>구체적인 절세 방안을 설계해 드리는 것은 계약 후에 합니다.</strong> 상담만 받고 직접 신고하시려는 경우가 있어서 그렇습니다. 양해 부탁드립니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>약력</h2>
+    <p>대표 세무사 <strong>정한결</strong>입니다.</p>
+    <p><span class="num">2008</span>년 세무사 자격을 취득했습니다.<sup><a href="#fn3" id="fnref3">3</a></sup> 회계법인에서 <span class="num">3</span>년 동안 법인 조정과 세무조사 대응을 맡았고, <span class="num">2011</span>년에 이 사무소를 열었습니다.</p>
+    <p>하남상공회의소 세무 상담위원으로 <span class="num">2019</span>년부터 매달 무료 상담을 하고 있습니다. 음식점과 온라인 판매업을 특히 많이 봤습니다.</p>
+
+    <h3 style="margin-top:40px">근거</h3>
+    <ol class="footnotes">
+      <li id="fn1">개인에서 법인 전환은 매출보다 이익률과 대표 급여 설계가 기준입니다. 매출 <span class="num">1</span>억이라도 이익이 적으면 전환이 손해입니다. <a href="#fnref1">↩</a></li>
+      <li id="fn2">건설업 원가 관리와 의료기관 비급여 정산은 저희가 자신 없는 분야입니다. 이 경우 아는 사무소를 소개해 드립니다. <a href="#fnref2">↩</a></li>
+      <li id="fn3">한국세무사회 등록번호는 실제 값으로 교체하세요. 세무사 자격 여부는 한국세무사회 홈페이지에서 조회하실 수 있습니다. <a href="#fnref3">↩</a></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>오시는 길</h2>
+    <p>경기 하남시 미사강변중앙로 <span class="num">000</span>, <span class="num">3</span>층입니다. 미사역 <span class="num">2</span>번 출구에서 걸어서 <span class="num">7</span>분입니다.</p>
+    <p>건물 뒤편에 주차하실 수 있습니다. 방문 전에 전화 주시면 자리를 비워 둡니다.</p>
+    <p style="margin-top:26px">전화 <a class="num" href="tel:0312000000">031-200-0000</a> · 평일 <span class="num">09:00</span>–<span class="num">18:00</span> · 점심 <span class="num">12:00</span>–<span class="num">13:00</span></p>
+    <p>신고 기간에는 전화가 잘 안 될 수 있습니다. 문자를 남겨주시면 그날 안에 회신드립니다.</p>
+  </section>
+
+  <footer class="foot">
+    <p><strong>남한강세무회계</strong> · 대표 세무사 정한결 · 사업자등록번호 <span class="num">000-00-00000</span></p>
+    <p>경기 하남시 미사강변중앙로 <span class="num">000</span>, <span class="num">3</span>층 · <span class="num">031-200-0000</span></p>
+  </footer>
+
+</main>
+
+<script>
+// 이 페이지에만 있는 것 — 오늘을 기준으로 다음 신고 마감을 계산한다.
+// 서버도 API도 필요 없다. JS가 죽어도 위의 연간 일정 표가 그대로 남는다.
+(function () {
+  var box = document.getElementById('deadlines');
+  if (!box) return;
+
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  // [월(null이면 매월), 일, 이름, 누가]
+  var RULES = [
+    [null, 10, '원천세 신고·납부', '직원이 있는 곳입니다. 지난달 급여에서 뗀 세금을 냅니다'],
+    [1, 25, '부가가치세 확정신고', '전부 해당합니다. 작년 하반기분입니다'],
+    [3, 31, '법인세 신고', '12월 결산 법인입니다'],
+    [4, 25, '부가가치세 예정신고', '법인만 해당합니다'],
+    [5, 31, '종합소득세 신고', '개인사업자와 프리랜서입니다'],
+    [7, 25, '부가가치세 확정신고', '전부 해당합니다. 올해 상반기분입니다'],
+    [10, 25, '부가가치세 예정신고', '법인만 해당합니다']
+  ];
+
+  // 오늘 이후(오늘 포함)의 가장 이른 날짜를 구한다. 월·연 넘김은 Date가 알아서 굴린다.
+  function nextOf(month, day) {
+    var y = today.getFullYear();
+    var d;
+    if (month === null) {
+      d = new Date(y, today.getMonth(), day);
+      if (d < today) d = new Date(y, today.getMonth() + 1, day);
+      return d;
+    }
+    d = new Date(y, month - 1, day);
+    if (d < today) d = new Date(y + 1, month - 1, day);
+    return d;
+  }
+
+  var list = RULES.map(function (r) {
+    var d = nextOf(r[0], r[1]);
+    return { date: d, name: r[2], why: r[3], left: Math.round((d - today) / 86400000) };
+  }).sort(function (a, b) { return a.date - b.date; }).slice(0, 3);
+
+  box.innerHTML = '';
+  list.forEach(function (item) {
+    var li = document.createElement('li');
+
+    var when = document.createElement('span');
+    when.className = 'when num';
+    when.textContent = (item.date.getMonth() + 1) + '월 ' + item.date.getDate() + '일';
+
+    var name = document.createElement('span');
+    name.textContent = item.name;
+
+    var dday = document.createElement('span');
+    dday.className = 'dday';
+    dday.textContent = item.left === 0 ? '오늘' : 'D-' + item.left;
+
+    var why = document.createElement('span');
+    why.className = 'why';
+    why.textContent = item.why;
+
+    li.appendChild(when);
+    li.appendChild(name);
+    li.appendChild(dday);
+    li.appendChild(why);
+    box.appendChild(li);
+  });
+
+  // 가장 가까운 마감이 일주일 안이면 첫 줄을 진하게 표시한다.
+  box.setAttribute('data-soon', list[0] && list[0].left <= 7 ? 'yes' : 'no');
+}());
+</script>
+
+<!-- 아래 정보는 예시입니다. STEP 8에서 실제 값으로 교체합니다: 상호, 대표자명, 사업자등록번호, 주소, 전화번호, 기장료, 약력, 세무사 등록번호 -->
+</body>
+</html>

@@ -187,15 +187,55 @@ function photo() {
   };
 }
 
+// --- layouts ----------------------------------------------------------------
+// 업종이 아니라 '이 가게가 가진 자산'이 구조를 정한다.
+// --id 없이 부르면 요약만 준다. 하나를 고른 뒤에 --id로 전체 사양을 받는다.
+function layouts() {
+  const all = read('layouts.json');
+  const list = all.architectures;
+
+  const id = opt.id ?? (free.length === 1 ? free[0] : null);
+  if (id) {
+    const hit = list.find((a) => a.id === id || has(a.name, id));
+    if (!hit) {
+      return { error: `"${id}"에 해당하는 아키텍처가 없다.`, available: list.map((a) => a.id) };
+    }
+    return { architecture: hit, keepRegardless: all.universal.keepRegardless, note: all.universal.note };
+  }
+
+  // --asset으로 좁힌다. 자산 표현이 정확히 안 맞아도 부분 일치로 잡는다.
+  let ids = null;
+  if (opt.asset) {
+    const map = all.howToChoose.assetMap;
+    const key = Object.keys(map).find((k) => has(k, opt.asset) || has(opt.asset, k));
+    if (key) ids = map[key];
+  }
+  const picked = ids ? list.filter((a) => ids.includes(a.id)) : list;
+
+  return {
+    howToChoose: all.howToChoose.question,
+    rule: all.howToChoose.rule,
+    mustJustify: all.howToChoose.forbidden,
+    assetMap: opt.asset ? undefined : all.howToChoose.assetMap,
+    candidates: picked.map((a) => ({
+      id: a.id, name: a.name, oneLine: a.oneLine,
+      fitsWhen: a.fitsWhen, doNotPickWhen: a.doNotPickWhen,
+    })),
+    next: '고른 뒤 `pick.mjs layouts --id <id>`로 치수·그리드·시그니처 전체를 받아라.',
+  };
+}
+
 // --- 실행 ------------------------------------------------------------------
 const TABLE = {
   palettes, palette: palettes, tools, tool: tools, sections,
-  fonts, font: fonts, photo, photos: photo,
+  fonts, font: fonts, photo, photos: photo, layouts, layout: layouts,
 };
 
 if (!cmd || !TABLE[cmd]) {
   console.error(`design-on pick — 내장 데이터에서 필요한 것만 뽑는다
 
+  node scripts/pick.mjs layouts  [--asset 목록과 가격이 핵심]
+  node scripts/pick.mjs layouts  --id index-first
   node scripts/pick.mjs palettes --hue 보라 --industry 카페 [--limit 3]
   node scripts/pick.mjs fonts    --mood 따뜻함 --lang ko [--limit 3]
   node scripts/pick.mjs photo    --industry 카페

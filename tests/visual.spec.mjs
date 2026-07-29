@@ -3,7 +3,8 @@ import { expect, test } from '@playwright/test';
 const pages = [
   ['cafe', '/examples/cafe/index.html'],
   ['studio', '/examples/studio/index.html'],
-  ['shop', '/examples/shop/index.html']
+  ['shop', '/examples/shop/index.html'],
+  ['tax', '/examples/tax/index.html']
 ];
 
 const viewports = [

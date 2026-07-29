@@ -6,7 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const examples = ['cafe', 'studio', 'shop'];
+const examples = ['cafe', 'studio', 'shop', 'tax'];
 
 function walk(directory, extension) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -65,6 +65,9 @@ test('Claude 플러그인 스킬의 PLAYBOOK 상대경로가 유효하다', () =
 
 test('pick.mjs의 공개 명령을 스모크 테스트한다', () => {
   const commands = [
+    ['layouts'],
+    ['layouts', '--asset', '목록과 가격이 핵심'],
+    ['layouts', '--id', 'index-first'],
     ['palettes', '--hue', '보라', '--industry', '카페', '--limit', '1'],
     ['fonts', '--industry', '카페'],
     ['photo', '--industry', '카페'],
@@ -82,7 +85,7 @@ test('pick.mjs의 공개 명령을 스모크 테스트한다', () => {
   }
 });
 
-test('세 예제가 전체 모드 slopcheck를 통과한다', () => {
+test('예제 전체가 전체 모드 slopcheck를 통과한다', () => {
   assert.ok(
     existsSync(path.join(root, 'vendor', 'impeccable', 'node_modules', 'htmlparser2')),
     '먼저 npm ci --prefix vendor/impeccable를 실행해야 합니다.'
@@ -101,6 +104,62 @@ test('세 예제가 전체 모드 slopcheck를 통과한다', () => {
     );
     assert.doesNotMatch(result.stderr, /축소 모드/);
   }
+});
+
+test('레이아웃 아키텍처가 서로 실제로 다른 치수를 갖는다', () => {
+  const layouts = JSON.parse(readFileSync(path.join(root, 'data', 'layouts.json'), 'utf8'));
+  const list = layouts.architectures;
+
+  assert.ok(list.length >= 8, '아키텍처가 8종 미만이면 선택지 역할을 못 한다.');
+
+  const required = ['id', 'name', 'oneLine', 'fitsWhen', 'doNotPickWhen', 'hero', 'grid', 'metrics', 'avoid', 'css'];
+  for (const architecture of list) {
+    for (const field of required) {
+      assert.ok(architecture[field], `${architecture.id}에 ${field}가 없다.`);
+    }
+  }
+
+  // id는 유일해야 --id 조회가 성립한다.
+  const ids = list.map((a) => a.id);
+  assert.equal(new Set(ids).size, ids.length, `id가 중복됐다: ${ids}`);
+
+  // 치수가 전부 같으면 아키텍처를 나눈 의미가 없다. 이 테스트가 동일화 회귀를 막는다.
+  const widths = new Set(list.map((a) => String(a.metrics.maxWidth)));
+  const gaps = new Set(list.map((a) => String(a.metrics.sectionGap)));
+  assert.ok(widths.size >= 5, `maxWidth가 ${widths.size}종뿐이다. 구조가 서로 안 다르다.`);
+  assert.ok(gaps.size >= 4, `sectionGap이 ${gaps.size}종뿐이다. 리듬이 서로 안 다르다.`);
+
+  // assetMap이 가리키는 id가 실재해야 --asset 조회가 빈 배열을 내지 않는다.
+  for (const [asset, targets] of Object.entries(layouts.howToChoose.assetMap)) {
+    for (const id of targets) {
+      assert.ok(ids.includes(id), `assetMap "${asset}"이 없는 id "${id}"를 가리킨다.`);
+    }
+  }
+});
+
+test('구조 선택과 교체 테스트가 지침·검수에 함께 있다', () => {
+  const playbook = readFileSync(path.join(root, 'PLAYBOOK.md'), 'utf8');
+  const critic = readFileSync(path.join(root, 'agents', 'design-on-critic.md'), 'utf8');
+  const researcher = readFileSync(path.join(root, 'agents', 'design-on-researcher.md'), 'utf8');
+
+  // 구조를 고르는 단계가 살아 있는가.
+  assert.match(playbook, /### 2-0\. 구조를 먼저 고른다/);
+  assert.match(playbook, /pick\.mjs layouts/);
+  assert.match(playbook, /구조:\s+index-first/);
+
+  // 동일화의 진원지였던 고정 치수가 되살아나지 않았는가.
+  assert.doesNotMatch(playbook, /최대 폭 `1180px`/);
+  assert.doesNotMatch(playbook, /min-height:78vh/);
+
+  // 업종별 고정 섹션 순서표가 되살아나지 않았는가.
+  assert.doesNotMatch(playbook, /히어로 → 소개\(짧게\)/);
+  assert.doesNotMatch(researcher, /히어로 → 소개\(짧게\)/);
+
+  // 디텍터가 못 잡는 '껍데기'를 사람이 판정하는 장치가 있는가.
+  assert.match(playbook, /교체 테스트/);
+  assert.match(critic, /교체 테스트/);
+  assert.match(playbook, /이 페이지에만 있는 것을 하나 만든다/);
+  assert.match(researcher, /1순위 질문/);
 });
 
 test('제목 줄바꿈과 UI 문장부호 규칙이 제작·검수 지침에 함께 있다', () => {
