@@ -63,8 +63,8 @@ a{color:inherit}
 .hero .lead{font-size:clamp(1.5rem,2.6vw,1.7rem);line-height:1.55;color:var(--muted);max-width:26ch;margin-top:24px}
 .hero .meta{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:28px;max-width:36ch}
 img{display:block;max-width:100%}
-.hero-media{margin:0;position:relative;overflow:hidden;background:var(--surface)}
-.hero-media img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.hero-media{margin:0;position:relative;overflow:hidden;background:var(--surface);aspect-ratio:4/5}
+.hero-media img{width:100%;height:100%;object-fit:cover}
 /* 캡션은 단색 패널로 깐다. 사진이 밝든 어둡든 대비가 보장된다 */
 .hero-media figcaption{
   position:absolute;left:0;right:0;bottom:0;z-index:1;
@@ -174,7 +174,7 @@ h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:28px}
       </div>
       <figure class="hero-media">
         <img src="https://images.unsplash.com/photo-1503240778100-fd245e17a273?w=1200&q=80&fm=jpg&fit=crop"
-             alt="나무 카운터에 놓인 라떼 한 잔과 옆에 접어 둔 행주" width="1200" height="1500">
+             alt="나무 카운터에 놓인 라떼 한 잔과 옆에 접어 둔 행주">
         <figcaption>로스팅은 매주 화요일 오후에 합니다. 그날은 가게 안이 조금 시끄럽습니다.</figcaption>
       </figure>
     </div>

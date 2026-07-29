@@ -1,4 +1,4 @@
-# design-on 설치 스크립트(Windows). 검사기 파서를 깔고 에이전트에 명령어를 등록한다
+﻿# design-on 설치 스크립트(Windows). 검사기 파서를 깔고 에이전트에 명령어를 등록한다
 
 $Root = Split-Path -Parent $PSScriptRoot
 # 에이전트가 읽을 경로는 슬래시로 통일한다
@@ -27,15 +27,15 @@ Write-Host "  HTML/CSS를 파싱할 파서 4종을 깝니다."
 Write-Host "  없으면 축소 모드로 떨어져 대비/중첩카드/크림배경 검사가 빠집니다."
 
 try {
-    npm install --prefix "$Root\vendor\impeccable" --silent
+    npm ci --prefix "$Root\vendor\impeccable" --silent
     if ($LASTEXITCODE -eq 0) { Write-Ok "파서 설치 완료" }
     else {
         Write-Fail "파서 설치 실패 - 축소 모드로 동작합니다"
-        Write-Host "     나중에 다시: npm install --prefix vendor/impeccable"
+        Write-Host "     나중에 다시: npm ci --prefix vendor/impeccable"
     }
 } catch {
     Write-Fail "파서 설치 실패 - 축소 모드로 동작합니다"
-    Write-Host "     나중에 다시: npm install --prefix vendor/impeccable"
+    Write-Host "     나중에 다시: npm ci --prefix vendor/impeccable"
 }
 
 # ---------------------------------------------------------------------------
@@ -90,28 +90,29 @@ Write-Host "  등록한 파일은 이 저장소를 가리킵니다. 폴더를 �
 
 # ---------------------------------------------------------------------------
 Write-Head "3/3  선택 - 사진 생성 키 (없어도 됩니다)"
-Write-Host @"
-  Codex처럼 이미지 생성이 내장된 환경에서는 키가 필요 없습니다.
-  그 외 환경에서 AI 사진을 쓰려면
-
-    `$env:GEMINI_API_KEY = "발급받은-키"
-
-  키가 없으면 실사 스톡(Unsplash) → 타이포그래피 주도 순으로 폴백합니다.
-  참고로 실사 스톡이 AI 생성 이미지보다 AI 티가 덜 나는 경우가 많습니다.
-"@
+@(
+    "  Codex처럼 이미지 생성이 내장된 환경에서는 키가 필요 없습니다."
+    "  그 외 환경에서 AI 사진을 쓰려면"
+    ""
+    '    $env:GEMINI_API_KEY = "발급받은-키"'
+    ""
+    "  키가 없으면 실사 스톡(Unsplash) → 타이포그래피 주도 순으로 폴백합니다."
+    "  참고로 실사 스톡이 AI 생성 이미지보다 AI 티가 덜 나는 경우가 많습니다."
+) | ForEach-Object { Write-Host $_ }
 
 # ---------------------------------------------------------------------------
 Write-Head "끝났습니다. 이렇게 쓰세요"
-Write-Host @"
+@(
+    ""
+    "    Claude Code   /design-on 카페 하는데 보라색 계열 사이트 만들어줘"
+    "    Codex         카페 하는데 보라색 계열 사이트 만들어줘"
+    ""
+    "  한 문장이면 됩니다. 나머지는 질문 몇 개에 답하시면 됩니다."
+    "  다 만들고 나면 상호명/전화번호 같은 실제 정보를 물어보고 직접 채워 드립니다."
+    ""
+    "  검사기만 따로 돌려보려면"
+    "    node $RootForAgent/scripts/slopcheck.mjs 아무_폴더/"
+    ""
+    "  출처와 라이선스는 CREDITS.md에 있습니다."
+) | ForEach-Object { Write-Host $_ }
 
-    Claude Code   /design-on 카페 하는데 보라색 계열 사이트 만들어줘
-    Codex         카페 하는데 보라색 계열 사이트 만들어줘
-
-  한 문장이면 됩니다. 나머지는 질문 몇 개에 답하시면 됩니다.
-  다 만들고 나면 상호명/전화번호 같은 실제 정보를 물어보고 직접 채워 드립니다.
-
-  검사기만 따로 돌려보려면
-    node $RootForAgent/scripts/slopcheck.mjs 아무_폴더/
-
-  출처와 라이선스는 CREDITS.md에 있습니다.
-"@

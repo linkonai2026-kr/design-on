@@ -195,9 +195,11 @@ warn: ["accent가 4.5:1 미만이다. 버튼 배경으로 쓰지 말고 ink 배�
 | 라틴·숫자 | Gambetta | Boska | Pretendard |
 | 사진 | 3장 | 12장 | 8장 |
 | 3D | — | **Three.js** | — |
-| 안티패턴 | **0건** | **0건** | **0건** |
+| 안티패턴 | **59개 정적 휴리스틱에서 0건** | **59개 정적 휴리스틱에서 0건** | **59개 정적 휴리스틱에서 0건** |
 
 라틴·숫자 서체는 전부 [Fontshare](https://www.fontshare.com/)에서 가져옵니다. `1,280도`·`02-1234-5678` 같은 표기가 한글 서체의 약한 숫자로 나오지 않게 하려는 것입니다.
+
+안티패턴 0건은 59개 정적 휴리스틱을 통과했다는 뜻입니다. 미적 완성도 전체를 자동으로 보증하지 않으므로, 크래프트 검수와 실제 화면 확인을 별도로 거칩니다.
 
 `examples/studio/`는 design-on이 3D를 어디까지 하는지 보여주는 예시입니다. 물레로 뽑은 단면을 회전시켜 만든 기물이고, 마우스로 끌면 돌아갑니다. 빌드 도구 없이 `importmap`으로 Three.js를 불러와 단일 HTML에서 동작합니다. `prefers-reduced-motion`에서는 꺼지고, 스크립트가 죽어도 본문은 그대로 읽힙니다.
 
@@ -463,6 +465,19 @@ design-on으로 만들지 않은 페이지에도 쓸 수 있습니다.
 node scripts/slopcheck.mjs 아무_폴더/
 ```
 
+### 저장소 품질 검사
+
+공개 예제와 배포 파일의 회귀 검사는 아래 명령으로 재현할 수 있습니다.
+
+```bash
+npm ci
+npm ci --prefix vendor/impeccable
+npx playwright install chromium
+npm test
+```
+
+GitHub Actions도 같은 검사를 실행합니다. 로컬 CSS·이미지 링크, `pick.mjs` 공개 명령, 세 예제의 전체 모드 `slopcheck`, 375px·1280px 가로 스크롤, 카페 히어로 높이, 대표 화면 스크린샷을 확인합니다.
+
 ---
 
 ## 무엇이 들어 있나
@@ -580,6 +595,7 @@ design-on/
 ├── AGENTS.md                Codex 등 범용 에이전트용
 ├── SKILL.md                 npx skills 형식
 ├── CREDITS.md               출처와 라이선스
+├── LICENSE                  design-on 자체 MIT 라이선스
 ├── commands/design-on.md     Claude Code 슬래시 명령
 ├── skills/design-on/         Claude Code 스킬 (자동 발동)
 ├── agents/                  병렬 서브에이전트 6종
@@ -599,6 +615,8 @@ design-on/
 ├── examples/cafe/           실제 생성 결과물 (원페이지)
 ├── examples/studio/         실제 생성 결과물 (멀티페이지 3장 + Three.js 3D)
 ├── examples/shop/           실제 생성 결과물 (온라인 쇼핑몰, 상품·비교표·가입폼)
+├── tests/                   링크·CLI·레이아웃·스크린샷 회귀 검사
+├── .github/workflows/ci.yml GitHub Actions 품질 검사
 └── scripts/
     ├── setup.sh / .ps1      설치
     ├── slopcheck.mjs        안티패턴 검사기
@@ -623,6 +641,6 @@ design-on/
 
 ## 라이선스
 
-design-on 자체는 MIT입니다. `vendor/` 아래는 각 원저작자의 라이선스를 따릅니다(`vendor/impeccable/`은 Apache-2.0). 자세한 내용은 [CREDITS.md](CREDITS.md)에 있습니다.
+design-on 자체는 [MIT](LICENSE)입니다. `vendor/` 아래는 각 원저작자의 라이선스를 따릅니다(`vendor/impeccable/`은 Apache-2.0). 자세한 내용은 [CREDITS.md](CREDITS.md)에 있습니다.
 
 내장 데이터는 공개된 게시물에서 추출한 툴 이름·URL·색상값 등 사실 정보입니다.

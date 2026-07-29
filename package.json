@@ -1,0 +1,16 @@
+{
+  "name": "design-on",
+  "version": "4.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:repository && npm run test:visual",
+    "test:repository": "node --test tests/repository.test.mjs",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots"
+  },
+  "devDependencies": {
+    "@fontsource/noto-sans-kr": "5.3.0",
+    "@playwright/test": "1.62.0"
+  }
+}

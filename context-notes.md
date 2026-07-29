@@ -44,7 +44,7 @@ Impeccable 스킬에 딸린 번들 디텍터(`scripts/detect.mjs`)는 파서 4�
 | 파서 없음 | 4건 (gradient-text, side-tab, dark-glow, overused-font) |
 | 파서 있음 | 26건 (+ 대비, 중첩카드, 크림배경, 헤딩건너뜀, 회색-온-컬러 …) |
 
-그래서 `vendor/impeccable/package.json`을 로컬 의존성 앵커로 두고 `npm install --prefix vendor/impeccable`로 파서를 그 트리 안에 심었다. ESM `import()`는 호출한 파일에서 위로 올라가며 `node_modules`를 찾기 때문에 이 위치여야 한다. `NODE_PATH`로는 안 된다(테스트해봤고 실패했다).
+그래서 `vendor/impeccable/package.json`을 로컬 의존성 앵커로 두고 파서를 그 트리 안에 심었다. 공개 설치는 커밋한 lockfile을 기준으로 `npm ci --prefix vendor/impeccable`를 쓴다. ESM `import()`는 호출한 파일에서 위로 올라가며 `node_modules`를 찾기 때문에 이 위치여야 한다. `NODE_PATH`로는 안 된다(테스트해봤고 실패했다).
 
 `scripts/slopcheck.mjs`는 파서 존재를 먼저 확인하고, 없으면 **축소 모드임을 명시적으로 경고**한다. 조용한 degrade가 제일 위험하다.
 

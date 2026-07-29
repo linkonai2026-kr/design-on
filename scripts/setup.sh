@@ -39,11 +39,11 @@ head_ "1/3  안티패턴 검사기"
 echo "  HTML/CSS를 파싱할 파서 4종을 깝니다."
 echo "  없으면 축소 모드로 떨어져 대비·중첩카드·크림배경 검사가 빠집니다."
 
-if npm install --prefix "$ROOT/vendor/impeccable" --silent 2>/dev/null; then
+if npm ci --prefix "$ROOT/vendor/impeccable" --silent 2>/dev/null; then
   ok "파서 설치 완료"
 else
   fail "파서 설치 실패 — 축소 모드로 동작합니다"
-  echo "     나중에 다시: npm install --prefix vendor/impeccable"
+  echo "     나중에 다시: npm ci --prefix vendor/impeccable"
 fi
 
 # ---------------------------------------------------------------------------

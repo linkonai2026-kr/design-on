@@ -661,7 +661,7 @@ node {ROOT}/scripts/slopcheck.mjs site/
 축소 모드 경고가 뜨면 사용자에게 알린다. 그때는 대비·중첩카드·크림배경·헤딩건너뜀이 검사되지 않은 것이다.
 
 ```bash
-npm install --prefix {ROOT}/vendor/impeccable
+npm ci --prefix {ROOT}/vendor/impeccable
 ```
 
 **알려진 오탐 하나.** 디텍터의 CSS 캐스케이드는 논리 속성 `padding-block`·`padding-inline`을 읽지 못한다. 이걸 쓰면 여백이 실제로 있어도 `cramped-padding`으로 잡힌다. **처음부터 `padding-top`·`padding-bottom` 같은 물리 속성으로 써라.** 한국어 LTR 페이지에서는 잃는 게 없다.

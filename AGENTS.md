@@ -59,7 +59,7 @@ Impeccable 디텍터가 안티패턴 59종을 검사한다. 그라디언트 텍�
 첫 실행 전에 파서를 한 번 설치해야 전체 검사가 켜진다. 안 하면 축소 모드로 떨어진다.
 
 ```bash
-npm install --prefix vendor/impeccable
+npm ci --prefix vendor/impeccable
 ```
 
 ## 데이터

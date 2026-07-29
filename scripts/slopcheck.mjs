@@ -21,7 +21,7 @@ if (!fs.existsSync(DETECTOR)) {
 const full = fs.existsSync(DEPS);
 if (!full) {
   console.error('[design-on] 축소 모드로 검사합니다 — HTML/CSS 캐스케이드 엔진이 꺼져 있습니다.');
-  console.error('[design-on] 전체 검사를 켜려면: npm install --prefix vendor/impeccable');
+  console.error('[design-on] 전체 검사를 켜려면: npm ci --prefix vendor/impeccable');
   console.error('');
 }
 

@@ -43,10 +43,10 @@ sync_one() {
   "type": "module",
   "description": "Local dependency anchor so the vendored Impeccable detector resolves its parsers offline. Not published.",
   "dependencies": {
-    "css-select": "^7.0.0",
-    "css-tree": "^3.2.1",
-    "domutils": "^4.0.2",
-    "htmlparser2": "^12.0.0"
+    "css-select": "7.0.0",
+    "css-tree": "3.2.1",
+    "domutils": "4.0.2",
+    "htmlparser2": "12.0.0"
   }
 }
 JSON
@@ -65,7 +65,8 @@ sync_one ibelick/ui-skills      ui-skills   md
 sync_one emilkowalski/skill     emil-skill  md
 
 head_ "파서 재설치"
-npm install --prefix "$ROOT/vendor/impeccable" --silent && ok "완료"
+npm install --prefix "$ROOT/vendor/impeccable" --package-lock-only --silent
+npm ci --prefix "$ROOT/vendor/impeccable" --silent && ok "완료"
 
 head_ "완료"
 echo "  변경 내용을 확인하고 커밋하세요."
