@@ -102,3 +102,26 @@ test('세 예제가 전체 모드 slopcheck를 통과한다', () => {
     assert.doesNotMatch(result.stderr, /축소 모드/);
   }
 });
+
+test('제목 줄바꿈과 UI 문장부호 규칙이 제작·검수 지침에 함께 있다', () => {
+  const playbook = readFileSync(path.join(root, 'PLAYBOOK.md'), 'utf8');
+  const copywriter = readFileSync(
+    path.join(root, 'agents', 'design-on-copywriter.md'),
+    'utf8'
+  );
+  const koreanReviewer = readFileSync(
+    path.join(root, 'agents', 'design-on-korean.md'),
+    'utf8'
+  );
+  const critic = readFileSync(
+    path.join(root, 'agents', 'design-on-critic.md'),
+    'utf8'
+  );
+
+  assert.match(playbook, /overflow-wrap:normal/);
+  assert.match(playbook, /제목의 마지막 줄에 한 글자만 남기지 마라/);
+  assert.match(playbook, /짧은 라벨에 불필요한 마침표/);
+  assert.match(copywriter, /짧은 UI 문구에 완결감을 주려고 `\.`을 붙이지 않는다/);
+  assert.match(koreanReviewer, /불필요한 마침표가 붙었는가/);
+  assert.match(critic, /영문 한 글자·문장부호 하나만 남지 않았는가/);
+});

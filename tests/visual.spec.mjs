@@ -64,9 +64,93 @@ async function applyStableFont(page) {
   }
 }
 
+async function findHeadingWrapIssues(page) {
+  return page.evaluate(() => {
+    const issues = [];
+    const headings = document.querySelectorAll(
+      'h1, h2, h3, [role="heading"], .display-title, .hero-title, [data-heading-check]'
+    );
+
+    for (const heading of headings) {
+      const style = getComputedStyle(heading);
+      if (
+        style.display === 'none'
+        || style.visibility === 'hidden'
+        || Number(style.opacity) === 0
+        || heading.getBoundingClientRect().width === 0
+      ) {
+        continue;
+      }
+
+      const glyphs = [];
+      let text = '';
+      const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        for (let offset = 0; offset < node.data.length;) {
+          const codePoint = node.data.codePointAt(offset);
+          const character = String.fromCodePoint(codePoint);
+          const range = document.createRange();
+          range.setStart(node, offset);
+          range.setEnd(node, offset + character.length);
+          const rect = range.getClientRects()[0];
+          const index = text.length;
+          text += character;
+
+          if (rect) {
+            glyphs.push({ character, index, top: rect.top });
+          }
+          offset += character.length;
+        }
+      }
+
+      const visibleGlyphs = glyphs.filter(({ character }) => !/\s/u.test(character));
+      const lineTops = [];
+      for (const glyph of visibleGlyphs) {
+        let line = lineTops.findIndex((top) => Math.abs(top - glyph.top) <= 2);
+        if (line === -1) {
+          lineTops.push(glyph.top);
+          line = lineTops.length - 1;
+        }
+        glyph.line = line;
+      }
+
+      if (lineTops.length < 2) continue;
+
+      const lastLine = visibleGlyphs.filter(({ line }) => line === lineTops.length - 1);
+      if (Array.from(lastLine.map(({ character }) => character).join('')).length === 1) {
+        issues.push({
+          type: 'single-glyph-last-line',
+          heading: heading.textContent.trim(),
+          detail: lastLine[0].character
+        });
+      }
+
+      for (const match of text.matchAll(/[\p{L}\p{N}]+/gu)) {
+        const end = match.index + match[0].length;
+        const tokenLines = new Set(
+          visibleGlyphs
+            .filter(({ index }) => index >= match.index && index < end)
+            .map(({ line }) => line)
+        );
+        if (tokenLines.size > 1) {
+          issues.push({
+            type: 'split-word',
+            heading: heading.textContent.trim(),
+            detail: match[0]
+          });
+        }
+      }
+    }
+
+    return issues;
+  });
+}
+
 for (const [name, url] of pages) {
   for (const [viewportName, viewport] of viewports) {
-    test(`${name} ${viewportName}에서 가로 스크롤이 없다`, async ({ page }) => {
+    test(`${name} ${viewportName}에서 가로 스크롤과 제목 고아 글자가 없다`, async ({ page }) => {
       await stabilize(page);
       await page.setViewportSize(viewport);
       await page.goto(localURL(url), { waitUntil: 'domcontentloaded' });
@@ -77,6 +161,7 @@ for (const [name, url] of pages) {
         scrollWidth: document.documentElement.scrollWidth
       }));
       expect(overflow.scrollWidth).toBeLessThanOrEqual(overflow.clientWidth);
+      expect(await findHeadingWrapIssues(page)).toEqual([]);
     });
   }
 }
@@ -101,4 +186,32 @@ test('cafe 히어로 높이가 뷰포트를 과도하게 넘지 않는다', asyn
     const height = await page.locator('.hero').evaluate((element) => element.getBoundingClientRect().height);
     expect(height).toBeLessThanOrEqual(viewport.height * 1.25);
   }
+});
+
+test('제목 검사기가 마지막 한 글자와 영문 단어 분리를 감지한다', async ({ page }) => {
+  await page.setContent(`
+    <style>
+      h1 {
+        display: block;
+        margin: 0;
+        font: 700 64px/1 Arial, sans-serif;
+        width: max-content;
+        word-break: break-all;
+      }
+    </style>
+    <h1 data-heading-check>BALANCE</h1>
+  `);
+
+  await page.locator('h1').evaluate((heading) => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = getComputedStyle(heading).font;
+    heading.style.width = `${context.measureText('BALANC').width + 0.5}px`;
+  });
+
+  const issues = await findHeadingWrapIssues(page);
+  expect(issues).toEqual(expect.arrayContaining([
+    expect.objectContaining({ type: 'single-glyph-last-line', detail: 'E' }),
+    expect.objectContaining({ type: 'split-word', detail: 'BALANCE' })
+  ]));
 });

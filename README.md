@@ -476,7 +476,7 @@ npx playwright install chromium
 npm test
 ```
 
-GitHub Actions도 같은 검사를 실행합니다. 로컬 CSS·이미지 링크, `pick.mjs` 공개 명령, 세 예제의 전체 모드 `slopcheck`, 375px·1280px 가로 스크롤, 카페 히어로 높이, 대표 화면 스크린샷을 확인합니다.
+GitHub Actions도 같은 검사를 실행합니다. 로컬 CSS·이미지 링크, `pick.mjs` 공개 명령, 세 예제의 전체 모드 `slopcheck`, 375px·1280px 가로 스크롤과 제목 고아 글자, 카페 히어로 높이, 대표 화면 스크린샷을 확인합니다.
 
 ---
 
@@ -569,10 +569,19 @@ export GEMINI_API_KEY="발급받은-키"
 
 ```css
 body{ word-break:keep-all; overflow-wrap:break-word; }
-h1,h2,h3{ text-wrap:balance }
+h1,h2,h3{
+  word-break:keep-all;
+  overflow-wrap:normal;
+  hyphens:none;
+  text-wrap:balance;
+}
 ```
 
 제목에 `<br>`을 직접 넣지 않습니다. 화면 폭이 바뀌면 어긋나기 때문입니다.
+
+제목의 마지막 줄에 한글 한 음절이나 영문 한 글자만 남는 것도 실패로 봅니다. 375px·1280px에서 실제 카피를 확인하고, 제목 칸·글자 크기·카피 순서로 조정합니다. `BALANC / E`처럼 영문 단어 자체를 쪼개는 `word-break:break-all`과 제목의 `overflow-wrap:break-word|anywhere`는 쓰지 않습니다.
+
+**문장부호도 역할에 맞게 씁니다.** 완결된 본문 문장에는 마침표를 쓰지만, 제목·히어로 슬로건·내비게이션·버튼·탭·칩·짧은 라벨에는 마침표를 억지로 붙이지 않습니다.
 
 ### 브리프가 이깁니다
 
