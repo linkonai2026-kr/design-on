@@ -48,6 +48,57 @@ flat-type-hierarchy  글자 크기 단계가 촘촘해 위계가 없음
 
 ---
 
+## v3에서 뭐가 달라졌나
+
+### 토큰을 98% 줄였습니다
+
+designon에 외부 절약 도구를 붙이기 전에 자기 자신을 재봤더니 병목이 안에 있었습니다. `data/tools.json`이 **262KB, 약 87,000 토큰**입니다. 리서치 트랙이 이걸 통째로 읽으면 그 세션 예산이 거기서 끝납니다.
+
+`scripts/pick.mjs`를 만들어 JSON 통째 읽기를 대체했습니다. 실측입니다.
+
+| 작업 | 통째 읽기 | pick 사용 | 절감 |
+|---|---|---|---|
+| 팔레트 후보 3개 | 7,838 | 566 | 93% |
+| 색상 툴 8개 | 82,093 | 397 | 100% |
+| 서체 페어링 | 1,954 | 658 | 66% |
+| **합계** | **91,885** | **1,621** | **98%** |
+
+```bash
+node scripts/pick.mjs palettes --hue 보라 --industry 카페 --limit 3
+node scripts/pick.mjs fonts    --industry 카페
+node scripts/pick.mjs photo    --industry 카페
+```
+
+팔레트 조회는 역할 배정(`bg`·`surface`·`ink`·`accent`·`muted`)과 대비 계산까지 끝내서 돌려줍니다. 쓸 수 없는 색이 있으면 경고까지 붙습니다.
+
+```
+warn: ["muted 후보가 4.5:1을 못 넘는다. ink를 20~30% 밝힌 색을 직접 만들어라."]
+warn: ["accent가 4.5:1 미만이다. 버튼 배경으로 쓰지 말고 ink 배경을 써라."]
+```
+
+### 숫자와 영문이 예뻐졌습니다
+
+한글 서체는 라틴 글자와 숫자가 약한 경우가 많습니다. `1,280도`·`USB-C`·`02-1234-5678` 같은 표기에서 티가 납니다. 그렇다고 `Inter`를 쓰면 디텍터가 `overused-font`로 잡습니다.
+
+[Fontshare](https://www.fontshare.com/)(인도 타입 파운드리, **상업 사용 무료**)를 숫자·영문 전용 서체로 넣었습니다. `<link>` 한 줄이라 폰트 파일을 저장소에 담지 않습니다.
+
+### 3D와 인터랙티브를 요청하면 만듭니다
+
+기본값은 꺼둡니다. 동네 카페 페이지에 회전하는 3D 모델을 넣으면 신뢰가 떨어지고 모바일에서 느려지기 때문입니다. **하지만 원하시면 만듭니다.**
+
+| 요청 | 레벨 | 조달 |
+|---|---|---|
+| "살짝 입체감" | L1 — CSS만 | 라이브러리 0개 |
+| "인터랙티브하게" | L2 — 바닐라 JS + Canvas | 라이브러리 0개 |
+| "3D 모델", "돌려보게" | L3 — Three.js CDN | `importmap`, 빌드 도구 없이 단일 HTML |
+| "이 3D 씬 그대로" | L4 — Spline 임베드 | `<iframe>` |
+
+레벨이 올라가도 히어로 한 곳에만 걸고, `prefers-reduced-motion`에서 정지하고, **JS가 죽어도 내용이 보여야 하고**, 기계 검사는 그대로 통과해야 합니다.
+
+[`examples/studio/`](examples/studio/index.html)가 L3 예시입니다.
+
+---
+
 ## 어떻게 작동하나
 
 ```
@@ -81,15 +132,31 @@ flat-type-hierarchy  글자 크기 단계가 촘촘해 위계가 없음
 
 ## 실제 결과물
 
-이 저장소에 위 절차를 그대로 돌려 나온 결과물이 세 개 있습니다. 전부 실제 요청 한 문장에서 나온 것이고 손으로 다듬지 않았습니다. 브라우저로 바로 열어볼 수 있습니다.
+이 저장소에 위 절차를 그대로 돌려 나온 결과물이 세 개 있습니다. 브라우저로 바로 열어볼 수 있습니다.
 
-| 예시 | 요청 한 문장 | 구성 | 팔레트 |
+**셋을 일부러 완전히 다른 디자인으로 만들었습니다.** 같은 도구로 만들어도 업종에 따라 다른 얼굴이 나와야 하기 때문입니다.
+
+| 예시 | 업종 | 디자인 언어 | 인터랙션 |
 |---|---|---|---|
-| [`examples/cafe/`](examples/cafe/index.html) | 카페 하는데 보라색 계열 사이트 만들어줘 | **원페이지** — CSS 인라인 단일 파일 | Orchid/Amethyst |
-| [`examples/salon/`](examples/salon/index.html) | 미용실 홈페이지, 시술 종류가 많아서 페이지 나눠줘 | **멀티페이지** — 3페이지 + 공통 CSS | Crimson/Alabaster |
-| [`examples/shop/`](examples/shop/index.html) | 파란색 계열의 온라인 쇼핑몰 사이트 만들어줘 | **원페이지** — 상품 6개, 비교표, 가입폼, FAQ까지 포함 | Dynamic Blue |
+| [`examples/cafe/`](examples/cafe/index.html) | 로스터리 카페 | 밝은 보라, 절제된 편집. 명조 제목 + 비대칭 2단 | 지금 문 열었는지 실시간 표시, 이번 주 로스팅 달력 |
+| [`examples/studio/`](examples/studio/index.html) | 도자기 공방 | **어두운 갤러리.** 큰 사진, 세리프 | **Three.js 3D 기물 뷰어.** 끌어서 돌립니다 |
+| [`examples/shop/`](examples/shop/index.html) | 테크 액세서리 쇼핑몰 | 밝은 파랑, 굵은 산세리프, 상품 그리드 | 가격 비교표, 이메일 가입 폼 |
 
-`examples/shop/`은 이커머스 실전 요소를 요청하지 않았는데도 알아서 챙겼습니다. 재고 표시, 가격 비교표(`scope` 속성 포함 접근성 대응), 통신판매업신고번호·사업자등록번호 같은 국내 이커머스 필수 고지, 상품 사진이 예시라는 안내까지 들어갔습니다.
+셋의 실제 차이입니다.
+
+| | cafe | studio | shop |
+|---|---|---|---|
+| 구성 | 원페이지 | **멀티페이지 3장** | 원페이지 |
+| 배경 | `#FBF1FF` 연보라 | `#34150F` 진갈색 | `#F4F5FA` 연회색 |
+| 제목 서체 | Nanum Myeongjo | Song Myung | Black Han Sans |
+| 라틴·숫자 | Gambetta | Boska | Pretendard |
+| 사진 | 3장 | 12장 | 8장 |
+| 3D | — | **Three.js** | — |
+| 안티패턴 | **0건** | **0건** | **0건** |
+
+라틴·숫자 서체는 전부 [Fontshare](https://www.fontshare.com/)에서 가져옵니다. `1,280도`·`02-1234-5678` 같은 표기가 한글 서체의 약한 숫자로 나오지 않게 하려는 것입니다.
+
+`examples/studio/`는 designon이 3D를 어디까지 하는지 보여주는 예시입니다. 물레로 뽑은 단면을 회전시켜 만든 기물이고, 마우스로 끌면 돌아갑니다. 빌드 도구 없이 `importmap`으로 Three.js를 불러와 단일 HTML에서 동작합니다. `prefers-reduced-motion`에서는 꺼지고, 스크립트가 죽어도 본문은 그대로 읽힙니다.
 
 아래는 원페이지 예시를 만든 과정입니다.
 
@@ -424,7 +491,7 @@ designon/
 │   ├── ui-skills/           컴포넌트 제약 (MIT)
 │   └── emil-skill/          애니메이션 (MIT)
 ├── examples/cafe/           실제 생성 결과물 (원페이지)
-├── examples/salon/          실제 생성 결과물 (멀티페이지 3장 + 공통 CSS)
+├── examples/studio/         실제 생성 결과물 (멀티페이지 3장 + Three.js 3D)
 ├── examples/shop/           실제 생성 결과물 (온라인 쇼핑몰, 상품·비교표·가입폼)
 └── scripts/
     ├── setup.sh / .ps1      설치

@@ -1,0 +1,272 @@
+<!-- 도자기 공방 홈. 3D 기물 뷰어(Three.js) 포함. 팔레트: Champagne/Coffee 반전 -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>흙손 — 남양주 도자기 공방</title>
+<meta name="description" content="남양주 조안면에서 물레로 그릇을 만듭니다. 한 가마에 예순 점씩, 일 년에 네 번 굽습니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Song+Myung&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=boska@300,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="mark" href="index.html">흙손</a>
+    <nav>
+      <a href="index.html" aria-current="page">공방</a>
+      <a href="works.html">작품</a>
+      <a href="class.html">클래스</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="stage">
+    <canvas id="vessel" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="stage-copy">
+        <h1>물레에서 내려온 그릇은 하나도 같지 않습니다</h1>
+        <p class="lead">남양주 조안면에서 그릇을 만듭니다. 한 가마에 예순 점씩, 일 년에 네 번 굽습니다.</p>
+        <p class="hint">기물을 끌어서 돌려보세요</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap narrow">
+      <h2>가마를 자주 열지 않습니다</h2>
+      <p class="note">장작 가마는 한 번 때는 데 사흘이 걸립니다. 불을 넣고 <span class="num">1,280</span>도까지 올린 다음 이틀을 식힙니다. 그래서 봄가을에 두 번씩, 일 년에 네 번만 굽습니다.</p>
+      <p class="note">한 가마에서 예순 점쯤 나오는데 그중 스무 점 정도는 깨거나 버립니다. 유약이 흘러 굽에 붙거나, 불길이 닿은 쪽만 색이 튀거나 합니다. 남은 것을 그대로 팝니다.</p>
+      <p class="note">같은 모양을 주문받아 여러 개 만들지 않습니다. 물레에서 내려온 것이 그날의 것입니다.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>이번 가마에서 나온 것</h2>
+      <div class="works">
+
+        <article class="work">
+          <figure>
+            <img src="https://images.unsplash.com/photo-1523976888287-7454b4df44f4?w=800&q=80&fm=jpg&fit=crop"
+                 alt="회백색 유약을 입힌 손잡이 없는 찻잔 여러 개가 나란히 놓여 있다" width="800" height="1000" loading="lazy">
+            <figcaption>
+              <h3>백자 찻잔</h3>
+              <p class="meta">지름 <span class="num">7.5cm</span> · 높이 <span class="num">6cm</span></p>
+              <p class="price"><span class="num">28,000</span>원</p>
+            </figcaption>
+          </figure>
+        </article>
+
+        <article class="work">
+          <figure>
+            <img src="https://images.unsplash.com/photo-1556205801-a0bf81cdc90d?w=800&q=80&fm=jpg&fit=crop"
+                 alt="흙빛이 그대로 남은 낮은 사발이 나무 판 위에 놓여 있다" width="800" height="1000" loading="lazy">
+            <figcaption>
+              <h3>덤벙분청 사발</h3>
+              <p class="meta">지름 <span class="num">15cm</span> · 높이 <span class="num">7cm</span></p>
+              <p class="price"><span class="num">42,000</span>원</p>
+            </figcaption>
+          </figure>
+        </article>
+
+        <article class="work">
+          <figure>
+            <img src="https://images.unsplash.com/photo-1694091344876-4b2c13a74f3c?w=800&q=80&fm=jpg&fit=crop"
+                 alt="선반에 크기가 다른 그릇들이 줄지어 놓여 있다" width="800" height="1000" loading="lazy">
+            <figcaption>
+              <h3>찬기 세 점 묶음</h3>
+              <p class="meta">지름 <span class="num">9~13cm</span> · 크기가 조금씩 다릅니다</p>
+              <p class="price"><span class="num">65,000</span>원</p>
+            </figcaption>
+          </figure>
+        </article>
+
+      </div>
+      <p class="note" style="margin-top:40px">남은 수량과 나머지 기물은 <a href="works.html">작품 페이지</a>에 있습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <figure class="plate">
+        <img src="https://images.unsplash.com/photo-1753164725860-ffcd260b7b32?w=1600&q=80&fm=jpg&fit=crop"
+             alt="물레 위에서 두 손이 젖은 흙을 끌어올려 그릇의 벽을 세우고 있다" width="1600" height="700" loading="lazy">
+        <figcaption>물레 작업은 오전에만 합니다. 오후에는 흙이 손에 붙습니다.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2>한 점이 나오기까지</h2>
+      <ol class="steps">
+        <li>
+          <span class="when">첫날</span>
+          <div>
+            <h3>물레 성형</h3>
+            <p>흙을 중심에 올리고 벽을 세웁니다. 하루에 스무 점쯤 뽑습니다. 이 중 절반은 다음 날 아침에 보고 다시 뭉갭니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">사흘 뒤</span>
+          <div>
+            <h3>굽 깎기</h3>
+            <p>가죽처럼 굳었을 때 뒤집어 굽을 깎습니다. 너무 마르면 깨지고 덜 마르면 뭉개져서 이틀에서 나흘 사이를 봅니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">2주 뒤</span>
+          <div>
+            <h3>초벌</h3>
+            <p><span class="num">800</span>도로 한 번 굽습니다. 여기서 갈라지는 것이 매번 몇 점씩 나옵니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">3주 뒤</span>
+          <div>
+            <h3>유약 담그기</h3>
+            <p>재를 걸러 만든 유약에 담급니다. 담그는 시간이 <span class="num">3</span>초만 달라져도 색이 달라집니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="when">가마 여는 날</span>
+          <div>
+            <h3>장작 가마</h3>
+            <p>사흘 동안 불을 때고 이틀을 식힙니다. 열어 보기 전까지는 무엇이 나올지 모릅니다.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>찾아오시려면</h2>
+      <div class="info">
+        <dl>
+          <dt>주소</dt>
+          <dd>경기 남양주시 조안면 북한강로 <span class="num">000</span></dd>
+          <dt>전화</dt>
+          <dd><a class="num" href="tel:0311234567">031-123-4567</a></dd>
+        </dl>
+        <dl>
+          <dt>여는 날</dt>
+          <dd>금·토·일 <span class="num">11:00 – 18:00</span></dd>
+          <dt>다음 가마</dt>
+          <dd><span class="num">10</span>월 셋째 주</dd>
+        </dl>
+      </div>
+      <p class="note" style="margin-top:32px">평일에는 작업만 합니다. 미리 전화 주시면 평일에도 열어 둡니다. 경춘선 운길산역에서 차로 <span class="num">7</span>분입니다. 마당에 <span class="num">3</span>대까지 세울 수 있습니다.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>흙손</span>
+    <span>경기 남양주시 조안면 북한강로 <span class="num">000</span></span>
+    <span class="num">031-123-4567</span>
+  </div>
+</footer>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}
+</script>
+<script type="module">
+// 히어로 배경의 3D 기물. 물레로 뽑은 단면을 회전시켜 만든 형태다.
+// 순수 배경이라 이 스크립트가 죽어도 본문은 그대로 읽힌다.
+import * as THREE from 'three';
+
+const canvas = document.getElementById('vessel');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (canvas && !reduce) {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+  camera.position.set(0, 0.15, 9.4);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));   // 모바일 발열을 막는다
+
+  // 그릇 옆면 윤곽. 물레에서 손이 지나간 선을 그대로 좌표로 옮겼다.
+  const profile = [
+    [0.00, -1.60], [0.62, -1.60], [0.70, -1.50], [0.74, -1.20],
+    [0.86, -0.70], [1.00, -0.10], [1.08, 0.50], [1.06, 1.00],
+    [0.98, 1.34], [0.90, 1.52], [0.88, 1.60], [0.84, 1.60],
+    [0.86, 1.50], [0.94, 1.30], [1.00, 0.98], [1.02, 0.50],
+    [0.94, -0.10], [0.80, -0.70], [0.68, -1.20], [0.64, -1.46], [0.00, -1.46],
+  ].map(([x, y]) => new THREE.Vector2(x, y));
+
+  const geo = new THREE.LatheGeometry(profile, 96);
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xC9A882, roughness: 0.72, metalness: 0.06, flatShading: false,
+  });
+  const pot = new THREE.Mesh(geo, mat);
+  pot.rotation.z = 0.04;          // 물레에서 살짝 기운 채로 내려온 것처럼
+  scene.add(pot);
+
+  scene.add(new THREE.HemisphereLight(0xEACEAA, 0x34150F, 1.15));
+  const key = new THREE.DirectionalLight(0xFFE8C8, 2.1);
+  key.position.set(-3.2, 3.4, 4.0);
+  scene.add(key);
+  const rim = new THREE.DirectionalLight(0xD39858, 1.5);
+  rim.position.set(4.0, 1.0, -2.6);
+  scene.add(rim);
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    renderer.setSize(r.width, r.height, false);
+    camera.aspect = r.width / r.height;
+    // 좁은 화면에서는 기물을 뒤로 물려 글자와 겹치지 않게 한다
+    // 기물 전체 실루엣이 잘리지 않게 물려 둔다
+    camera.position.z = r.width < 760 ? 11.5 : 9.4;
+    pot.position.x = r.width < 760 ? 0 : 2.1;
+    camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize);
+  resize();
+
+  // 끌어서 돌리기. 손을 떼면 천천히 제자리 회전으로 돌아간다.
+  let spin = 0, drag = null, velocity = 0.0016;
+  const grab = (e) => { drag = (e.touches ? e.touches[0] : e).clientX; };
+  const move = (e) => {
+    if (drag === null) return;
+    const x = (e.touches ? e.touches[0] : e).clientX;
+    spin += (x - drag) * 0.0075;
+    drag = x;
+    if (e.cancelable && e.touches) e.preventDefault();
+  };
+  const drop = () => { drag = null; };
+  canvas.addEventListener('pointerdown', grab);
+  addEventListener('pointermove', move);
+  addEventListener('pointerup', drop);
+  canvas.addEventListener('touchstart', grab, { passive: true });
+  canvas.addEventListener('touchmove', move, { passive: false });
+  addEventListener('touchend', drop);
+
+  let running = true;
+  // 화면 밖으로 나가면 멈춘다. 배터리를 계속 먹을 이유가 없다.
+  new IntersectionObserver(([e]) => { running = e.isIntersecting; }).observe(canvas);
+
+  (function frame() {
+    requestAnimationFrame(frame);
+    if (!running) return;
+    if (drag === null) spin += velocity;
+    pot.rotation.y = spin;
+    renderer.render(scene, camera);
+  })();
+}
+</script>
+
+<!-- 아래 정보는 예시입니다. 실제 정보로 교체하세요: 상호, 주소, 전화번호, 여는 날, 가마 일정, 작품명·치수·가격, 사진 -->
+</body>
+</html>
