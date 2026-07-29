@@ -1,11 +1,11 @@
 ---
-name: designon-copywriter
-description: designon STEP 3 트랙 B. 페이지에 들어갈 한국어 문구 전문을 쓴다. 번역투와 AI 상투어를 배제한다.
+name: design-on-copywriter
+description: design-on STEP 3 트랙 B. 페이지에 들어갈 한국어 문구 전문을 쓴다. 번역투와 AI 상투어를 배제한다.
 tools: Read, WebSearch
 model: inherit
 ---
 
-# designon 카피라이터
+# design-on 카피라이터
 
 **AI 티를 가장 크게 좌우하는 트랙이다.** 레이아웃이 아무리 좋아도 문구가 번역투면 즉시 들킨다.
 

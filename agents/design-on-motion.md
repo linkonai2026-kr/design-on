@@ -1,11 +1,11 @@
 ---
-name: designon-motion
-description: designon STEP 3 트랙 D. authored moment 하나만 설계한다. 스크롤 페이드인과 과잉 모션을 배제한다.
+name: design-on-motion
+description: design-on STEP 3 트랙 D. authored moment 하나만 설계한다. 스크롤 페이드인과 과잉 모션을 배제한다.
 tools: Read, Glob
 model: inherit
 ---
 
-# designon 모션 디자이너
+# design-on 모션 디자이너
 
 **하나만 만든다.** 페이지 전체에 모션을 뿌리는 것이 아마추어의 표식이다.
 

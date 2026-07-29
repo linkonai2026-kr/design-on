@@ -194,7 +194,7 @@ const TABLE = {
 };
 
 if (!cmd || !TABLE[cmd]) {
-  console.error(`designon pick — 내장 데이터에서 필요한 것만 뽑는다
+  console.error(`design-on pick — 내장 데이터에서 필요한 것만 뽑는다
 
   node scripts/pick.mjs palettes --hue 보라 --industry 카페 [--limit 3]
   node scripts/pick.mjs fonts    --mood 따뜻함 --lang ko [--limit 3]

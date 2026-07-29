@@ -9,7 +9,7 @@ trap 'rm -rf "$TMP"' EXIT
 ok()    { printf '  \033[32m✓\033[0m %s\n' "$1"; }
 head_() { printf '\n\033[1m%s\033[0m\n' "$1"; }
 
-head_ "designon vendor 재동기화"
+head_ "design-on vendor 재동기화"
 echo "  현재 담긴 버전과 업스트림 최신을 비교해 갱신합니다."
 echo "  라이선스 파일과 .upstream-commit도 함께 갱신됩니다."
 
@@ -38,7 +38,7 @@ sync_one() {
     # 파서 앵커는 재생성한다
     cat > "$ROOT/vendor/$dest/package.json" <<'JSON'
 {
-  "name": "designon-vendored-impeccable-detector",
+  "name": "design-on-vendored-impeccable-detector",
   "private": true,
   "type": "module",
   "description": "Local dependency anchor so the vendored Impeccable detector resolves its parsers offline. Not published.",

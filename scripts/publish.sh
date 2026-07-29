@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# designon을 GitHub 공개 저장소로 올리는 스크립트. gh auth login을 먼저 마친 뒤 실행한다
+# design-on을 GitHub 공개 저장소로 올리는 스크립트. gh auth login을 먼저 마친 뒤 실행한다
 set -eu
 
-REPO="designon"
+REPO="design-on"
 DESC="한 문장으로 완성된 웹페이지를 만드는 디자인 스킬. 디자인 툴 883개·컬러 팔레트 78세트 내장. Claude Code와 Codex 지원."
 
 cd "$(dirname "$0")/.."

@@ -1,5 +1,5 @@
 {
-  "_comment": "업종별 사진 생성 레시피. 구조화 스키마(subject/light/camera/mood/negative)는 YouMind ai-image-prompts-skill(MIT)에서 배운 형식이고, 내용은 designon이 한국 소상공인 기준으로 새로 썼다. 원본 라이브러리 프롬프트는 3D 렌더·패션 에디토리얼이 많아 그대로 쓰지 않는다.",
+  "_comment": "업종별 사진 생성 레시피. 구조화 스키마(subject/light/camera/mood/negative)는 YouMind ai-image-prompts-skill(MIT)에서 배운 형식이고, 내용은 design-on이 한국 소상공인 기준으로 새로 썼다. 원본 라이브러리 프롬프트는 3D 렌더·패션 에디토리얼이 많아 그대로 쓰지 않는다.",
   "schema": {
     "why": "한 문장으로 길게 쓰면 모델이 앞부분만 반영한다. 항목을 나눠 쓰면 다 반영된다.",
     "fields": ["subject", "light", "camera", "mood", "palette", "negative"],

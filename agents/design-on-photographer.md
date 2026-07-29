@@ -1,11 +1,11 @@
 ---
-name: designon-photographer
-description: designon STEP 3 트랙 C. 페이지에 쓸 사진을 확보한다. 네이티브 생성 → Gemini → 실사 스톡 → 타이포 주도 순으로 폴백한다.
+name: design-on-photographer
+description: design-on STEP 3 트랙 C. 페이지에 쓸 사진을 확보한다. 네이티브 생성 → Gemini → 실사 스톡 → 타이포 주도 순으로 폴백한다.
 tools: Read, Write, Bash, WebSearch, WebFetch
 model: inherit
 ---
 
-# designon 포토그래퍼
+# design-on 포토그래퍼
 
 **순서대로 시도하고 되는 데서 멈춘다.** 앞 단계가 되는데 뒤로 내려가지 마라.
 

@@ -1,4 +1,4 @@
-# designon v2 체크리스트
+# design-on v2 체크리스트
 
 목표. 한 문장 요청에서 **10년차 디자이너가 만든 것 같은** 페이지가 한 번에 나온다. AI 티를 사람의 판단이 아니라 **기계 검사**로 잡는다.
 
@@ -33,7 +33,7 @@
 ## 4. 배선
 
 - [x] `.claude-plugin/plugin.json` — agents 등록
-- [x] `commands/designon.md`, `skills/designon/SKILL.md`, `SKILL.md`, `AGENTS.md` 동기화
+- [x] `commands/design-on.md`, `skills/design-on/SKILL.md`, `SKILL.md`, `AGENTS.md` 동기화
 - [x] `scripts/setup.sh` / `setup.ps1` — 벤더 의존성 설치 + 에이전트 등록
 - [x] `scripts/update-vendor.sh` — 업스트림 재동기화
 - [x] `CREDITS.md` — 하위 에이전트로 쓰는 모든 출처 명시
@@ -63,3 +63,66 @@
 - [x] `examples/salon/` 3페이지 실제 제작 → 안티패턴 0건
 - [x] 구조 규칙 자동 검증 (링크·nav 일치·aria-current·title 중복·인라인 CSS)
 - [x] 대비 검증 (index·menu 모두 0건 실패)
+
+---
+
+# v4 체크리스트
+
+목표. **STEP 7에서 끝나던 것을 STEP 8까지 끌고 간다.** 지어낸 상호명·전화번호를 실제 값으로 바꾸는 것까지가 완성이다.
+
+## 8. 개명 — designon → design-on
+
+- [x] GitHub 저장소 rename (`linkonai2026-kr/design-on`, 구주소는 자동 리다이렉트)
+- [x] 로컬 폴더 `H:/insta-design/design-on`
+- [x] `git remote set-url`
+- [x] 파일명 — `commands/design-on.md`, `agents/design-on-*.md` 6종, `skills/design-on/`
+- [x] 문서·스크립트 내 문자열 127곳 전부 치환 (대소문자 변형 없음 확인)
+- [x] `plugin.json` name·homepage·repository·agents 경로
+- [x] 에이전트 frontmatter `name:` 6종
+- [x] 구버전 로컬 설치 제거 후 재설치
+
+## 9. STEP 8 — 완성 후 대화
+
+- [x] 8-1 만족도 A/B/C — C를 방어하지 말 것을 명시
+- [x] 8-2 실제 정보 채우기 — **페이지에 실제로 들어간 가짜 값만** 묻는다. 업종별 질문 항목 6종
+- [x] 쇼핑몰 사업자 정보는 법정 필수 표시 항목이라 별도 경고 주석 규정
+- [x] 받은 값을 `grep`으로 전 페이지 확인 (멀티페이지에서 전화번호가 3곳에 있다)
+- [x] 가짜 값은 `031-000-0000` 형태로 넣어 찾기 쉽게 (STEP 4 규칙에 추가)
+- [x] 다 채우면 예시 주석 삭제
+- [x] 8-3 사진 — 자리별로 뭐가 보이는지 적고 하나씩. **바꿀 방법을 먼저 묻고 나서** 손댄다 (a 분위기 / b 소재 / c 직접 사진 / d 제거)
+- [x] 8-4 방향 재설정 — HTML이 아니라 STEP 2 아트 디렉션으로 되감기, 1회만. 2회 실패 시 레퍼런스 URL 요청
+- [x] 8-5 일괄 반영 → 재검사 1회 → 바뀐 것/못 바꾼 것 보고
+- [x] 최대 2라운드 상한
+- [x] **STEP 6 "루프 금지"와의 충돌 해소 문단** — 자가 QA 루프와 사람에게 묻는 것은 다르다
+
+## 10. 출력 형태 확장
+
+- [x] STEP 1-2를 "출력 형태 결정"으로 승격 — 단일 HTML / 멀티페이지 / React + Vite
+- [x] React 조건을 좁게 정의 (다중 필터·단계형 폼·로그인 분기). "화려하게"는 조건 아님
+- [x] React 선택 시 STEP 1-4에서 터미널 비용을 미리 고지
+- [x] React 규칙 5개 — UI 라이브러리 금지, 상태 라이브러리 금지, 의존성 4개, 한국어 실행법, `base:'./'`
+- [x] `npm run build` → `dist/`에 slopcheck 돌리는 경로 명시
+- [x] STEP 4 기술 요건의 "React·Vue 쓰지 않는다" 문장 제거
+- [x] 아트 디렉션 카드 `구성` → `출력 형태`
+
+## 11. Astryx 재검토
+
+- [x] 실제 문서 재확인 — 3패키지 필수, 빌드 필수, CDN 없음, 테마 7종, 토큰은 CSS 변수
+- [x] 제외 사유를 "빌드 필요"에서 **"목적이 반대"**로 교체 (단일 HTML 제약이 풀렸으므로 기존 논거 무효)
+- [x] 테마 7종이 `palettes.json` 78세트보다 좁다는 점 기록
+
+## 12. 초보자 설치 경로
+
+- [x] `setup.sh`/`setup.ps1`가 검사기뿐 아니라 **에이전트 등록까지** 수행
+- [x] `{ROOT}`·`${CLAUDE_PLUGIN_ROOT}` → 절대경로 치환해서 설치
+- [x] 스킬 파일에 PLAYBOOK 절대경로 포인터 추가
+- [x] Windows `$HOME`이 실제 홈이 아닌 경우(SPB_Data) `%USERPROFILE%` 우선
+- [x] `~/.claude`·`~/.codex` 없으면 조용히 건너뛰기
+- [x] 실제 실행 검증 — 명령·스킬·에이전트 6종 등록, 플레이스홀더 잔여 0, PLAYBOOK 경로 실재 확인
+
+## 13. 검증
+
+- [x] `pick.mjs` 정상 동작 (sed 치환 후 회귀 없음)
+- [x] `slopcheck.mjs` 정상 동작 — 위반 주입 파일에서 10건 검출, 전체 모드 확인
+- [x] `examples/studio/` 0건 유지
+- [x] 커밋 · push

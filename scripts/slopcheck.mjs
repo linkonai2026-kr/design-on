@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 생성된 HTML을 Impeccable 안티패턴 디텍터로 검사하는 래퍼. designon STEP 4에서 호출한다.
+// 생성된 HTML을 Impeccable 안티패턴 디텍터로 검사하는 래퍼. design-on STEP 4에서 호출한다.
 
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -20,8 +20,8 @@ if (!fs.existsSync(DETECTOR)) {
 
 const full = fs.existsSync(DEPS);
 if (!full) {
-  console.error('[designon] 축소 모드로 검사합니다 — HTML/CSS 캐스케이드 엔진이 꺼져 있습니다.');
-  console.error('[designon] 전체 검사를 켜려면: npm install --prefix vendor/impeccable');
+  console.error('[design-on] 축소 모드로 검사합니다 — HTML/CSS 캐스케이드 엔진이 꺼져 있습니다.');
+  console.error('[design-on] 전체 검사를 켜려면: npm install --prefix vendor/impeccable');
   console.error('');
 }
 
@@ -32,7 +32,7 @@ const child = spawn(process.execPath, [DETECTOR, target, ...process.argv.slice(3
 child.on('exit', (code) => {
   if (!full) {
     console.error('');
-    console.error('[designon] 축소 모드 결과입니다. 대비·중첩카드·크림배경·헤딩건너뜀 등은 검사되지 않았습니다.');
+    console.error('[design-on] 축소 모드 결과입니다. 대비·중첩카드·크림배경·헤딩건너뜀 등은 검사되지 않았습니다.');
   }
   process.exit(code ?? 0);
 });
