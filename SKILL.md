@@ -44,10 +44,18 @@ STEP 8  완성 후 대화 (만족도 → 실제 정보 채우기 → 사진 교�
 
 ## 내장 자산
 
+**`data/*.json`을 Read로 통째 읽지 마라.** `scripts/pick.mjs`로 조회한다. `tools.json` 하나가 약 87,000 토큰이라 한 번 읽으면 세션 예산이 사라진다.
+
+| 조회 | 내용 |
+|---|---|
+| `pick.mjs layouts` | **페이지 구조 아키텍처 10종.** 치수까지 서로 다르다 |
+| `pick.mjs palettes` | 컬러 팔레트 78세트. 역할 배정과 대비 계산까지 끝내서 준다 |
+| `pick.mjs fonts` | 서체 페어링 9종 (한글 본문 + 한글 제목 + Fontshare 라틴) |
+| `pick.mjs photo` | 업종별 사진 프롬프트 레시피 7종 |
+| `pick.mjs tools` | 디자인 툴·사이트 883개 |
+
 | 경로 | 내용 |
 |---|---|
-| `data/palettes.json` | 컬러 팔레트 78세트, HEX 369개 |
-| `data/tools.json` | 디자인 툴·사이트 883개. `seen` 3 이상이면 반복 검증된 툴 |
 | `vendor/impeccable/` | 품질 하한선 + 안티패턴 디텍터 59종 (Apache-2.0, pbakaus) |
 | `vendor/taste-skill/` | 브리프 추론 + 3다이얼 + 디자인시스템 매핑 (MIT, Leonxlnx) |
 | `vendor/ui-skills/` | 컴포넌트·타이포·모션 제약 (MIT, Julien Thibeaut) |

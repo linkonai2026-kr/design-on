@@ -29,16 +29,26 @@ STEP 7  보고 → 화면을 보여준다
 STEP 8  완성 후 대화       만족도 → 실제 정보 채우기 → 사진 교체
 ```
 
-**STEP 7에서 멈추지 마라.** 거기까지는 상호명·전화번호가 전부 지어낸 값이다. STEP 8에서 실제 정보를 받아 채워야 완성이다.
+### 건너뛰면 안 되는 다섯 가지
 
-**STEP 2-0을 건너뛰지 마라.** 색과 서체만 매번 바꾸고 구조는 늘 똑같이 만드는 것이 design-on의 가장 큰 실패 모드다. 히어로에 사진 깔고 왼쪽에 제목, 아래 3~5개 섹션, 끝에 위치·전화 — 이게 업종을 가리지 않고 나온다. 색만 다른 같은 페이지는 여전히 AI가 만든 티고, 디텍터는 그걸 못 잡는다.
+| | 어디서 | 빠뜨리면 |
+|---|---|---|
+| **1. `pick.mjs`로 조회한다** | STEP 0 | `data/*.json`을 통째 읽어 세션 예산이 날아간다. `tools.json` 하나가 약 87,000 토큰이다 |
+| **2. 질문은 딱 한 번, 묶어서** | STEP 1-4 | 초보자가 설문지를 받는다. 팔레트를 먼저 조회해 근거를 쥐고 3개 이하만 묻는다 |
+| **3. 구조부터 고른다** | STEP 2-0 | 색만 다른 같은 페이지가 나온다 |
+| **4. 기계 검사를 돌린다** | STEP 5 | 자기 판단에 맡기면 늘 통과시킨다 |
+| **5. STEP 8까지 간다** | STEP 8 | 상호명·전화번호가 지어낸 값인 채로 끝난다 |
+
+**STEP 2-0을 건너뛰지 마라.** 색과 서체만 매번 바꾸고 구조는 늘 똑같이 만드는 것이 design-on의 가장 큰 실패 모드다. 히어로에 사진 깔고 왼쪽에 제목, 아래 섹션 서너 개, 끝에 위치·전화 — 이게 업종을 가리지 않고 나온다. **색만 다른 같은 페이지는 여전히 AI가 만든 티고, 디텍터 59종은 전부 요소 단위라 그걸 못 잡는다.**
 
 ```bash
 node scripts/pick.mjs layouts --asset "목록과 가격이 핵심"
 node scripts/pick.mjs layouts --id index-first
 ```
 
-구조 10종이 들어 있다. 업종이 아니라 **이 가게가 실제로 가진 자산**이 구조를 정한다. 고른 이유를 한 줄로 못 쓰면 안 고른 것이다.
+구조 10종이 들어 있다. 업종이 아니라 **이 가게가 실제로 가진 자산**이 구조를 정한다. 고른 이유를 한 줄로 못 쓰면 안 고른 것이다. 치수(`maxWidth`·`gutter`·`sectionGap`)도 아키텍처에서 가져온다.
+
+**STEP 7에서 멈추지 마라.** 거기까지는 상호명·전화번호가 전부 지어낸 값이다. 보고하고 화면을 보여준 뒤 곧바로 STEP 8로 간다. 사용자의 다음 말을 기다리지 마라.
 
 ## 병렬 실행
 
@@ -73,10 +83,18 @@ npm ci --prefix vendor/impeccable
 
 ## 데이터
 
+**`data/*.json`을 Read로 통째 읽지 마라.** 조회 CLI를 쓴다.
+
+```bash
+node scripts/pick.mjs layouts  --asset "공간·분위기가 자산"   # 구조 10종
+node scripts/pick.mjs palettes --hue 보라 --industry 카페     # 팔레트 78세트
+node scripts/pick.mjs fonts    --industry 카페                # 서체 페어링 9종
+node scripts/pick.mjs photo    --industry 카페                # 사진 프롬프트 레시피
+node scripts/pick.mjs tools    --section 색상                 # 디자인 툴 883개
+```
+
 | 경로 | 내용 |
 |---|---|
-| `data/palettes.json` | 팔레트 78세트 |
-| `data/tools.json` | 툴 883개 |
 | `vendor/impeccable/reference/craft-floor.md` | 품질 하한선. STEP 4 빌드 직전에 읽는다 |
 | `vendor/taste-skill/skills/taste-skill/SKILL.md` | 브리프 추론·다이얼. STEP 2에서 읽는다 |
 | `vendor/ui-skills/skills/baseline-ui/SKILL.md` | 컴포넌트·모션 제약 |
