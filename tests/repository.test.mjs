@@ -137,6 +137,31 @@ test('레이아웃 아키텍처가 서로 실제로 다른 치수를 갖는다',
   }
 });
 
+test('라틴 서체 폴백이 데이터와 조회 결과에 함께 있다', () => {
+  const fonts = JSON.parse(readFileSync(path.join(root, 'data', 'fonts.json'), 'utf8'));
+  const fallback = fonts.latinFallback;
+
+  // 페어링의 라틴 서체가 전부 Fontshare 한 곳에서 온다. 폴백이 없으면 단일 장애점이다.
+  assert.ok(fallback, 'latinFallback이 없다.');
+  assert.equal(fallback.source, 'google');
+  assert.ok(fallback.fonts.length >= 3, '폴백이 3종 미만이면 대체 경로 구실을 못 한다.');
+
+  // 폴백이 금지 서체를 담고 있으면 detector가 overused-font로 잡는다.
+  const banned = new Set(fonts.avoid.fonts.map((f) => f.toLowerCase()));
+  for (const font of fallback.fonts) {
+    assert.ok(font.family && font.weights, `${font.family}에 weights가 없다.`);
+    assert.ok(!banned.has(font.family.toLowerCase()), `폴백 ${font.family}가 avoid 목록에 있다.`);
+  }
+
+  // pick.mjs fonts가 폴백을 같이 줘야 STEP 2-5에서 쓸 수 있다.
+  const output = JSON.parse(execFileSync(
+    process.execPath,
+    ['scripts/pick.mjs', 'fonts', '--industry', '카페', '--limit', '1'],
+    { cwd: root, encoding: 'utf8' }
+  ));
+  assert.ok(output.latinFallback?.fonts?.length, 'pick.mjs fonts가 latinFallback을 안 준다.');
+});
+
 test('구조 선택과 교체 테스트가 지침·검수에 함께 있다', () => {
   const playbook = readFileSync(path.join(root, 'PLAYBOOK.md'), 'utf8');
   const critic = readFileSync(path.join(root, 'agents', 'design-on-critic.md'), 'utf8');

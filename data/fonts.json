@@ -12,6 +12,25 @@
     "fonts": ["Inter", "Roboto", "Open Sans", "Lato", "Montserrat", "Arial", "Helvetica", "Fraunces", "Instrument Sans", "Instrument Serif", "Geist", "Mona Sans", "Plus Jakarta Sans", "Space Grotesk", "Recoleta"],
     "fontshareCaution": "Fontshare에도 Plus Jakarta Sans·Montserrat·Poppins가 있다. 이 셋은 고르지 마라."
   },
+  "latinFallback": {
+    "why": "아래 pairings의 라틴 서체가 전부 Fontshare 한 곳에서 온다. api.fontshare.com이 느리거나 막히면 페이지의 숫자·영문이 통째로 기본 서체로 떨어진다. Google Fonts는 국내를 포함해 도달성이 가장 좋은 CDN이라 대체 경로로 둔다.",
+    "whenToUse": [
+      "Fontshare 로딩이 실패하거나 느릴 때",
+      "라틴 본문·UI 서체가 필요할 때 (Fontshare 목록은 디스플레이 성향이 강하다)",
+      "사내망·학교망처럼 낯선 CDN이 막힐 수 있는 환경에 배포할 때"
+    ],
+    "role": "본문·UI 전용이다. 이 다섯은 전부 무난한 워크호스 산세리프라 개성이 없다. 개성은 display 서체에서 낸다. 이걸 제목에까지 쓰면 그냥 밋밋한 페이지가 된다.",
+    "source": "google",
+    "fonts": [
+      { "family": "Public Sans", "weights": "400;600;700", "note": "미국 정부 디자인 시스템 서체. 숫자와 표가 많은 페이지에 강하다. document 구조와 잘 맞는다" },
+      { "family": "Libre Franklin", "weights": "400;600;700", "note": "Franklin Gothic 계열. 신문·기사 톤. editorial-column 구조와 잘 맞는다" },
+      { "family": "Work Sans", "weights": "400;600;700", "note": "본문 크기에서 읽기 편하다. 무난한 기본값" },
+      { "family": "Figtree", "weights": "400;600;700", "note": "둥근 편이라 친근하다. 카페·베이커리·학원 쪽" },
+      { "family": "Mulish", "weights": "400;600;700", "note": "자간이 넓어 작은 글씨에서 버틴다. 각주·캡션·표 셀" }
+    ],
+    "caution": "디텍터의 overused-font 목록에는 없지만(2026-07 기준 확인) 다섯 다 흔한 서체다. Fontshare가 살아 있으면 그쪽을 먼저 쓴다. 이건 폴백이지 1순위가 아니다.",
+    "example": "<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&display=swap\">"
+  },
   "pairings": [
     {
       "lang": "ko",

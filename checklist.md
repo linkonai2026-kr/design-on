@@ -166,3 +166,41 @@
 - [x] slopcheck 0건, 대비 13.78:1, 서체 3종, 크기 6단계(40/13=3.08)
 - [x] 시각 테스트·스냅샷에 tax 추가
 - [x] 전체 테스트 21종 통과 (repository 7 + visual 14)
+
+---
+
+# v4.2 체크리스트 — 인스타 게시물 4건 검토
+
+출처. [@suraj.dsgn](https://www.instagram.com/suraj.dsgn/) 게시물 4건을 캐러셀 슬라이드까지 열어 확인했다.
+
+## 18. 넣은 것
+
+- [x] **Google Fonts 라틴 폴백 5종** — `data/fonts.json`의 `latinFallback`
+  - [x] 문제 확인 — 페어링 9종의 라틴 서체가 **전부 Fontshare 한 곳**에서 온다(단일 장애점)
+  - [x] 디텍터 `OVERUSED_FONTS` 집합에 5종 다 없는 것을 소스에서 확인
+  - [x] Google Fonts CSS 엔드포인트 5개 전부 200 응답 확인
+  - [x] `pick.mjs fonts` 결과에 포함, 출력 약 1,000토큰 유지
+  - [x] "폴백이지 1순위 아님 / 본문·UI 전용" 명시 — 제목에 쓰면 밋밋해진다
+  - [x] PLAYBOOK 2-5에 표로 배선
+- [x] **무료 목업 사이트 5곳** — 상품 사진의 구멍
+  - [x] PLAYBOOK STEP 8-3에 안내 목록 신설
+  - [x] `agents/design-on-photographer.md`에 C-3-1 신설 — "상품 사진은 스톡으로 안 된다"
+  - [x] 에이전트가 대신 못 만든다는 점 명시(PSD 합성). animos.app과 같은 수동 자료 취급
+- [x] **`tools.json` 갱신** — 신규 11개 추가(894개), 재등장 3개 `seen` 증가
+  - [x] URL 11개 전부 200 응답 확인
+  - [x] 기존 중복 4건 사전 확인(UX Pilot·LS Graphics·Mr.Mockup·Unblast)
+
+## 19. 넣지 않은 것
+
+- [x] **A/B 테스트 5종** — `tools.json`에만. PLAYBOOK 어디에도 배선하지 않음
+  - 트래픽·서버·분석 파이프라인이 있어야 성립한다. 월 방문자 서른 명인 동네 가게 페이지에서는 통계적으로 무의미하다
+  - GrowthBook이 오픈소스라는 사실도 판단을 바꾸지 않는다
+  - Unrevealed만 출시 전 검증이라 트래픽이 필요 없지만, 자동으로 부를 일은 아니다
+- [x] **페이지 생성 AI 3종**(PageAI·Pen.dev·UX Pilot) — design-on과 목적이 겹치는 경쟁 도구. 디렉터리 기록만
+
+## 20. 검증
+
+- [x] `data/fonts.json`·`data/tools.json` JSON 유효성
+- [x] 폴백 회귀 테스트 신설 — 3종 이상 / `avoid` 목록과 교차 검사 / `pick.mjs`가 실제로 반환하는지
+- [x] 테스트 8종 + 시각 14종 통과
+- [x] 커밋 · push

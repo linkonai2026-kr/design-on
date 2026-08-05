@@ -346,6 +346,22 @@ node {ROOT}/scripts/pick.mjs fonts --industry 카페
 
 **남용 서체를 피하는 것이 목적이다.** 디텍터는 `Inter`·`Roboto`·`Montserrat`·`Geist`·`Plus Jakarta Sans`·`Space Grotesk` 등을 `overused-font`로 잡는다. Fontshare에도 `Plus Jakarta Sans`·`Montserrat`·`Poppins`가 있으니 **이 셋은 고르지 마라.** 조회 결과의 `avoid` 항목에 전체 목록이 있다.
 
+#### 라틴 서체가 Fontshare 한 곳에 걸려 있다
+
+**이건 알고 써야 할 약점이다.** 페어링 9종의 라틴 서체가 전부 `api.fontshare.com`에서 온다. 그쪽이 느리거나 막히면 **페이지의 숫자·영문이 통째로 기본 서체로 떨어진다.** 한글은 Pretendard(jsDelivr)라 살아남는데 가격표와 전화번호만 무너지니 오히려 더 눈에 띈다.
+
+조회 결과의 `latinFallback`에 Google Fonts 다섯 개가 같이 온다. Google Fonts는 국내 포함 도달성이 가장 좋다.
+
+| 서체 | 어디에 |
+|---|---|
+| Public Sans | 숫자와 표가 많은 페이지. `document` 구조 |
+| Libre Franklin | 신문·기사 톤. `editorial-column` 구조 |
+| Work Sans | 무난한 기본값 |
+| Figtree | 둥근 편이라 친근하다. 카페·베이커리·학원 |
+| Mulish | 자간이 넓어 작은 글씨에서 버틴다. 각주·캡션·표 |
+
+**폴백이지 1순위가 아니다.** Fontshare가 살아 있으면 그쪽을 쓴다. 그리고 이 다섯은 **본문·UI 전용이다.** 전부 무난한 워크호스라 개성이 없다. 제목에까지 쓰면 그냥 밋밋한 페이지가 된다. 개성은 `display` 서체에서 낸다.
+
 영문 전용 페이지면 `--lang en`으로 조회한다. 그때는 본문까지 Fontshare로 간다.
 
 ### 2-5-1. 한국어 조판 필수 규칙
@@ -993,6 +1009,24 @@ grep -rn "031-000-0000" site/
 ```bash
 curl -s -o /dev/null -w "%{http_code}" "https://images.unsplash.com/photo-XXXX?w=1600"
 ```
+
+#### 상품 사진이 없다고 할 때
+
+**스톡으로 못 메우는 유일한 구멍이다.** "우리 로고가 박힌 컵", "우리 제품 패키지"는 Unsplash에 없고 AI로 만들면 로고가 뭉개진다. 쇼핑몰·공방·브랜드 페이지에서 실제로 자주 막힌다.
+
+이럴 때는 **무료 목업 사이트를 안내한다.** 사용자가 자기 로고나 제품 이미지를 얹어 내려받으면 된다.
+
+| 사이트 | 무엇이 |
+|---|---|
+| [Mockup World](https://www.mockupworld.co/) | 가장 넓다. 기기·패키지·의류·인쇄물 전반 |
+| [Mr.Mockup](https://mrmockup.com/) | 브랜딩·문구류·패키지·편집물 PSD |
+| [LS Graphics](https://www.ls.graphics/free-mockups) | 기기 목업이 특히 깔끔하다 |
+| [Mockups Design](https://mockups-design.com/) | 등록 없이 바로 받는다 |
+| [Unblast](https://unblast.com/) | 목업 외에 아이콘·템플릿도 같이 있다 |
+
+**에이전트가 대신 만들어 줄 수 없다.** PSD를 열어 합성하는 작업이라 브라우저·포토샵이 필요하다. animos.app과 같은 취급이다 — **사용자가 직접 만드는 수동 자료로만 안내하고, 받은 파일을 `site/assets/`에 넣어 `<img src>`를 교체해 준다.**
+
+목업도 어렵다고 하면 붙잡지 말고 **d(사진 빼기)로 넘어가라.** 어설픈 상품 사진보다 타이포 주도가 낫다.
 
 ### 8-4. 방향 재설정 (8-1에서 C를 골랐을 때만, 1회)
 

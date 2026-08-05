@@ -131,9 +131,49 @@ design-on 규칙(실사·3D 렌더 금지·첨부 이미지 의존 금지)으로
 
 ---
 
+### Google Fonts — 라틴 폴백 5종
+
+| | |
+|---|---|
+| 출처 | [Google Fonts](https://fonts.google.com/) (전부 OFL, 상업 사용 무료) |
+| 넣은 것 | `data/fonts.json`의 `latinFallback` — Public Sans · Libre Franklin · Work Sans · Figtree · Mulish |
+
+**왜 넣었나.** 페어링 9종의 라틴 서체가 **전부 Fontshare 한 곳**에서 온다(Gambetta·Sentient·Switzer·Clash Display·Chillax·Boska·Cabinet Grotesk·General Sans·Satoshi). `api.fontshare.com`이 느리거나 막히면 페이지의 숫자·영문이 통째로 기본 서체로 떨어진다. 한글은 Pretendard(jsDelivr)라 살아남기 때문에 **가격표와 전화번호만 무너져서 오히려 더 눈에 띈다.** 단일 장애점이었다.
+
+Google Fonts는 국내를 포함해 도달성이 가장 좋은 폰트 CDN이다. 다섯 다 디텍터의 `OVERUSED_FONTS` 집합에 없는 것을 소스에서 직접 확인했고(`vendor/impeccable/scripts/detector/detect-antipatterns-browser.js` 37행), CSS 엔드포인트가 200으로 응답하는 것도 확인했다.
+
+**폴백이지 1순위가 아니다.** 그리고 본문·UI 전용이다. 다섯 다 무난한 워크호스 산세리프라 개성이 없어서, 제목에까지 쓰면 밋밋한 페이지가 된다. 개성은 `display` 서체에서 낸다.
+
+### 무료 목업 사이트 — 상품 사진의 구멍을 메운다
+
+| | |
+|---|---|
+| 넣은 것 | PLAYBOOK STEP 8-3 안내 목록 + `data/tools.json` 항목 |
+| 사이트 | [Mockup World](https://www.mockupworld.co/) · [Mr.Mockup](https://mrmockup.com/) · [LS Graphics](https://www.ls.graphics/free-mockups) · [Mockups Design](https://mockups-design.com/) · [Unblast](https://unblast.com/) |
+
+**왜 넣었나.** 스톡으로 못 메우는 유일한 구멍이다. "우리 로고가 박힌 컵", "우리 제품 패키지"는 Unsplash에 없고 AI로 만들면 로고가 뭉개진다. 쇼핑몰·공방·브랜드 페이지에서 실제로 자주 막힌다.
+
+**에이전트가 대신 만들지는 않는다.** PSD를 열어 합성하는 작업이라 브라우저·포토샵이 필요하다. animos.app과 같은 취급으로, **사용자가 직접 만드는 수동 자료로만** 안내하고 받은 파일을 `site/assets/`에 넣어 준다.
+
+---
+
 ## 검토했지만 넣지 않은 것
 
 넣어달라는 요청을 받았지만, 실제로 열어보고 design-on과 맞지 않아 제외한 것들이다.
+
+### A/B 테스트 도구 — 흐름에는 넣지 않았다
+
+LaunchDarkly · GrowthBook · Statsig · Coframe · Unrevealed를 확인했다. **`data/tools.json`에는 넣었지만 PLAYBOOK 어느 단계에도 배선하지 않았다.**
+
+A/B 테스트는 **트래픽과 서버와 분석 파이프라인이 있어야 성립한다.** design-on의 결과물은 더블클릭하면 열리는 정적 페이지고, 쓰는 사람은 동네 카페와 세무사무소다. 한 달 방문자가 서른 명인 페이지에서 전환율 실험을 돌리는 것은 통계적으로 의미가 없다. GrowthBook이 오픈소스라는 사실도 이 판단을 바꾸지 않는다.
+
+다섯 중 **Unrevealed만 예외적으로 트래픽 없이 쓸 수 있다**(출시 전 AI 가상 고객으로 메시지를 검증한다). 그래도 design-on이 자동으로 부를 일은 아니라 디렉터리 데이터로만 뒀다.
+
+`tools.json`은 883개짜리 **디자인 툴 디렉터리**다. 여기 있다는 것이 design-on이 그걸 쓴다는 뜻은 아니다.
+
+### 페이지 생성 AI 도구 — 경쟁 도구라 참고만 한다
+
+PageAI · Pen.dev · UX Pilot은 **design-on과 목적이 겹친다.** 프롬프트에서 랜딩페이지나 UI를 뽑는 도구다. 하위 부품으로 쓸 것이 아니라 비교 대상이라 `tools.json`에만 기록했다. Codia AI(스크린샷·PDF→Figma·코드)와 Mockdown(기기 목업)은 겹치지 않아 그대로 디렉터리에 넣었다.
 
 ### Finn-loop
 

@@ -160,7 +160,13 @@ function fonts() {
   if (opt.lang) list = list.filter((f) => f.lang === opt.lang);
   if (q) list = list.filter((f) => has(f.mood, q) || has(f.display, q) || (f.industry ?? []).some((i) => has(i, q)));
   if (!list.length) list = all.pairings.filter((f) => f.lang === (opt.lang ?? 'ko'));
-  return { pairings: list.slice(0, limit), howToLoad: all.howToLoad, avoid: all.avoid };
+  return {
+    pairings: list.slice(0, limit),
+    howToLoad: all.howToLoad,
+    avoid: all.avoid,
+    // 라틴 서체가 전부 Fontshare 한 곳에서 온다. 막히면 숫자·영문이 통째로 무너지므로 폴백을 같이 준다.
+    latinFallback: all.latinFallback,
+  };
 }
 
 // --- photo ------------------------------------------------------------------
