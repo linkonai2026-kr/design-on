@@ -144,6 +144,23 @@ Google Fonts는 국내를 포함해 도달성이 가장 좋은 폰트 CDN이다.
 
 **폴백이지 1순위가 아니다.** 그리고 본문·UI 전용이다. 다섯 다 무난한 워크호스 산세리프라 개성이 없어서, 제목에까지 쓰면 밋밋한 페이지가 된다. 개성은 `display` 서체에서 낸다.
 
+### Vibrant Color 팔레트 5세트 — 그리고 덕분에 찾은 버그
+
+| | |
+|---|---|
+| 넣은 것 | `data/palettes.json` 5세트 (총 83세트) |
+| 세트 | Chartreuse/Vibrant Orange · Maroon/Deep Teal · Aqua/Deep Indigo · Chartreuse/Dark Burgundy · Crimson/Ocean Blue |
+
+**넣기 전에 design-on 기준으로 직접 계산했다.** 역할 배정(bg·surface·ink·accent·muted)과 대비를 돌려 보니 다섯 중 넷만 본문 대비 4.5:1을 넘겼다. Crimson/Ocean Blue는 4.12:1로 미달이다.
+
+그래도 다섯 다 넣었다. **기존 68세트 중 17세트(25%)가 이미 같은 기준에서 미달**이기 때문이다. `palettes.json`은 검증된 목록이 아니라 후보 풀이고, 랭킹과 경고는 `pick.mjs`가 한다. 여기서 새 것만 엄격하게 걸면 기준이 일관되지 않는다. 대신 각 세트의 `note`에 실측값과 주의사항을 적었다.
+
+**진짜 수확은 그 과정에서 찾은 버그다.** `pick.mjs`의 `warn`이 `muted`가 없을 때와 `accent`가 4.5:1 미만일 때만 경고하고, **정작 제일 중요한 본문/배경 대비가 미달일 때는 아무 말도 하지 않았다.** DB의 17세트가 조용히 통과하고 있었다. PLAYBOOK 0-1-1은 "대비 계산까지 끝내서 돌려주므로 STEP 2에서 다시 계산할 필요가 없다"고 약속하는데, 그 약속이 제일 중요한 항목에서 깨져 있었다.
+
+경고를 추가하고 회귀 테스트로 고정했다.
+
+**인스타그램에서 예뻐 보이는 배색은 큰 색면 네 개로 볼 때 예쁜 것이지 17px 본문을 얹으라고 만든 게 아니다.** 이 다섯 세트가 그 차이를 잘 보여준다.
+
 ### 무료 목업 사이트 — 상품 사진의 구멍을 메운다
 
 | | |
@@ -169,7 +186,7 @@ A/B 테스트는 **트래픽과 서버와 분석 파이프라인이 있어야 �
 
 다섯 중 **Unrevealed만 예외적으로 트래픽 없이 쓸 수 있다**(출시 전 AI 가상 고객으로 메시지를 검증한다). 그래도 design-on이 자동으로 부를 일은 아니라 디렉터리 데이터로만 뒀다.
 
-`tools.json`은 883개짜리 **디자인 툴 디렉터리**다. 여기 있다는 것이 design-on이 그걸 쓴다는 뜻은 아니다.
+`tools.json`은 894개짜리 **디자인 툴 디렉터리**다. 여기 있다는 것이 design-on이 그걸 쓴다는 뜻은 아니다.
 
 ### 페이지 생성 AI 도구 — 경쟁 도구라 참고만 한다
 
@@ -203,7 +220,7 @@ Astryx는 **하나의 제품을 일관되게** 만들기 위한 시스템이다.
 
 design-on의 목표는 정확히 그 반대다. **매번 다르게 보여야 한다.** 카페와 도자기 공방과 쇼핑몰이 같은 버튼, 같은 여백, 같은 모서리를 쓰면 그게 바로 "AI가 만든 티"다. design-on이 안티패턴 디텍터까지 붙여서 잡으려는 게 그것이다. Astryx 컴포넌트를 깔면 **모든 결과물이 Astryx처럼 생기게 된다.** 슬롭을 잡으려고 만든 도구에 슬롭 발생기를 다는 셈이다.
 
-기술적으로 확인한 사실도 함께 남긴다. `@astryxdesign/core` 0.1.9의 exports는 2,474개 파일 전부 `dist/*.js`와 `*.d.ts`였고 독립 CSS가 없다. 토큰은 CSS 커스텀 프로퍼티로 나오지만 테마 CSS를 글로벌 스타일시트에 import해야 하고, 컴포넌트는 React 없이는 못 쓴다. 테마 7종(neutral·butter·chocolate·gothic·matcha·stone·y2k)이 있는데, 이건 design-on의 `data/palettes.json` 78세트가 이미 더 넓게 커버한다.
+기술적으로 확인한 사실도 함께 남긴다. `@astryxdesign/core` 0.1.9의 exports는 2,474개 파일 전부 `dist/*.js`와 `*.d.ts`였고 독립 CSS가 없다. 토큰은 CSS 커스텀 프로퍼티로 나오지만 테마 CSS를 글로벌 스타일시트에 import해야 하고, 컴포넌트는 React 없이는 못 쓴다. 테마 7종(neutral·butter·chocolate·gothic·matcha·stone·y2k)이 있는데, 이건 design-on의 `data/palettes.json` 83세트가 이미 더 넓게 커버한다.
 
 **React 앱을 팀으로 굴리는 프로젝트라면 Astryx는 좋은 선택이다.** design-on과 목적이 다를 뿐이다. design-on이 React로 갈 때도 UI 라이브러리는 깔지 않고 팔레트·서체로 직접 CSS를 쓴다(PLAYBOOK STEP 4 React 규칙 1번).
 
@@ -248,7 +265,7 @@ https://animos.app/editor 는 템플릿에 사진을 넣어 MP4/WebM을 만드�
 
 ## 데이터 출처
 
-`data/tools.json`(883개)과 `data/palettes.json`(78세트)은 Instagram [@suraj.dsgn](https://www.instagram.com/suraj.dsgn/)의 공개 게시물 325개를 분석해 추출한 것이다. 툴 이름, 공식 URL, 카테고리, 색상 HEX 값 같은 **사실 정보**만 담았다.
+`data/tools.json`(894개)과 `data/palettes.json`(83세트)은 Instagram [@suraj.dsgn](https://www.instagram.com/suraj.dsgn/)의 공개 게시물 325개를 분석해 추출한 것이다. 툴 이름, 공식 URL, 카테고리, 색상 HEX 값 같은 **사실 정보**만 담았다.
 
 ---
 

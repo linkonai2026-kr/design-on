@@ -121,6 +121,11 @@ function palettes() {
         'muted/bg': muted ? contrast(muted, bg) : null,
       },
       warn: [
+        // 본문/배경 대비가 제일 중요한데 예전에는 이걸 경고하지 않았다.
+        // DB 68세트 중 17세트가 여기서 미달인데 조용히 통과시키고 있었다.
+        contrast(ink, bg) < 4.5
+          ? `본문 대비가 ${contrast(ink, bg)}:1로 4.5:1에 못 미친다. ink를 더 어둡게 만들어 쓰거나 다른 팔레트를 골라라. 그대로 쓰면 low-contrast로 잡힌다.`
+          : null,
         muted ? null : 'muted 후보가 4.5:1을 못 넘는다. ink를 20~30% 밝힌 색을 직접 만들어라.',
         contrast(accent, bg) < 4.5 ? 'accent가 4.5:1 미만이다. 버튼 배경으로 쓰지 말고 ink 배경을 써라.' : null,
       ].filter(Boolean),

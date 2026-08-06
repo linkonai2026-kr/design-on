@@ -87,10 +87,10 @@ npm ci --prefix vendor/impeccable
 
 ```bash
 node scripts/pick.mjs layouts  --asset "공간·분위기가 자산"   # 구조 10종
-node scripts/pick.mjs palettes --hue 보라 --industry 카페     # 팔레트 78세트
+node scripts/pick.mjs palettes --hue 보라 --industry 카페     # 팔레트 83세트
 node scripts/pick.mjs fonts    --industry 카페                # 서체 페어링 9종
 node scripts/pick.mjs photo    --industry 카페                # 사진 프롬프트 레시피
-node scripts/pick.mjs tools    --section 색상                 # 디자인 툴 883개
+node scripts/pick.mjs tools    --section 색상                 # 디자인 툴 894개
 ```
 
 | 경로 | 내용 |

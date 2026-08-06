@@ -54,10 +54,10 @@ design-on은 아래를 **저장소 안에 이미 갖고 있다.** 설치를 기�
 |---|---|---|
 | `{ROOT}/scripts/pick.mjs` | **데이터 조회 CLI. JSON을 통째로 읽지 말고 이걸 써라** | STEP 1·2·3 |
 | `{ROOT}/data/layouts.json` | **페이지 구조 아키텍처 10종. 전부 다르게 생겼다** | `pick layouts`로 조회 |
-| `{ROOT}/data/palettes.json` | 컬러 팔레트 78세트 | `pick palettes`로 조회 |
+| `{ROOT}/data/palettes.json` | 컬러 팔레트 83세트 | `pick palettes`로 조회 |
 | `{ROOT}/data/fonts.json` | 서체 페어링 9종 (Pretendard + 한글 제목 + Fontshare 라틴) | `pick fonts`로 조회 |
 | `{ROOT}/data/photo-recipes.json` | 업종별 사진 프롬프트 레시피 7종 | `pick photo`로 조회 |
-| `{ROOT}/data/tools.json` | 디자인 툴·사이트 883개 | `pick tools`로 조회 |
+| `{ROOT}/data/tools.json` | 디자인 툴·사이트 894개 | `pick tools`로 조회 |
 | `{ROOT}/vendor/impeccable/reference/craft-floor.md` | 품질 하한선, 절대 금지 | STEP 4, STEP 5 |
 | `{ROOT}/vendor/impeccable/reference/*.md` | 25종 레퍼런스 (new-work, typeset, layout, animate, clarify, colorize, audit, critique …) | 필요할 때 |
 | `{ROOT}/vendor/taste-skill/skills/taste-skill/SKILL.md` | 브리프 추론, 3다이얼, 디자인시스템 매핑 | STEP 2 |
@@ -176,9 +176,12 @@ node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --limit 3
 - `warn` — 비어 있지 않으면 반드시 반영한다
 
 ```
+warn: ["본문 대비가 4.12:1로 4.5:1에 못 미친다. ink를 더 어둡게 만들어 쓰거나 다른 팔레트를 골라라."]
 warn: ["muted 후보가 4.5:1을 못 넘는다. ink를 20~30% 밝힌 색을 직접 만들어라."]
 warn: ["accent가 4.5:1 미만이다. 버튼 배경으로 쓰지 말고 ink 배경을 써라."]
 ```
+
+**첫 번째 경고가 제일 무겁다.** 본문이 안 읽히는 팔레트는 다른 게 아무리 예뻐도 못 쓴다. **DB 83세트 중 17세트가 여기서 미달이다.** 인스타그램에서 예뻐 보이는 배색은 큰 색면 네 개로 볼 때 예쁜 것이지 17px 본문을 얹으라고 만든 게 아니다. 경고가 뜨면 ink를 직접 어둡게 만들거나 다음 후보로 넘어가라.
 
 랭킹은 **색 일치 > 업종 일치 > 명도 폭** 순이다. 업종은 필터가 아니라 가산점이라, "보라 + 카페"처럼 교집합이 없어도 0건이 나오지 않는다.
 

@@ -137,6 +137,36 @@ test('레이아웃 아키텍처가 서로 실제로 다른 치수를 갖는다',
   }
 });
 
+test('본문 대비가 미달인 팔레트는 경고를 낸다', () => {
+  // DB 83세트 중 17세트가 본문 대비 4.5:1을 못 넘는데, 예전에는 조용히 통과시켰다.
+  // 팔레트에서 제일 중요한 수치라 경고가 빠지면 low-contrast가 그대로 빌드로 넘어간다.
+  const bad = JSON.parse(execFileSync(
+    process.execPath,
+    ['scripts/pick.mjs', 'palettes', '--q', 'Crimson/Ocean', '--limit', '1'],
+    { cwd: root, encoding: 'utf8' }
+  ))[0];
+
+  assert.ok(bad, 'Crimson/Ocean Blue 팔레트를 못 찾았다.');
+  assert.ok(bad.contrast['ink/bg'] < 4.5, '이 팔레트는 대비 미달이어야 경고를 검증할 수 있다.');
+  assert.ok(
+    bad.warn.some((w) => w.includes('본문 대비')),
+    `본문 대비 미달인데 경고가 없다: ${JSON.stringify(bad.warn)}`
+  );
+
+  // 통과하는 팔레트에는 그 경고가 붙으면 안 된다.
+  const good = JSON.parse(execFileSync(
+    process.execPath,
+    ['scripts/pick.mjs', 'palettes', '--hue', '보라', '--industry', '카페', '--limit', '1'],
+    { cwd: root, encoding: 'utf8' }
+  ))[0];
+  if (good.contrast['ink/bg'] >= 4.5) {
+    assert.ok(
+      !good.warn.some((w) => w.includes('본문 대비')),
+      '대비가 충분한데 경고가 붙었다.'
+    );
+  }
+});
+
 test('라틴 서체 폴백이 데이터와 조회 결과에 함께 있다', () => {
   const fonts = JSON.parse(readFileSync(path.join(root, 'data', 'fonts.json'), 'utf8'));
   const fallback = fonts.latinFallback;
