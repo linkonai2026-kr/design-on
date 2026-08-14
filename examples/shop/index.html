@@ -43,19 +43,38 @@ img{max-width:100%;height:auto;display:block}
 a{color:var(--accent);text-underline-offset:3px}
 .wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
 .display{font-family:'Black Han Sans',sans-serif;font-weight:400;letter-spacing:-0.02em}
-.small{font-size:13px;line-height:1.6}
+.small{font-size:12px;line-height:1.6}
+
+/* 시그니처 이징 — 모든 전환 */
+a,button,.good-media img,.cart,.btn,.good-btn{transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s cubic-bezier(.16,1,.3,1),background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1)}
+
+/* 스크롤 리빌 */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* 스테거 */
+.stagger>*{opacity:0;transform:translateY(20px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i)*70ms)}
+.stagger.in>*{opacity:1;transform:none}
 
 /* 헤더 */
 .site-head{border-bottom:1px solid var(--line);background:var(--bg)}
 .head-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;padding-top:16px;padding-bottom:16px}
 .brand{font-family:'Black Han Sans',sans-serif;font-size:24px;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;line-height:1.2}
 .brand span{color:var(--accent)}
-.site-nav{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;font-weight:600;margin-left:auto}
+.site-nav{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12px;font-weight:600;margin-left:auto}
 .site-nav a{color:var(--muted);text-decoration:none;padding-top:4px;padding-bottom:4px}
 .site-nav a:hover{color:var(--accent);text-decoration:underline}
 .site-nav a.on{color:var(--ink)}
-.cart{font-size:13px;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--ink);border-radius:2px;padding:6px 12px;white-space:nowrap}
+.cart{font-size:12px;font-weight:700;color:var(--ink);text-decoration:none;border:1px solid var(--ink);border-radius:2px;padding:6px 12px;white-space:nowrap}
 .cart:hover{background:var(--ink);color:var(--on-ink)}
+.nav-toggle{display:none;border:1px solid var(--ink);background:none;color:var(--ink);font-size:20px;line-height:1;padding:4px 10px;border-radius:2px;cursor:pointer}
+@media(max-width:767px){
+  .site-nav{position:fixed;inset:0;margin:0;display:grid;place-content:center;gap:4px;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.16,1,.3,1);z-index:40}
+  .site-nav.open{opacity:1;pointer-events:auto}
+  .site-nav a{font-size:1.4rem;padding:12px 0;text-align:center;color:var(--ink)}
+  .nav-toggle{display:inline-flex}
+  .nav-toggle[aria-expanded="true"]{position:fixed;top:16px;right:16px;z-index:50}
+}
 
 /* 히어로 */
 .hero{padding-top:44px;padding-bottom:56px;min-height:78vh;display:flex;align-items:center}
@@ -190,6 +209,7 @@ td.pick{font-weight:800;color:var(--accent)}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
   .good-btn{opacity:1!important;transform:none!important}
+  .reveal,.stagger>*{opacity:1!important;transform:none!important}
 }
 </style>
 </head>
@@ -198,7 +218,7 @@ td.pick{font-weight:800;color:var(--accent)}
 <header class="site-head">
   <div class="wrap head-row">
     <a class="brand" href="#">포트<span>나인</span></a>
-    <nav class="site-nav" aria-label="상품 분류">
+    <nav class="site-nav" id="sitenav" aria-label="상품 분류">
       <a class="on" href="#goods">기획전</a>
       <a href="#goods">이어폰</a>
       <a href="#goods">케이블·충전</a>
@@ -206,6 +226,7 @@ td.pick{font-weight:800;color:var(--accent)}
       <a href="#goods">데스크</a>
       <a href="#faq">배송·교환</a>
     </nav>
+    <button class="nav-toggle" id="navtoggle" aria-expanded="false" aria-label="메뉴 열기">≡</button>
     <a class="cart" href="#">장바구니 0</a>
   </div>
 </header>
@@ -214,7 +235,7 @@ td.pick{font-weight:800;color:var(--accent)}
 
   <section class="hero">
     <div class="wrap hero-grid">
-      <div>
+      <div class="reveal in">
         <h1 class="display">8월 11일까지 데스크 정리 <em>기획전</em></h1>
         <p class="hero-lead">USB&#8209;C 케이블과 충전기를 최대 40% 내렸습니다. 책상 밑에 엉킨 선을 이번에 정리하시라고 재고를 다 풀었습니다.</p>
         <p class="hero-note">3만 원 넘게 사면 배송비는 저희가 냅니다. 평일 오후 2시 전 주문은 그날 나갑니다.</p>
@@ -223,7 +244,7 @@ td.pick{font-weight:800;color:var(--accent)}
           <a class="textlink" href="#compare">이어버드 3종 비교표</a>
         </div>
       </div>
-      <div class="hero-media">
+      <div class="hero-media reveal in">
         <img src="https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=1400&q=80&fm=jpg&fit=crop"
              alt="밝은 책상 위에 모니터와 기계식 키보드, 마우스와 스피커가 선 정리된 상태로 놓여 있다" width="1400" height="1050">
         <p class="hero-tag">8월 11일 자정 마감</p>
@@ -242,12 +263,12 @@ td.pick{font-weight:800;color:var(--accent)}
 
   <section id="goods">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head reveal">
         <h2 class="display">이번 주 많이 나간 순서</h2>
         <p>지난주 월요일부터 일요일까지 팔린 수량으로 줄을 세웠습니다. 재고가 열 개 밑으로 떨어지면 표시가 붙습니다.</p>
       </div>
 
-      <div class="goods">
+      <div class="goods stagger" id="goodsgrid">
 
         <article class="good">
           <div class="good-media">
@@ -345,11 +366,11 @@ td.pick{font-weight:800;color:var(--accent)}
 
   <section id="compare" class="compare">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head reveal">
         <h2 class="display">이어버드 셋 중에 뭘 살까</h2>
         <p>세 모델 다 USB&#8209;C로 충전합니다. 노이즈 캔슬링이 필요하면 C1, 밖에서 소리를 들어야 하면 A2입니다.</p>
       </div>
-      <div class="table-scroll">
+      <div class="table-scroll reveal">
         <table>
           <caption>2026년 7월 29일 기준 판매가입니다. 재생 시간은 볼륨 50%에서 잰 값입니다.</caption>
           <thead>
@@ -375,7 +396,7 @@ td.pick{font-weight:800;color:var(--accent)}
 
   <section class="band">
     <div class="wrap band-grid">
-      <div>
+      <div class="reveal">
         <h2 class="display">쓰다 망가지면 <span class="keep">12개월</span> 안에 바꿔 드립니다</h2>
         <p>포트나인은 2019년에 창고 한 칸에서 케이블을 팔며 시작했습니다. 지금은 성수동 사무실에서 여덟 명이 일합니다.</p>
         <p>파는 물건은 저희가 먼저 6개월씩 씁니다. 케이블은 매일 가방에 넣고 다니며 꺾어 보고, 이어버드는 출퇴근길에 씁니다. 쓰다가 못 쓰겠다 싶은 물건은 올리지 않습니다. 지난해에는 스물세 개를 검토해서 아홉 개만 올렸습니다.</p>
@@ -390,7 +411,7 @@ td.pick{font-weight:800;color:var(--accent)}
 
   <section class="join">
     <div class="wrap join-grid">
-      <div>
+      <div class="reveal">
         <h2 class="display">가입하면 첫 주문에서 5,000원 빠집니다</h2>
         <p>이메일만 넣으면 끝납니다. 주소나 전화번호는 주문할 때 받습니다.</p>
         <p>새 물건이 들어오는 날과 세일 시작일만 보냅니다. 한 달에 두 번 정도입니다.</p>
@@ -403,7 +424,7 @@ td.pick{font-weight:800;color:var(--accent)}
         </form>
         <p class="join-msg" id="join-msg" hidden>쿠폰을 보냈습니다. 메일함에서 확인하세요.</p>
       </div>
-      <div class="perk">
+      <div class="perk reveal">
         <h3>가입하면 생기는 것</h3>
         <ul>
           <li><b>첫 주문 5,000원 할인.</b> 최소 주문 금액 없이 씁니다.</li>
@@ -417,7 +438,7 @@ td.pick{font-weight:800;color:var(--accent)}
 
   <section id="faq" class="faq">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head reveal">
         <h2 class="display">주문하기 전에 많이 묻는 것</h2>
       </div>
       <dl>
@@ -474,6 +495,45 @@ td.pick{font-weight:800;color:var(--accent)}
 </footer>
 
 <script>
+// 프리미엄 모션: 스크롤 리빌 + 스테거. JS가 죽어도 내용은 보인다.
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  // scroll-reveal
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: .15 });
+  document.querySelectorAll('.reveal:not(.in)').forEach(function (el) { io.observe(el); });
+
+  // stagger — 상품 카드에 --i 세팅
+  var st = document.querySelector('.stagger');
+  if (st) {
+    st.querySelectorAll(':scope > *').forEach(function (el, i) { el.style.setProperty('--i', i); });
+    var so = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { st.classList.add('in'); so.disconnect(); } });
+    }, { threshold: .15 });
+    so.observe(st);
+  }
+})();
+
+// 모바일 풀스크린 메뉴
+(function () {
+  var btn = document.getElementById('navtoggle');
+  var nav = document.getElementById('sitenav');
+  if (!btn || !nav) return;
+  btn.addEventListener('click', function () {
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    btn.textContent = open ? '✕' : '≡';
+  });
+  nav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { nav.classList.remove('open'); btn.textContent = '≡'; });
+  });
+})();
+
 // 가입 폼은 예시입니다. 실제 전송은 붙어 있지 않습니다.
 document.getElementById('join').addEventListener('submit', function (e) {
   e.preventDefault();

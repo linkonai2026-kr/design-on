@@ -94,6 +94,28 @@ design-on의 `design-on-motion` 트랙이 이걸 참고 원본으로 읽는다.
 
 ---
 
+### ponytail — 과잉 설계를 막는 "게으른 시니어 개발자" 게이트
+
+| | |
+|---|---|
+| 만든 사람 | Dietrich Gebert ([@DietrichGebert](https://github.com/DietrichGebert)) |
+| 원본 | https://github.com/DietrichGebert/ponytail |
+| 라이선스 | **MIT** |
+| 담은 경로 | `vendor/ponytail/` |
+| 담은 것 | `AGENTS.md`(사다리), `skills/ponytail/`, `skills/ponytail-review/` |
+
+**포니테일의 정체를 정확히 이해하고 쓴다.** "게으른 시니어 개발자" 스킬로 **불필요한 코드를 짜지 않게** 한다 (YAGNI → 재사용 → stdlib → 네이티브 → 의존성 → 한 줄 → 최소 구현). "고급스럽게"가 아니라 "과하게 안 짜기"가 목적이며, design-on의 기존 철학(React 함부로 안 씀, 라이브러리 안 깔음, 네이티브로 최대한)과 정확히 일치한다.
+
+design-on의 프리미엄 모드(STEP 2-6-2)와 **정면으로 조화**시킨다. "고급스럽게 만들되, 과하게 짜서 AI 티가 나지 않게" 하는 게이트가 이것이다.
+
+- **사다리** — `AGENTS.md`: 이 모션이 JS 없이 CSS로 되나? `scroll-snap`·`backdrop-filter`·`<dialog>` 같은 네이티브로 되나?
+- **모티프 검증** — `data/premium.json`의 각 모티프에 `ponytail` 필드: "이 모티프를 쓰지 않아도 되는 조건"
+- **리뷰** — `skills/ponytail-review/`: 빌드된 `site/`에서 불필요한 의존성·중복 코드·과잉 컴포넌트를 찾아 제거 (STEP 5 검수에 배선)
+
+> 원본은 Claude Code·Codex 플러그인, MCP, 수십 개 에이전트 어댑터를 갖춘 대형 저장소다. design-on은 그중 **사다리 규칙과 스킬 페이로드만** 담는다. lifecycle 훅·명령(`/ponytail`)은 쓰지 않는다 — design-on은 명령 대신 PLAYBOOK이 사다리를 적용한다.
+
+---
+
 ### Fontshare — 라틴 디스플레이 서체
 
 | | |

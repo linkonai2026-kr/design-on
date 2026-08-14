@@ -1,4 +1,4 @@
-<!-- 카페 브랜드 소개 페이지. 팔레트: Orchid/Amethyst. 서체: Nanum Myeongjo + Pretendard + Gambetta(숫자) -->
+<!-- 카페 브랜드 소개 페이지(프리미엄 모드). 팔레트: Champagne/Coffee. 서체: Gowun Batang + Pretendard + Switzer. 모티프: scroll-reveal + stagger + floating-nav + pill-cta + apple-hero + parallax -->
 <!doctype html>
 <html lang="ko">
 <head>
@@ -9,19 +9,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap">
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=gambetta@400,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
 <style>
 :root{
-  --bg:#FBF1FF;
-  --surface:#E3D0EA;
-  --ink:#3A1C36;
-  --accent:#9B71B2;
-  --muted:#6B4A63;      /* ink를 밝혀 직접 만든 값. 팔레트 원본은 4.5:1을 못 넘겼다 */
-  --line:#CDB6D6;
-  --serif:"Nanum Myeongjo",serif;
+  --bg:#F5E8D0;
+  --surface:#EBD9B8;
+  --ink:#2E1A0E;
+  --accent:#85431E;
+  --muted:#6B5340;
+  --line:#DCC9A8;
+  --serif:"Gowun Batang",serif;
   --sans:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;
-  --num:"Gambetta",var(--serif);   /* 숫자와 영문 표기 전용 */
+  --num:"Switzer",var(--sans);
   --pad:20px;
 }
 *{box-sizing:border-box}
@@ -32,246 +32,242 @@ body{
   font-variant-numeric:tabular-nums;
   word-break:keep-all;overflow-wrap:break-word;
 }
-.wrap{max-width:1180px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
 h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.35;text-wrap:balance;margin:0}
 p{text-wrap:pretty;margin:0}
 a{color:inherit}
 .num{font-family:var(--num);font-weight:500;letter-spacing:.01em}
+.wrap{max-width:1180px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+section{padding-top:clamp(64px,9vw,120px);padding-bottom:clamp(64px,9vw,120px)}
 
-/* ── 헤더 ─────────────────────────────── */
-.site-head{padding-top:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
-.site-head .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
-.mark{font-family:var(--serif);font-size:17px;font-weight:800;letter-spacing:.06em;text-decoration:none}
-.site-head nav{display:flex;gap:18px;font-size:13px;color:var(--muted)}
-.site-head nav a{text-decoration:none;padding-bottom:2px;border-bottom:1px solid transparent;transition:border-color 180ms cubic-bezier(.2,0,0,1)}
-.site-head nav a:hover,.site-head nav a:focus-visible{border-bottom-color:var(--accent)}
+/* ── 시그니처 이징 (모든 전환) ── */
+a,button,.card,.nav a,.cta,.day{transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s cubic-bezier(.16,1,.3,1),background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1)}
 
-/* ── 지금 문 열었는지 (실시간) ────────── */
-.status{
-  display:inline-flex;align-items:baseline;gap:9px;
-  font-size:13px;color:var(--muted);
-  border:1px solid var(--line);padding:7px 13px;border-radius:2px;
+/* ── 플로팅 글래스 내비 ── */
+.nav-wrap{position:sticky;top:14px;z-index:50;display:flex;justify-content:center;padding:0 16px;margin-top:14px}
+.nav{display:flex;gap:4px;align-items:center;padding:6px;border-radius:999px;background:rgba(245,232,208,.85);backdrop-filter:blur(14px);border:1px solid var(--line)}
+.nav .mark{font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:.04em;padding:8px 16px;text-decoration:none;border-radius:999px}
+.nav .links{display:flex;gap:2px}
+.nav .links a{padding:8px 14px;border-radius:999px;font-size:12px;text-decoration:none;color:var(--muted)}
+.nav .links a:hover{color:var(--ink)}
+.nav .links a[aria-current]{background:var(--ink);color:var(--bg)}
+.nav-toggle{display:none;border:none;background:none;padding:8px 12px;border-radius:999px;cursor:pointer;color:var(--ink);font-size:18px}
+@media(max-width:767px){
+  .nav .links{position:fixed;inset:0;display:grid;place-content:center;gap:6px;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.16,1,.3,1)}
+  .nav .links.open{opacity:1;pointer-events:auto}
+  .nav .links a{font-size:1.6rem;padding:12px 0;text-align:center;border-radius:0;color:var(--ink)}
+  .nav-toggle{display:inline-flex}
 }
-.status .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none;align-self:center}
+
+/* ── 스크롤 리빌 ── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ── 스테거 ── */
+.stagger>*{opacity:0;transform:translateY(20px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i)*70ms)}
+.stagger.in>*{opacity:1;transform:none}
+
+/* ── 애플식 히어로 ── */
+.hero{min-height:88dvh;display:grid;place-content:center;text-align:center;padding-top:clamp(64px,10vw,120px);padding-bottom:clamp(48px,8vw,96px);overflow:hidden;position:relative}
+.hero .bg{
+  position:absolute;inset:0;z-index:-1;
+  background-image:url('https://images.unsplash.com/photo-1503240778100-fd245e17a273?w=1600&q=80&fm=jpg&fit=crop');
+  background-size:cover;background-position:center;
+  will-change:transform;
+}
+.hero .bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(244,239,230,.92),rgba(244,239,230,.55) 55%,var(--bg))}
+.hero h1{font-size:clamp(2.3rem,5.4vw,3.9rem);letter-spacing:-.03em;text-wrap:balance}
+.hero p{max-width:34ch;margin:18px auto 0;color:var(--muted);font-size:clamp(1.05rem,2vw,1.2rem)}
+.hero .links{display:flex;gap:22px;justify-content:center;margin-top:32px;align-items:center}
+.hero .links a.tlink{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .25s}
+.hero .links a.tlink:hover{border-bottom-color:var(--accent)}
+.hero .status{margin-top:36px}
+
+/* ── 알약 CTA ── */
+.cta{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;text-decoration:none;border:none;cursor:pointer;font-size:17px}
+.cta .arr{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.cta:hover{transform:translateY(-1px)}
+.cta:hover .arr{transform:translateX(3px)}
+.cta:active{transform:scale(.98)}
+
+/* ── 영업 상태 배지 ── */
+.status{display:inline-flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);border:1px solid var(--line);padding:8px 14px;border-radius:999px}
+.status .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
 .status[data-open="yes"] .dot{background:var(--accent)}
 .status[data-open="yes"] .word{color:var(--ink);font-weight:600}
 
-/* ── 히어로 ───────────────────────────── */
-.hero{min-height:78vh;display:flex;align-items:center;padding-top:clamp(40px,7vw,72px);padding-bottom:clamp(40px,7vw,72px)}
-.hero .wrap{display:grid;gap:36px}
-.hero h1{font-size:clamp(2.1rem,4.6vw,3.4rem);font-weight:800;letter-spacing:-.03em}
-.hero .lead{font-size:clamp(1.5rem,2.6vw,1.7rem);line-height:1.55;color:var(--muted);max-width:26ch;margin-top:24px}
-.hero .meta{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:28px;max-width:36ch}
-img{display:block;max-width:100%}
-.hero-media{margin:0;position:relative;overflow:hidden;background:var(--surface);aspect-ratio:4/5}
-.hero-media img{width:100%;height:100%;object-fit:cover}
-/* 캡션은 단색 패널로 깐다. 사진이 밝든 어둡든 대비가 보장된다 */
-.hero-media figcaption{
-  position:absolute;left:0;right:0;bottom:0;z-index:1;
-  padding:20px 26px 22px;background:var(--ink);color:var(--bg);
-  font-family:var(--serif);font-size:clamp(1rem,2.4vw,1.35rem);line-height:1.5;
+/* ── 본문 ── */
+h2{font-size:clamp(1.7rem,3.6vw,2.4rem);margin-bottom:22px}
+.lead{max-width:52ch}
+.note{color:var(--muted);max-width:58ch;margin-top:16px}
+.prose{max-width:680px}
+
+/* ── 메뉴 (더블베젤 카드) ── */
+.menu-grid{display:grid;gap:14px;margin-top:32px}
+@media(min-width:768px){.menu-grid{grid-template-columns:repeat(2,1fr)}}
+.card{
+  background:rgba(235,217,184,.55);border-radius:20px;padding:22px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 14px 36px -18px rgba(46,26,14,.18);
 }
-.plate{margin:0}
-.plate img{width:100%;aspect-ratio:16/7;object-fit:cover}
-.plate figcaption{margin-top:14px;font-size:13px;color:var(--muted)}
-.btn{
-  display:inline-block;background:var(--ink);color:var(--bg);
-  padding:14px 28px;text-decoration:none;font-size:17px;font-weight:600;border-radius:2px;
-  transition:transform 180ms cubic-bezier(.2,0,0,1);
-}
-.btn:hover,.btn:focus-visible{transform:translateY(-2px)}
+.card:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 22px 48px -20px rgba(46,26,14,.22)}
+.card h3{font-size:1.2rem}
+.card .desc{display:block;font-size:12px;color:var(--muted);margin-top:6px;max-width:46ch}
+.card .price{display:block;font-family:var(--num);font-weight:600;font-size:1.15rem;margin-top:14px}
 
-/* ── 섹션 공통 ────────────────────────── */
-section{padding-top:76px;padding-bottom:76px}
-.band{background:var(--surface)}
-h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:28px}
-.note{color:var(--muted);max-width:62ch}
+/* ── 로스팅 주기 ── */
+.roast{display:grid;gap:32px}
+@media(min-width:768px){.roast{grid-template-columns:1fr 1fr;align-items:start}}
+.days{display:flex;gap:6px;margin-top:20px;flex-wrap:wrap}
+.day{width:40px;height:40px;display:grid;place-items:center;font-size:12px;border:1px solid var(--line);color:var(--muted);border-radius:12px}
+.day[data-roast]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
+.day[data-closed]{opacity:.4;text-decoration:line-through}
+.day[data-today]{outline:2px solid var(--accent);outline-offset:2px}
+.legend{font-size:12px;color:var(--muted);margin-top:16px}
 
-/* ── 메뉴 ─────────────────────────────── */
-.menu ul{margin:0;padding:0}
-.menu li{
-  list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:20px;
-  padding-top:22px;padding-bottom:22px;border-top:1px solid var(--line);
-}
-.menu li:last-child{border-bottom:1px solid var(--line)}
-.menu .name{font-family:var(--serif);font-size:1.06rem}
-.menu .desc{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:4px;max-width:46ch}
-.menu .price{font-size:13px;color:var(--muted);white-space:nowrap}
+/* ── 공간 (패럴랙스 이미지) ── */
+.room{display:grid;gap:32px}
+@media(min-width:768px){.room{grid-template-columns:1.2fr 1fr;align-items:center}}
+.room .frame{position:relative;overflow:hidden;border-radius:24px;box-shadow:0 24px 60px -28px rgba(46,26,14,.35)}
+.room .frame img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* ── 로스팅 주기 ──────────────────────── */
-.roast{display:grid;gap:28px}
-.roast .days{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.roast .day{
-  width:38px;height:38px;display:grid;place-items:center;
-  font-size:13px;border:1px solid var(--line);color:var(--muted);
-}
-.roast .day[data-roast]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:700}
-.roast .day[data-closed]{opacity:.4;text-decoration:line-through}
-.roast .day[data-today]{outline:2px solid var(--accent);outline-offset:2px}
-.roast .legend{font-size:13px;color:var(--muted);margin-top:14px}
-
-/* ── 공간 ─────────────────────────────── */
-.room{display:grid;gap:28px}
-.room .frame{margin:0}
-.room .frame img{width:100%;aspect-ratio:3/2;object-fit:cover}
-
-/* ── 찾아오는 길 ──────────────────────── */
+/* ── 찾아오는 길 ── */
 .info dl{margin:0}
-.info dt{font-size:13px;color:var(--muted);margin-top:20px}
+.info dt{font-size:12px;color:var(--muted);margin-top:18px}
 .info dd{margin:2px 0 0;font-size:17px}
+@media(min-width:768px){.info{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}}
 
-/* ── 푸터 ─────────────────────────────── */
-.site-foot{border-top:1px solid var(--line);padding-top:32px;padding-bottom:44px;font-size:13px;color:var(--muted)}
+/* ── 푸터 ── */
+.site-foot{border-top:1px solid var(--line);padding-top:32px;padding-bottom:44px;font-size:12px;color:var(--muted)}
 .site-foot .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
 
-/* ── 데스크톱 ─────────────────────────── */
-@media (min-width:768px){
-  :root{--pad:48px}
-  section{padding-top:120px;padding-bottom:120px}
-  .hero .wrap{grid-template-columns:5fr 7fr;align-items:center;gap:56px}
-  .room{grid-template-columns:7fr 5fr;align-items:end}
-  .roast{grid-template-columns:5fr 7fr;align-items:start;gap:56px}
-  .info{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
-}
-
-/* ── authored moment: 히어로 진입 1회 ── */
-@media (prefers-reduced-motion:no-preference){
-  .hero h1,.hero .lead,.hero .meta,.hero .cta{animation:rise 520ms cubic-bezier(.2,0,0,1) both}
-  .hero .lead{animation-delay:70ms}
-  .hero .meta{animation-delay:120ms}
-  .hero .cta{animation-delay:170ms}
-  @keyframes rise{from{transform:translateY(14px);opacity:.001}to{transform:none;opacity:1}}
+/* ── 모션 끄기 ── */
+@media(prefers-reduced-motion:reduce){
+  .reveal,.stagger>*{opacity:1;transform:none;transition:none}
+  .hero .bg{transform:none}
+  a,button,.card,.nav a,.cta,.day{transition:none}
 }
 </style>
 </head>
 <body>
 
-<header class="site-head">
-  <div class="wrap">
+<div class="nav-wrap">
+  <nav class="nav" aria-label="주요 메뉴">
     <a class="mark" href="#top">달빛다방</a>
-    <nav>
+    <div class="links" id="navlinks">
       <a href="#menu">메뉴</a>
       <a href="#roast">로스팅</a>
+      <a href="#room">공간</a>
       <a href="#visit">찾아오는 길</a>
-    </nav>
-  </div>
-</header>
+    </div>
+    <button class="nav-toggle" id="navtoggle" aria-expanded="false" aria-label="메뉴 열기">≡</button>
+  </nav>
+</div>
 
 <main id="top">
 
   <section class="hero">
-    <div class="wrap">
-      <div>
-        <h1>화요일에 볶은 원두로 수요일 아침을 엽니다</h1>
-        <p class="lead">연희동 골목 안쪽, 좌석 <span class="num">12</span>개짜리 로스터리입니다.</p>
-        <p class="meta">
-          <span class="status" id="status" data-open="no">
-            <span class="dot"></span>
-            <span><span class="word">영업시간 확인 중</span></span>
-          </span>
-        </p>
-        <p class="cta" style="margin-top:26px"><a class="btn" href="#visit">찾아오는 길 보기</a></p>
+    <div class="bg" id="herobg"></div>
+    <div>
+      <h1>화요일에 볶은 원두로 수요일 아침을 엽니다</h1>
+      <p>연희동 골목 안쪽, 좌석 12개짜리 로스터리. 원두는 두 종류만 두고, 매주 화요일 오후에 볶습니다.</p>
+      <div class="links">
+        <a class="tlink" href="#menu">메뉴 보기</a>
+        <a class="cta" href="#visit">찾아오는 길<span class="arr">→</span></a>
       </div>
-      <figure class="hero-media">
-        <img src="https://images.unsplash.com/photo-1503240778100-fd245e17a273?w=1200&q=80&fm=jpg&fit=crop"
-             alt="나무 카운터에 놓인 라떼 한 잔과 옆에 접어 둔 행주">
-        <figcaption>로스팅은 매주 화요일 오후에 합니다. 그날은 가게 안이 조금 시끄럽습니다.</figcaption>
-      </figure>
+      <p class="status" id="status" data-open="no">
+        <span class="dot"></span>
+        <span><span class="word">영업시간 확인 중</span></span>
+      </p>
     </div>
   </section>
 
   <section id="about">
-    <div class="wrap">
+    <div class="wrap prose reveal">
       <h2>작은 가게라 할 수 있는 것만 합니다</h2>
-      <p class="note">원두는 두 종류만 둡니다. 에티오피아 예가체프는 산미가 있고, 브라질 세하도는 묵직합니다. 둘 중에 뭘 드릴지 물어보고 내립니다.</p>
-      <p class="note" style="margin-top:20px">우유는 서울우유를 씁니다. 디카페인은 스위스 워터 방식으로 처리한 콜롬비아 원두입니다. 시럽은 따로 두지 않고, 단맛을 원하시면 말씀하시면 연유를 조금 넣어드립니다.</p>
+      <p class="note">에티오피아 예가체프는 산미가 있고, 브라질 세하도는 묵직합니다. 둘 중에 뭘 드릴지 물어보고 내립니다. 우유는 서울우유, 디카페인은 스위스 워터 방식으로 처리한 콜롬비아 원두입니다.</p>
     </div>
   </section>
 
-  <section id="menu" class="band">
+  <section id="menu">
     <div class="wrap">
-      <h2>메뉴</h2>
-      <div class="menu">
-        <ul>
-          <li>
-            <span class="name">핸드드립<span class="desc">예가체프 또는 브라질 세하도. 한 잔에 <span class="num">4</span>분 정도 걸립니다.</span></span>
-            <span class="price num">5,500원</span>
-          </li>
-          <li>
-            <span class="name">라떼<span class="desc">기본은 예가체프로 내립니다. 세하도로 바꿔드릴 수 있습니다.</span></span>
-            <span class="price num">5,000원</span>
-          </li>
-          <li>
-            <span class="name">디카페인 아메리카노<span class="desc">스위스 워터 방식 콜롬비아 원두.</span></span>
-            <span class="price num">4,800원</span>
-          </li>
-          <li>
-            <span class="name">스콘<span class="desc">플레인과 얼그레이 두 가지. 오전 <span class="num">11</span>시쯤 나옵니다.</span></span>
-            <span class="price num">3,500원</span>
-          </li>
-          <li>
-            <span class="name">원두 <span class="num">200g</span><span class="desc">화요일 로스팅분은 수요일부터 나갑니다.</span></span>
-            <span class="price num">16,000원</span>
-          </li>
-        </ul>
+      <div class="reveal">
+        <h2>메뉴</h2>
+        <p class="note">핸드드립 한 잔에 4분 정도 걸립니다. 시간에 여유를 갖고 와주세요.</p>
       </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <figure class="plate">
-        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1600&q=80&fm=jpg&fit=crop"
-             alt="볶은 지 얼마 안 된 원두가 트레이 위에 펼쳐져 있다" width="1600" height="700" loading="lazy">
-        <figcaption>화요일 오후에 볶은 예가체프입니다.</figcaption>
-      </figure>
+      <div class="menu-grid stagger" id="menugrid">
+        <div class="card">
+          <h3>핸드드립</h3>
+          <span class="desc">예가체프 또는 브라질 세하도. 한 잔에 4분 정도 걸립니다.</span>
+          <span class="price num">5,500원</span>
+        </div>
+        <div class="card">
+          <h3>라떼</h3>
+          <span class="desc">기본은 예가체프로 내립니다. 세하도로 바꿔드릴 수 있습니다.</span>
+          <span class="price num">5,000원</span>
+        </div>
+        <div class="card">
+          <h3>디카페인 아메리카노</h3>
+          <span class="desc">스위스 워터 방식 콜롬비아 원두.</span>
+          <span class="price num">4,800원</span>
+        </div>
+        <div class="card">
+          <h3>스콘</h3>
+          <span class="desc">플레인과 얼그레이 두 가지. 오전 11시쯤 나옵니다.</span>
+          <span class="price num">3,500원</span>
+        </div>
+        <div class="card">
+          <h3>원두 200g</h3>
+          <span class="desc">화요일 로스팅분은 수요일부터 나갑니다.</span>
+          <span class="price num">16,000원</span>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="roast">
     <div class="wrap roast">
-      <div>
+      <div class="reveal">
         <h2>이번 주 로스팅</h2>
         <p class="note">화요일 오후에 볶고 하루 숙성해서 수요일부터 팝니다. 목요일과 금요일이 가장 맛이 좋습니다.</p>
       </div>
-      <div>
+      <div class="reveal">
         <div class="days" id="week" aria-label="요일별 로스팅 일정"></div>
         <p class="legend" id="legend">숙성이 끝나는 날을 계산하는 중입니다.</p>
       </div>
     </div>
   </section>
 
-  <section class="band">
+  <section id="room" class="room-sec">
     <div class="wrap room">
-      <figure class="frame">
-        <img src="https://images.unsplash.com/photo-1628613526162-a80aae5cc63d?w=1200&q=80&fm=jpg&fit=crop"
-             alt="창가 자리에 놓인 나무 테이블과 의자, 밖이 내다보인다" width="1200" height="800" loading="lazy">
+      <figure class="frame reveal">
+        <img src="https://images.unsplash.com/photo-1628613526162-a80aae5cc63d?w=1400&q=80&fm=jpg&fit=crop" alt="창가 자리에 놓인 나무 테이블과 의자, 밖이 내다보인다" loading="lazy">
       </figure>
-      <div>
+      <div class="reveal">
         <h2>좌석은 열두 개입니다</h2>
-        <p class="note"><span class="num">4</span>인 테이블 두 개, <span class="num">2</span>인 테이블 세 개, 창가 바 자리 두 개가 있습니다. 콘센트는 창가 자리에만 있습니다.</p>
+        <p class="note">4인 테이블 두 개, 2인 테이블 세 개, 창가 바 자리 두 개. 콘센트는 창가 자리에만 있습니다.</p>
       </div>
     </div>
   </section>
 
   <section id="visit">
     <div class="wrap">
-      <h2>찾아오는 길</h2>
-      <div class="info">
-        <dl>
-          <dt>주소</dt>
-          <dd>서울 서대문구 연희로11가길 <span class="num">00</span>, <span class="num">1</span>층</dd>
-          <dt>전화</dt>
-          <dd><a class="num" href="tel:0212345678">02-1234-5678</a></dd>
-        </dl>
-        <dl>
-          <dt>영업시간</dt>
-          <dd>화~일 <span class="num">8:30 – 19:00</span></dd>
-          <dt>휴무</dt>
-          <dd>매주 월요일</dd>
-        </dl>
+      <div class="reveal">
+        <h2>찾아오는 길</h2>
+        <div class="info">
+          <dl>
+            <dt>주소</dt>
+            <dd>서울 서대문구 연희로11가길 <span class="num">00</span>, <span class="num">1</span>층</dd>
+            <dt>전화</dt>
+            <dd><a class="num" href="tel:0212345678">02-1234-5678</a></dd>
+          </dl>
+          <dl>
+            <dt>영업시간</dt>
+            <dd>화~일 <span class="num">8:30 – 19:00</span></dd>
+            <dt>휴무</dt>
+            <dd>매주 월요일</dd>
+          </dl>
+        </div>
+        <p class="note" style="margin-top:24px"><span class="num">2</span>호선 홍대입구역 <span class="num">3</span>번 출구에서 마을버스 서대문<span class="num">03</span>을 타고 연희동주민센터에서 내리면 걸어서 <span class="num">4</span>분입니다. 가게 앞에는 주차 공간이 없습니다.</p>
       </div>
-      <p class="note" style="margin-top:28px"><span class="num">2</span>호선 홍대입구역 <span class="num">3</span>번 출구에서 마을버스 서대문<span class="num">03</span>을 타고 연희동주민센터에서 내리면 걸어서 <span class="num">4</span>분입니다. 가게 앞에는 주차 공간이 없습니다.</p>
     </div>
   </section>
 
@@ -286,6 +282,54 @@ h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:28px}
 </footer>
 
 <script>
+// 시그니처 모션: 스크롤 리빌 + 스테거. JS가 죽어도 내용은 보인다(.in 미리 마킹은 생략).
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  // scroll-reveal
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  // stagger — 형제에 --i 세팅
+  var st = document.querySelector('.stagger');
+  if (st) {
+    st.querySelectorAll(':scope > *').forEach(function (el, i) { el.style.setProperty('--i', i); });
+    var so = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { st.classList.add('in'); so.disconnect(); } });
+    }, { threshold: .2 });
+    so.observe(st);
+  }
+
+  // parallax-hero
+  var bg = document.getElementById('herobg');
+  if (bg) {
+    addEventListener('scroll', function () {
+      var y = scrollY;
+      if (y < innerHeight) bg.style.transform = 'translateY(' + y * .3 + 'px)';
+    }, { passive: true });
+  }
+})();
+
+// 모바일 풀스크린 메뉴
+(function () {
+  var btn = document.getElementById('navtoggle');
+  var links = document.getElementById('navlinks');
+  if (!btn || !links) return;
+  btn.addEventListener('click', function () {
+    var open = links.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+    btn.textContent = open ? '✕' : '≡';
+  });
+  links.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { links.classList.remove('open'); btn.textContent = '≡'; });
+  });
+})();
+
 // 지금 문을 열었는지, 이번 주 로스팅이 언제인지 계산한다. 서버 없이 방문자 시계로만 판단한다.
 (function () {
   var LABEL = ['일','월','화','수','목','금','토'];
@@ -297,7 +341,6 @@ h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:28px}
   var day = now.getDay();
   var mins = now.getHours() * 60 + now.getMinutes();
 
-  // 영업 상태
   var open = day !== CLOSED && mins >= OPEN_MIN && mins < CLOSE_MIN;
   var el = document.getElementById('status');
   var word = el.querySelector('.word');
@@ -311,7 +354,6 @@ h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:28px}
     word.textContent = mins < OPEN_MIN ? '오늘 8시 30분에 엽니다' : '오늘은 닫았습니다';
   }
 
-  // 이번 주 달력
   var week = document.getElementById('week');
   for (var i = 0; i < 7; i++) {
     var d = document.createElement('span');
@@ -323,7 +365,6 @@ h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:28px}
     week.appendChild(d);
   }
 
-  // 다음 로스팅까지 며칠
   var until = (ROAST - day + 7) % 7;
   document.getElementById('legend').textContent =
     until === 0 ? '오늘 볶습니다. 내일부터 나갑니다.'

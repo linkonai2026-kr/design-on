@@ -64,6 +64,33 @@ sync_one Leonxlnx/taste-skill   taste-skill md
 sync_one ibelick/ui-skills      ui-skills   md
 sync_one emilkowalski/skill     emil-skill  md
 
+# ponytail — AGENTS.md와 skills/ponytail·ponytail-review만 담는다 (다른 구조)
+sync_one_ponytail() {
+  local repo="DietrichGebert/ponytail" dest="ponytail"
+  local dir="$TMP/$(echo "$repo" | tr '/' '_')"
+
+  head_ "$repo → vendor/$dest"
+  git clone --depth 1 -q "https://github.com/$repo.git" "$dir"
+  local new; new="$(cd "$dir" && git rev-parse HEAD)"
+  local old; old="$(cat "$ROOT/vendor/$dest/.upstream-commit" 2>/dev/null || echo none)"
+
+  if [ "$new" = "$old" ]; then
+    ok "이미 최신 (${new:0:8})"
+    return
+  fi
+
+  find "$ROOT/vendor/$dest" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+  cp    "$dir/AGENTS.md"                      "$ROOT/vendor/$dest/AGENTS.md"
+  cp    "$dir/LICENSE"                        "$ROOT/vendor/$dest/LICENSE"
+  mkdir -p "$ROOT/vendor/$dest/skills"
+  cp -r "$dir/skills/ponytail"        "$ROOT/vendor/$dest/skills/"
+  cp -r "$dir/skills/ponytail-review" "$ROOT/vendor/$dest/skills/"
+  echo "$new" > "$ROOT/vendor/$dest/.upstream-commit"
+  ok "갱신 ${old:0:8} → ${new:0:8}"
+}
+
+sync_one_ponytail
+
 head_ "파서 재설치"
 npm install --prefix "$ROOT/vendor/impeccable" --package-lock-only --silent
 npm ci --prefix "$ROOT/vendor/impeccable" --silent && ok "완료"

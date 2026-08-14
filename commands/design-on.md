@@ -27,12 +27,16 @@ STEP 8  완성 후 대화   ← 여기까지가 완성이다
 ```bash
 node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs layouts  --asset "목록과 가격이 핵심"
 node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs layouts  --id index-first
-node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페
+node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs presets  --industry 카페
+node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs premium  --match "고급스럽게 인터랙티브하게"
+node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --preview --auto-fix
 node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs fonts    --industry 카페
 node ${CLAUDE_PLUGIN_ROOT}/scripts/pick.mjs photo    --industry 카페
 ```
 
-**2. 질문은 STEP 1에서 딱 한 번.** 팔레트를 먼저 조회해 실제 후보를 손에 쥔 다음 그 근거로 3개 이하를 한 번에 묻는다. 답을 받으면 STEP 7까지 멈추지 않는다.
+`presets`로 업종별 표준 카드를 먼저 조회한다. `premium --match`로 프리미엄 레벨을 판정하고, `--auto-fix`는 대비 미달 색을 자동 보정한다.
+
+**2. 질문은 반드시 먼저, 한 번에 묶어서.** **이건 선택이 아니라 의무다. Codex를 포함한 모든 환경에서, 사용자에게 물어보고 답을 받기 전에 STEP 2로 가지 마라.** 팔레트를 먼저 조회해 실제 후보를 손에 쥔 다음, `--preview`로 만든 브라우저 미리보기 화면(색을 눈으로 볼 수 있는)과 함께 후보 5~6개를 보여준다. HEX 코드만 나열하면 일반 사용자는 색을 못 알아본다. 답을 받으면 STEP 7까지 멈추지 않는다.
 
 **3. STEP 2-0에서 구조를 고른다.** 이걸 건너뛰면 색만 다른 같은 페이지가 나온다. 히어로에 사진 깔고 왼쪽에 제목, 아래 섹션 서너 개, 끝에 위치·전화 — 업종을 가리지 않고 이게 나오는 것이 이 도구의 가장 큰 실패 모드다. **디텍터는 그걸 못 잡는다.**
 

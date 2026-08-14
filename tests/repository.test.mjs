@@ -6,7 +6,7 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const examples = ['cafe', 'studio', 'shop', 'tax'];
+const examples = ['cafe', 'studio', 'shop', 'tax', 'salon'];
 
 function walk(directory, extension) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -238,4 +238,36 @@ test('제목 줄바꿈과 UI 문장부호 규칙이 제작·검수 지침에 함
   assert.match(copywriter, /짧은 UI 문구에 완결감을 주려고 `\.`을 붙이지 않는다/);
   assert.match(koreanReviewer, /불필요한 마침표가 붙었는가/);
   assert.match(critic, /영문 한 글자·문장부호 하나만 남지 않았는가/);
+});
+
+test('premium 모드와 ponytail vendor가 배선돼 있다', () => {
+  const premium = JSON.parse(readFileSync(path.join(root, 'data', 'premium.json'), 'utf8'));
+  const playbook = readFileSync(path.join(root, 'PLAYBOOK.md'), 'utf8');
+
+  // 트리거 사전이 있고 레벨 판정이 가능하다.
+  assert.ok(premium.triggers.levels.full.length >= 20, 'full 트리거가 20개 미만이다.');
+  assert.ok(premium.motifs.length >= 8, '모티프가 8종 미만이다.');
+  for (const m of premium.motifs) {
+    for (const field of ['id', 'name', 'css', 'useWhen']) {
+      assert.ok(m[field], `${m.id}에 ${field}가 없다.`);
+    }
+  }
+
+  // pick.mjs premium --match 가 브리프에서 full 레벨을 판정한다.
+  const out = execFileSync(process.execPath, [
+    path.join(root, 'scripts', 'pick.mjs'), 'premium', '--match', '고급스럽게 인터랙티브하게'
+  ], { encoding: 'utf8' });
+  const result = JSON.parse(out);
+  assert.equal(result.level, 'full');
+
+  // ponytail vendor가 실제로 들어 있다.
+  assert.ok(existsSync(path.join(root, 'vendor', 'ponytail', 'AGENTS.md')), 'vendor/ponytail/AGENTS.md 없음.');
+  assert.ok(existsSync(path.join(root, 'vendor', 'ponytail', 'skills', 'ponytail', 'SKILL.md')), 'ponytail 스킬 없음.');
+  assert.ok(existsSync(path.join(root, 'vendor', 'ponytail', '.upstream-commit')), '.upstream-commit 없음.');
+
+  // PLAYBOOK에 프리미엄 모드 지침이 있다.
+  assert.match(playbook, /### 2-6-2\. 프리미엄 자동 모드/);
+  assert.match(playbook, /premium --match/);
+  assert.match(playbook, /포니테일 사다리/);
+  assert.match(playbook, /vendor\/ponytail\/AGENTS\.md/);
 });

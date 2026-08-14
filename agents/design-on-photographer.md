@@ -49,9 +49,15 @@ curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-im
 
 ## C-3. 실사 스톡
 
-웹 검색으로 업종 키워드 + `unsplash`를 찾는다. `images.unsplash.com/photo-...` 형태의 CDN URL을 추출한다. 핫링크가 허용되고 영구적이다.
+`pick.mjs photo`가 주는 `stock`을 먼저 쓴다. `stock.search`는 Unsplash 검색 키워드, `stock.fallbacks`는 이미 검증된 CDN URL이다.
 
-뒤에 `?w=1600&q=80&fm=jpg&fit=crop`을 붙인다. 페이지 하단에 출처를 작게 밝히도록 메모를 남긴다.
+```bash
+node {ROOT}/scripts/pick.mjs photo --industry 카페   # stock.search + stock.fallbacks
+```
+
+- `stock.fallbacks`에서 하나 고른 뒤 `?w=1600&q=80&fm=jpg&fit=crop`을 붙인다. **URL이 살아 있는지 확인 후 넣는다.**
+- 어울리는 게 없으면 `stock.search`의 키워드로 Unsplash를 새로 검색해 `images.unsplash.com/photo-...` CDN URL을 추출한다. 핫링크가 허용되고 영구적이다.
+- 페이지 하단에 출처를 작게 밝히도록 메모를 남긴다.
 
 **실사 스톡이 AI 생성 이미지보다 AI 티가 덜 나는 경우가 많다.** 애매하면 이쪽이 안전하다.
 

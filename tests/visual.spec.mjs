@@ -4,7 +4,8 @@ const pages = [
   ['cafe', '/examples/cafe/index.html'],
   ['studio', '/examples/studio/index.html'],
   ['shop', '/examples/shop/index.html'],
-  ['tax', '/examples/tax/index.html']
+  ['tax', '/examples/tax/index.html'],
+  ['salon', '/examples/salon/index.html']
 ];
 
 const viewports = [

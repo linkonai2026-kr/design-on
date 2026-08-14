@@ -34,10 +34,12 @@ STEP 8  완성 후 대화       만족도 → 실제 정보 채우기 → 사진
 | | 어디서 | 빠뜨리면 |
 |---|---|---|
 | **1. `pick.mjs`로 조회한다** | STEP 0 | `data/*.json`을 통째 읽어 세션 예산이 날아간다. `tools.json` 하나가 약 87,000 토큰이다 |
-| **2. 질문은 딱 한 번, 묶어서** | STEP 1-4 | 초보자가 설문지를 받는다. 팔레트를 먼저 조회해 근거를 쥐고 3개 이하만 묻는다 |
+| **2. 질문은 반드시 먼저, 한 번에 묶어서** | STEP 1-4 | **건너뛰면 "AI가 맘대로 골랐다"는 불신이 시작된다. Codex를 포함한 모든 환경에서, 답을 받기 전에 STEP 2로 가지 마라.** 팔레트를 조회해 근거를 쥐고 미리보기 화면과 함께 5~6개 후보를 보여준다 |
 | **3. 구조부터 고른다** | STEP 2-0 | 색만 다른 같은 페이지가 나온다 |
 | **4. 기계 검사를 돌린다** | STEP 5 | 자기 판단에 맡기면 늘 통과시킨다 |
 | **5. STEP 8까지 간다** | STEP 8 | 상호명·전화번호가 지어낸 값인 채로 끝난다 |
+
+**STEP 1-4 질문은 선택이 아니라 의무다. 브리프가 아무리 자세해도 사용자에게 물어보고 답을 받기 전까지 STEP 2로 가지 마라.** 배색 후보는 `--preview`로 만든 브라우저 미리보기 화면에서 직접 보여준다. HEX 코드만 나열하면 일반 사용자는 색을 못 알아본다.
 
 **STEP 2-0을 건너뛰지 마라.** 색과 서체만 매번 바꾸고 구조는 늘 똑같이 만드는 것이 design-on의 가장 큰 실패 모드다. 히어로에 사진 깔고 왼쪽에 제목, 아래 섹션 서너 개, 끝에 위치·전화 — 이게 업종을 가리지 않고 나온다. **색만 다른 같은 페이지는 여전히 AI가 만든 티고, 디텍터 59종은 전부 요소 단위라 그걸 못 잡는다.**
 
@@ -86,12 +88,18 @@ npm ci --prefix vendor/impeccable
 **`data/*.json`을 Read로 통째 읽지 마라.** 조회 CLI를 쓴다.
 
 ```bash
-node scripts/pick.mjs layouts  --asset "공간·분위기가 자산"   # 구조 10종
-node scripts/pick.mjs palettes --hue 보라 --industry 카페     # 팔레트 83세트
-node scripts/pick.mjs fonts    --industry 카페                # 서체 페어링 9종
-node scripts/pick.mjs photo    --industry 카페                # 사진 프롬프트 레시피
-node scripts/pick.mjs tools    --section 색상                 # 디자인 툴 894개
+node scripts/pick.mjs layouts  --asset "공간·분위기가 자산"        # 구조 10종
+node scripts/pick.mjs presets  --industry 카페                     # 업종별 표준 카드 7종
+node scripts/pick.mjs premium  --match "고급스럽게 인터랙티브하게"   # 프리미엄 레벨 판정
+node scripts/pick.mjs palettes --hue 보라 --industry 카페 --auto-fix  # 팔레트 93세트, 대비 자동 보정
+node scripts/pick.mjs fonts    --industry 카페                     # 서체 페어링 9종
+node scripts/pick.mjs photo    --industry 카페                     # 사진 프롬프트 + 실사 스톡 키워드·URL
+node scripts/pick.mjs tools    --section 색상                      # 디자인 툴 894개
 ```
+
+- **`presets`** — 업종별 표준 아트 디렉션. 구조·모드·3다이얼·방문자 질문·"이 가게에만 있는 것" 아이디어가 들어 있다. "알아서 해줘"와 질문의 근거가 된다.
+- **`premium`** — 브리프를 프리미엄 트리거 사전으로 스캔해 레벨(off/basic/full)을 판정한다. full이면 STEP 2-6-2에서 인터랙티브 모티프를 조합한다.
+- **`palettes --auto-fix`** — 대비 미달인 `ink`·`muted`·`accent`를 자동 보정해 항상 4.5:1을 보장한다. 팔레트 조회에는 항상 붙인다.
 
 | 경로 | 내용 |
 |---|---|
@@ -103,6 +111,9 @@ node scripts/pick.mjs tools    --section 색상                 # 디자인 툴 
 ## 지켜야 할 것
 
 - **질문은 STEP 1에서 딱 한 번, 묶어서 한다.** 팔레트를 먼저 조회한 근거로 3개 이하를 묻는다. 답을 받으면 더 묻지 말고 끝까지 만든다.
+- **프리미엄 트리거를 먼저 스캔한다.** `pick.mjs premium --match "<브리프>"`가 `basic` 이상이면 STEP 2-6-2에서 인터랙티브 모티프를 조합한다. "알아서 해줘"면 기본으로 켠다.
+- **포니테일 사다리를 통과한다.** 고급스럽게 만들되 과하게 짜지 않는다. JS 없이 CSS로 되는 모션은 JS를 안 쓴다. STEP 5에서 불필요한 의존성·중복 코드·과잉 컴포넌트를 제거한다. `vendor/ponytail/AGENTS.md` 참고.
+- **레퍼런스는 베끼지 않는다.** imweb·apple의 구도·분위기만 보고, 구조×팔레트×서체×모티프를 독창적으로 조합해 새롭게 만든다.
 - **이미지 생성이 내장된 환경이면 그것을 최우선으로 쓴다.** Codex가 여기 해당한다. 없으면 `GEMINI_API_KEY` → 실사 스톡 → 타이포그래피 주도 순으로 폴백한다.
 - **브리프가 디텍터 경고를 이긴다.** 사용자가 명시적으로 요청한 색·스타일은 유지하고, 그 사실을 보고에 남긴다. 예외는 제목 위 눈썹 라벨 하나다.
 - **서체를 페어링한다.** 제목과 본문을 다르게 간다. Inter 단독 사용 금지.

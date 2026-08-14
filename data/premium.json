@@ -1,0 +1,121 @@
+{
+  "_comment": "프리미엄 자동 모드(L0.5). 사용자가 '고급스럽게·인터랙티브하게·모던하게' 등을 말하면 켜지고, '알아서 해줘'면 기본으로 켠다. 목표는 imweb 테마·apple.com 수준의 완성도. 핵심 원칙은 (1) 레퍼런스는 구도·분위기만 본다(베끼지 않는다), (2) 필요한 모션만 — ponytail 사다리를 통과한다(불필요한 코드 금지), (3) JS가 죽어도 내용은 온전해야 한다.",
+
+  "triggers": {
+    "_comment": "브리프를 premium --match로 스캔해 레벨(off/basic/full)을 정한다. 하나라도 full에 걸리면 full.",
+    "levels": {
+      "full": [
+        "고급스럽게", "고급", "프리미엄", "럭셔리", "세련된", "감각적", "정교한", "우아한", "품격", "하이엔드",
+        "인터랙티브", "인터렉티브", "애니메이션", "동적인", "생동감", "살아있는", "반응형", "리액티브",
+        "애플처럼", "애플스러운", "기업 홈페이지처럼", "대기업처럼", "메인페이지처럼",
+        "시네마틱", "웅장한", "영화같은", "임팩트", "강렬한", "화려한",
+        "imweb", "아임웹", "위블", "스퀘어", "호스팅케이알", "카페24", "워드프레스처럼",
+        "모션", "스크롤", "패럴랙스", "페이드", "리빌", "마이크로인터랙션"
+      ],
+      "basic": [
+        "모던", "최신", "트렌디", "스타일리시", "힙한", "깔끔한", "정돈된",
+        "브랜드답게", "브랜딩", "미니멀", "심플한", "깔끔하게"
+      ]
+    },
+    "alwaysOn": "알아서 해줘"
+  },
+
+  "rules": [
+    "프리미엄은 장식이 아니라 행동이다. 스크롤하면 내용이 살아나고, 호버하면 반응한다.",
+    "모든 리빌은 이미 보이는 상태에서 시작한다. JS가 죽어도 내용이 보여야 한다.",
+    "애니메이션은 transform·opacity만 쓴다. width·height·top·left 금지.",
+    "prefers-reduced-motion: reduce에서 모든 모션을 끈다.",
+    "포니테일 사다리: 이 모션이 JS 없이 CSS로 되나? 되면 JS를 안 쓴다. 네이티브(scroll-snap, backdrop-filter)로 되나?",
+    "눈썹 라벨(kicker/eyebrow pill) 금지. 디텍터가 hero-eyebrow-chip으로 잡는다.",
+    "페이드인을 모든 섹션에 도배하지 않는다. authored moment를 하나만 골라 살린다.",
+    "무한 루프 모션은 배경 장식 하나로 제한한다.",
+    "레퍼런스(imweb·apple)는 구도·분위기만 본다. HTML/CSS를 베끼지 않는다. '애플처럼'은 여백·위계·제품 중심을 뜻하지 복제를 뜻하지 않는다."
+  ],
+
+  "motifs": [
+    {
+      "id": "scroll-reveal",
+      "name": "스크롤 진입 리빌",
+      "useWhen": "어떤 페이지든 히어로 아래 첫 섹션부터. 모든 섹션에 도배하지 말고 본문 블록에만.",
+      "css": ".reveal{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.in{opacity:1;transform:none}",
+      "js": "const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));",
+      "ponytail": "감지 대신 .in을 미리 넣어도 된다. JS가 필요한 페이지에서만 Observer를 쓴다.",
+      "avoid": ["모든 섹션에 같은 등장 효과", "200ms 미만 텍스트 노출"]
+    },
+    {
+      "id": "stagger",
+      "name": "스테거 리빌",
+      "useWhen": "카드·목록이 3개 이상일 때. 형제에 --i를 세팅해 순차 등장.",
+      "css": ".stagger>*{opacity:0;transform:translateY(20px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i)*70ms)}.stagger.in>*{opacity:1;transform:none}",
+      "js": "const s=document.querySelector('.stagger');if(s){s.querySelectorAll(':scope>*').forEach((el,i)=>el.style.setProperty('--i',i));new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){s.classList.add('in');this.disconnect()}}),{threshold:.2}).observe(s)}",
+      "ponytail": "스테거가 없어도 페이지가 무너지지 않는다면 생략 가능. 6개 넘는 목록에만.",
+      "avoid": ["지연 총합 600ms 초과", "모바일에서도 스테거 유지"]
+    },
+    {
+      "id": "parallax-hero",
+      "name": "패럴랙스 히어로",
+      "useWhen": "히어로에 배경 이미지가 있고 스크롤이 충분할 때.",
+      "css": ".hero{overflow:hidden;position:relative}.hero .bg{will-change:transform;transform:translateZ(0)}",
+      "js": "const bg=document.querySelector('.hero .bg');if(bg&&matchMedia('(prefers-reduced-motion:no-preference)').matches){addEventListener('scroll',()=>{const y=scrollY;if(y<innerHeight)bg.style.transform='translateY('+y*.3+'px)'},{passive:true})}",
+      "ponytail": "transform만, 스크롤 리스너는 passive. background-attachment:fixed는 모바일에서 깨지니 쓰지 않는다.",
+      "avoid": ["패럴랙스 양 100px 초과", "모바일 적용"]
+    },
+    {
+      "id": "floating-nav",
+      "name": "플로팅 글래스 내비",
+      "useWhen": "멀티섹션 페이지. 상단 고정 대신 뷰포트 위쪽에 떠 있는 pill 내비.",
+      "css": ".nav-wrap{position:sticky;top:14px;z-index:50;display:flex;justify-content:center;padding:0 16px}.nav{display:flex;gap:4px;align-items:center;padding:6px;border-radius:999px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:0 8px 30px -12px rgba(0,0,0,.18)}.nav a{padding:8px 14px;border-radius:999px;font-size:13px;text-decoration:none;color:var(--muted)}.nav a[aria-current]{background:var(--ink);color:var(--bg)}",
+      "ponytail": "nav에 배경을 붙이고 blur를 쓰면 스티키가 굳이 필요 없다. 모바일은 별도 메뉴.",
+      "avoid": ["backdrop-filter를 스크롤 내용에 사용", "내비 링크 7개 초과"]
+    },
+    {
+      "id": "mobile-overlay-menu",
+      "name": "모바일 풀스크린 메뉴",
+      "useWhen": "내비 링크가 4개 이상이고 모바일에서 접어야 할 때.",
+      "css": "@media(max-width:767px){.nav-links{position:fixed;inset:0;display:grid;place-content:center;gap:8px;background:var(--bg);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.16,1,.3,1)}.nav-links.open{opacity:1;pointer-events:auto}.nav-links a{font-size:1.6rem;padding:10px 0}.nav-toggle{display:inline-flex}}@media(min-width:768px){.nav-toggle{display:none}}",
+      "js": "const b=document.querySelector('.nav-toggle'),m=document.querySelector('.nav-links');if(b){b.addEventListener('click',()=>{const open=m.classList.toggle('open');b.setAttribute('aria-expanded',open)});m.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>m.classList.remove('open')))}",
+      "ponytail": "<dialog> 원소가 이걸 대체한다. 심플하면 dialog로. 복잡하면 위 패턴.",
+      "avoid": ["링크마다 개별 애니메이션", "포커스 트랩 없이 초점 이탈"]
+    },
+    {
+      "id": "double-bezel-card",
+      "name": "더블베젤 카드",
+      "useWhen": "카드형 콘텐츠(메뉴·상품·서비스)가 있을 때. 구조적 중첩이 아니라 외곽 링+내부 코어.",
+      "css": ".card{background:color-mix(in srgb,var(--surface) 60%,transparent);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 32px -16px rgba(0,0,0,.18);transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s cubic-bezier(.16,1,.3,1)}.card:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 20px 44px -18px rgba(0,0,0,.22)}",
+      "ponytail": "카드 안에 또 카드를 넣지 않는다(nested-cards). 외곽은 단색 링이지 카드가 아니다.",
+      "avoid": ["nested-cards(카드 안 카드)", "모서리 12px + 옅은 그림자 반사"]
+    },
+    {
+      "id": "pill-cta",
+      "name": "알약 CTA + 호버 물리",
+      "useWhen": "주요 행동 버튼(문의·예약·구입) 하나에.",
+      "css": ".cta{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s cubic-bezier(.16,1,.3,1)}.cta .arr{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;transition:transform .3s cubic-bezier(.16,1,.3,1)}.cta:hover{transform:translateY(-1px)}.cta:hover .arr{transform:translateX(3px)}.cta:active{transform:scale(.98)}",
+      "ponytail": "링크면 <a>, 버튼이면 <button>. 둘을 혼동하지 않는다.",
+      "avoid": ["가운데 정렬 히어로 + 버튼 2개 세트", "그림자 과장"]
+    },
+    {
+      "id": "signature-easing",
+      "name": "시그니처 이징",
+      "useWhen": "모든 인터랙티브 요소에. linear/ease-in-out 대신 spring 느낌의 cubic-bezier.",
+      "css": "a,button,.card,.nav a{transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s cubic-bezier(.16,1,.3,1),background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1)}",
+      "ponytail": "전환은 필요한 속성에만. all을 쓰지 않는다.",
+      "avoid": ["linear", "ease-in-out", "transition:all"]
+    },
+    {
+      "id": "marquee",
+      "name": "마퀴 로고 스트립",
+      "useWhen": "협력사·인증·파트너 로고가 여러 개일 때.",
+      "css": ".marquee{overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}.marquee .track{display:flex;gap:48px;width:max-content;animation:slide 22s linear infinite}@keyframes slide{to{transform:translateX(-50%)}}",
+      "ponytail": "콘텐츠를 두 번 복제해서 -50% 이동. JS 없이 CSS만. content-visibility 자동.",
+      "avoid": ["무한 루프를 본문 텍스트에", "prefers-reduced-motion 무시"]
+    },
+    {
+      "id": "apple-hero",
+      "name": "애플식 2링크 히어로",
+      "useWhen": "브랜드·제품 중심 페이지의 히어로. 대형 이미지 + '더 알아보기/방문하기' 2링크.",
+      "css": ".hero{min-height:88dvh;display:grid;place-content:center;text-align:center;padding:clamp(48px,8vw,96px) 20px}.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);letter-spacing:-.03em}.hero p{max-width:38ch;margin:16px auto 0;color:var(--muted)}.hero .links{display:flex;gap:20px;justify-content:center;margin-top:28px}.hero .links a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .25s}.hero .links a:hover{border-bottom-color:var(--accent)}",
+      "ponytail": "애플의 레이아웃 복제가 아니라 여백·위계·제품 중심을 모방한다.",
+      "avoid": ["가운데 정렬 + 버튼 2개가 템플릿이 되지 않게", "눈썹 라벨"]
+    }
+  ]
+}

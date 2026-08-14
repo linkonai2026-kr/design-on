@@ -33,7 +33,7 @@ STEP 8  완성 후 대화       만족도 → 실제 정보 채우기 → 사진
 | | 어디서 | 빠뜨리면 |
 |---|---|---|
 | **1. `pick.mjs`로 조회한다** | STEP 0-1-1 | `data/*.json`을 통째 읽어 세션 예산이 날아간다. `tools.json` 하나가 약 87,000 토큰이다 |
-| **2. 질문은 딱 한 번, 묶어서** | STEP 1-4 | 초보자가 설문지를 받는다. 팔레트를 먼저 조회해 근거를 쥐고 3개 이하만 묻는다 |
+| **2. 질문은 반드시 먼저, 한 번에 묶어서** | STEP 1-4 | **건너뛰면 "AI가 맘대로 골랐다"는 불신이 시작된다. Codex를 포함한 모든 환경에서, 답을 받기 전에 STEP 2로 가지 마라.** 팔레트를 조회해 근거를 쥐고 미리보기 화면과 함께 5~6개 후보를 보여준다 |
 | **3. 구조부터 고른다** | STEP 2-0 | 색만 다른 같은 페이지가 나온다. 업종이 아니라 가게가 가진 자산이 구조를 정한다 |
 | **4. 기계 검사를 돌린다** | STEP 5 | 자기 판단에 맡기면 늘 통과시킨다. 여기가 v1과 갈리는 지점이다 |
 | **5. STEP 8까지 간다** | STEP 8 | 상호명·전화번호가 지어낸 값인 채로 끝난다. 그건 완성이 아니라 숙제다 |
@@ -54,9 +54,11 @@ design-on은 아래를 **저장소 안에 이미 갖고 있다.** 설치를 기�
 |---|---|---|
 | `{ROOT}/scripts/pick.mjs` | **데이터 조회 CLI. JSON을 통째로 읽지 말고 이걸 써라** | STEP 1·2·3 |
 | `{ROOT}/data/layouts.json` | **페이지 구조 아키텍처 10종. 전부 다르게 생겼다** | `pick layouts`로 조회 |
-| `{ROOT}/data/palettes.json` | 컬러 팔레트 83세트 | `pick palettes`로 조회 |
+| `{ROOT}/data/palettes.json` | 컬러 팔레트 93세트 | `pick palettes`로 조회 |
+| `{ROOT}/data/presets.json` | **업종별 표준 아트 디렉션 7종. "알아서 해줘"의 출발점** | `pick presets`로 조회 |
+| `{ROOT}/data/premium.json` | **프리미엄 모티프 10종 + 트리거 사전. imweb·apple 수준** | `pick premium`으로 조회 |
 | `{ROOT}/data/fonts.json` | 서체 페어링 9종 (Pretendard + 한글 제목 + Fontshare 라틴) | `pick fonts`로 조회 |
-| `{ROOT}/data/photo-recipes.json` | 업종별 사진 프롬프트 레시피 7종 | `pick photo`로 조회 |
+| `{ROOT}/data/photo-recipes.json` | 업종별 사진 프롬프트 레시피 + 실사 스톡 키워드·URL 7종 | `pick photo`로 조회 |
 | `{ROOT}/data/tools.json` | 디자인 툴·사이트 894개 | `pick tools`로 조회 |
 | `{ROOT}/vendor/impeccable/reference/craft-floor.md` | 품질 하한선, 절대 금지 | STEP 4, STEP 5 |
 | `{ROOT}/vendor/impeccable/reference/*.md` | 25종 레퍼런스 (new-work, typeset, layout, animate, clarify, colorize, audit, critique …) | 필요할 때 |
@@ -72,7 +74,9 @@ design-on은 아래를 **저장소 안에 이미 갖고 있다.** 설치를 기�
 ```bash
 node {ROOT}/scripts/pick.mjs layouts  --asset "목록과 가격이 핵심"
 node {ROOT}/scripts/pick.mjs layouts  --id index-first
-node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --limit 3
+node {ROOT}/scripts/pick.mjs presets  --industry 카페
+node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --preview --auto-fix --limit 6
+node {ROOT}/scripts/pick.mjs premium  --match "고급스럽게 인터랙티브하게"
 node {ROOT}/scripts/pick.mjs fonts    --industry 카페
 node {ROOT}/scripts/pick.mjs photo    --industry 카페
 node {ROOT}/scripts/pick.mjs tools    --section 색상 --limit 8
@@ -81,7 +85,11 @@ node {ROOT}/scripts/pick.mjs sections
 
 같은 답을 실측 기준 **91,885 토큰 → 1,621 토큰(98% 절감)** 으로 준다. 팔레트 조회는 역할 배정(`bg`·`surface`·`ink`·`accent`·`muted`)과 대비 계산까지 끝내서 돌려주므로 STEP 2에서 다시 계산할 필요가 없다.
 
-`warn` 배열이 비어 있지 않으면 그 경고를 반드시 반영해라. 예를 들어 `muted`가 `null`이면 그 팔레트에는 본문 보조색으로 쓸 색이 없다는 뜻이다.
+`presets`는 **업종별 표준 카드**를 준다. "알아서 해줘" 경로와 질문의 근거가 된다. 구조·모드·3다이얼·방문자 질문·"이 가게에만 있는 것" 아이디어가 들어 있다.
+
+`--auto-fix`는 대비 미달인 `ink`·`muted`·`accent`를 **자동 보정**해 항상 4.5:1 이상을 보장한다. 질문 후보를 추리기 전에 `--auto-fix`를 켜서, 사용자가 어떤 팔레트를 골라도 결과물 품질 하한선이 지켜지게 해라.
+
+`warn` 배열이 비어 있지 않으면 그 경고를 반드시 반영해라. 예를 들어 `muted`가 `null`이면 그 팔레트에는 본문 보조색으로 쓸 색이 없다는 뜻이다. **단, 이 경고는 에이전트가 내부적으로 처리할 사항이지 사용자에게 보여줄 내용이 아니다. 사용자에게는 절대 그대로 노출하지 마라. `--auto-fix`를 쓰면 대부분의 warn이 사라진다.**
 
 ### 0-2. 외부 스킬은 있으면 쓰고 없으면 넘어간다
 
@@ -109,6 +117,35 @@ node {ROOT}/scripts/pick.mjs sections
 | 언어 | 한국어 (요청이 영어면 영어) |
 
 **지역 소상공인 업종(카페·미용실·공방·식당·필라테스·학원 등)은 사업자가 직접 보는 결과물이다.** 개발자용 SaaS 랜딩 문법(다크모드 + 그라디언트 + 영문 슬로건)을 쓰지 마라.
+
+### 1-1-1. 업종을 알면 프리셋을 먼저 조회한다
+
+업종이 추론되면 **표준 카드를 조회**해 출발점으로 삼는다. 구조·모드·3다이얼·방문자 질문·"이 가게에만 있는 것" 아이디어가 한 번에 온다. **이 값은 정답이 아니라 출발점이다.** 구조는 STEP 2-0에서 이 가게가 가진 자산으로 다시 고를 수 있다.
+
+```bash
+node {ROOT}/scripts/pick.mjs presets --industry 카페
+```
+
+- `defaultLayout` — 그 업종의 기본 구조. 아트 디렉션 카드의 후보가 된다
+- `visitorQuestions` — 방문자가 궁금한 것. 1순위가 첫 화면을 정한다
+- `ownOnly` — "이 가게에만 있는 요소" 아이디어. 여기서 하나 골라 실체화한다
+- `infoItems` — STEP 8에서 물어볼 항목 목록
+
+**"알아서 해줘"라고 하면 이 프리셋 + 첫 팔레트 후보로 진행한다.** 질문에 답했을 때와 품질 차이가 나지 않도록, 프리셋 값은 반드시 아트 디렉션 카드에 반영한다.
+
+### 1-1-2. 브리프를 프리미엄 트리거로 스캔한다
+
+사용자가 "고급스럽게", "인터랙티브하게", "모던하게", "애플처럼", "imweb처럼" 등을 말했는지 **브리프를 스캔**해 프리미엄 레벨을 정한다. "알아서 해줘"면 basic으로 간다.
+
+```bash
+node {ROOT}/scripts/pick.mjs premium --match "고급스럽게 세련되게 만들고 싶어"
+```
+
+- `level` — `off` / `basic` / `full`. full이면 스크롤 리빌·스테거·패럴랙스·플로팅 내비·알약 CTA까지 자유롭게 쓴다
+- `matchedFull` / `matchedBasic` — 어떤 단어가 걸렸는지. 아트 디렉션 카드에 남겨 근거로 삼는다
+- `motifs` — 쓸 수 있는 인터랙티브 모티프 목록
+
+**프리미엄 레벨이 `basic` 이상이면 STEP 2-6-2로 가서 모티프를 조합한다.** 이 판정 결과를 아트 디렉션 카드에 적어라.
 
 ### 1-2. 출력 형태를 정한다
 
@@ -164,16 +201,32 @@ React로 가기로 했으면 STEP 1-4 질문에 이 한 줄을 반드시 포함�
 **JSON을 읽지 말고 조회 명령을 써라.**
 
 ```bash
-node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --limit 3
+node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --preview --auto-fix
 ```
+
+**`--auto-fix`를 항상 켜라.** 대비 미달인 `ink`·`muted`·`accent`를 자동 보정해, 사용자가 어떤 팔레트를 골라도 결과물 품질 하한선(4.5:1)이 지켜진다. 보정된 값이 `roles`에 들어 있으니 STEP 2에서 그대로 쓴다.
+
+**후보는 기본 6개까지 뽑는다.** 질문에 쓸 것이고, 사용자가 고를 폭이 넓어야 한다.
+
+`--preview`를 붙이면 **브라우저에서 열리는 미리보기 HTML**(`design-on-palette-preview.html`)이 만들어진다. **여기서 멈추지 말고 즉시 브라우저로 열어서 사용자에게 보여줘라.**
+
+```bash
+start {ROOT}/design-on-palette-preview.html     # Windows
+open  {ROOT}/design-on-palette-preview.html     # macOS
+xdg-open {ROOT}/design-on-palette-preview.html  # Linux
+```
+
+**일반 사용자는 HEX 코드로는 색을 절대 못 알아본다.** 에이전트가 "`#FBF1FF`가 연보라입니다"라고 말해도 감이 안 온다. 색은 미리보기 화면에서 직접 보여줘라. 이건 설득이 아니라 필수 절차다.
 
 `--hue`는 한국어로 넣어도 된다. "보라"를 넣으면 퍼플·라벤더·자수정·오키드·라일락·플럼까지 같이 잡는다. 색 언급이 없으면 `--hue`를 빼고 `--industry`만 준다.
 
 돌아오는 것.
 
+- `label` — "선택지 A"처럼 질문에서 바로 쓸 수 있는 표기
+- `swatches` — 팔레트 모양을 나타내는 블록(■). 채팅 UI에서 간단한 구분용이다
 - `roles` — `bg`·`surface`·`ink`·`accent`·`muted` 역할 배정이 끝난 상태
 - `contrast` — 실측 대비값. 별도로 계산하지 마라
-- `warn` — 비어 있지 않으면 반드시 반영한다
+- `warn` — **에이전트 전용 내부 정보다. 비어 있지 않으면 STEP 2에서 반영하되, 사용자에게는 절대 노출하지 마라.** 미리보기 HTML에도 이미 제외돼 있다
 
 ```
 warn: ["본문 대비가 4.12:1로 4.5:1에 못 미친다. ink를 더 어둡게 만들어 쓰거나 다른 팔레트를 골라라."]
@@ -181,29 +234,43 @@ warn: ["muted 후보가 4.5:1을 못 넘는다. ink를 20~30% 밝힌 색을 직�
 warn: ["accent가 4.5:1 미만이다. 버튼 배경으로 쓰지 말고 ink 배경을 써라."]
 ```
 
-**첫 번째 경고가 제일 무겁다.** 본문이 안 읽히는 팔레트는 다른 게 아무리 예뻐도 못 쓴다. **DB 83세트 중 17세트가 여기서 미달이다.** 인스타그램에서 예뻐 보이는 배색은 큰 색면 네 개로 볼 때 예쁜 것이지 17px 본문을 얹으라고 만든 게 아니다. 경고가 뜨면 ink를 직접 어둡게 만들거나 다음 후보로 넘어가라.
+**`warn`을 사용자에게 그대로 읽어주지 마라.** "muted 후보가 4.5:1을 못 넘는다"는 전문가용 언어고, 일반 사용자가 들으면 헷갈리기만 한다. 에이전트가 보고 조용히 처리할 사항이다. 경고가 있는 팔레트를 추천할 때도 선택지 설명에는 문제를 드러내지 말고, 골라졌을 때만 STEP 2에서 반영한다.
+
+**첫 번째 경고가 제일 무겁다.** 본문이 안 읽히는 팔레트는 다른 게 아무리 예뻐도 못 쓴다. **DB 93세트 중 17세트가 여기서 미달이다.** 인스타그램에서 예뻐 보이는 배색은 큰 색면 네 개로 볼 때 예쁜 것이지 17px 본문을 얹으라고 만든 게 아니다. 경고가 뜨면 ink를 직접 어둡게 만들거나 다음 후보로 넘어가라.
 
 랭킹은 **색 일치 > 업종 일치 > 명도 폭** 순이다. 업종은 필터가 아니라 가산점이라, "보라 + 카페"처럼 교집합이 없어도 0건이 나오지 않는다.
 
 밝은 배경색이 아예 없는 팔레트면 가장 밝은 색을 채도 8~12%로 희석해 직접 만든다.
 
-### 1-4. 한 번에 묶어서 질문한다
+### 1-4. 질문은 반드시 먼저 한다 — 절대 건너뛰지 않는다
 
-**3개 이하**로 하고, 이미 요청에 답이 있는 항목은 뺀다.
+**이 단계는 선택이 아니라 의무다.** Codex를 포함한 모든 환경에서, 브리프가 아무리 자세해도 **사용자에게 질문을 던져 답을 받기 전까지 STEP 2로 가지 마라.** 이걸 건너뛰면 "AI가 자기 맘대로 색을 골랐다"는 불신의 시작이고, 결과물이 아무리 좋아도 사용자가 자기 것으로 느끼지 못한다.
+
+**한 번에 묶어서 질문한다.** 질문은 3개 이하로 하고, 이미 요청에 답이 있는 항목은 뺀다.
 
 | 질문 | 선택지 | 언제 |
 |---|---|---|
-| **배색** | 조회한 후보 2~3개를 팔레트 이름 + 대표 HEX와 함께 | 항상 |
-| **분위기** | 업종별 대비되는 2~3개 | 요청에 분위기 언급이 없을 때 |
+| **배색** | 조회한 후보 **5~6개**를 미리보기 화면 + 팔레트 이름과 함께 | 항상 |
+| **분위기** | 업종별 대비되는 **3~4개** | 요청에 분위기 언급이 없을 때 |
 | **가장 중요한 목적** | 방문 유도 / 메뉴·가격 안내 / 브랜드 인상 / 예약·문의 | 항상 |
 | **페이지 구성** | "한 장에 다 담기 / 메뉴·소개를 따로 나누기" | 1-2 판단이 애매할 때만 |
 | **실제 상호명** | 자유 입력 | 상호가 안 나왔을 때 |
 
+**배색 질문에서 미리보기 화면을 빼먹지 마라.** "A. Orchid/Amethyst `#FBF1FF`…"만 적고 끝내면 안 된다. **방금 만든 미리보기 HTML을 브라우저로 열어서** "화면에 색이 6가지 보이는데, A~F 중 어느 쪽이 좋으세요?"라고 물어봐라. 사용자가 색을 눈으로 고르는 것이 이 도구의 핵심 경험이다.
+
+**분위기 선택지도 3개보다 넓게 준다.** 예를 들어 카페라면:
+
+```
+분위기는 어느 쪽이신가요?
+  A. 차분하고 조용한 — 여백을 넓게, 사진은 적게, 명조체 제목
+  B. 밝고 활기찬 — 사진을 크게, 대비를 강하게, 고딕체 제목
+  C. 빈티지 감성 — 종이 질감, 세리프 서체, 따뜻한 갈색 계열
+  D. 모던하고 깔끔한 — 단색 배경, 큰 글씨, 미니멀 그리드
+```
+
 페이지 구성을 물을 때는 **각각의 대가를 같이 말한다.** "한 장 — 스크롤만 하면 다 보입니다. / 나누기 — 정보가 많을 때 깔끔하지만 방문자가 한 번 더 눌러야 합니다."
 
-선택지에는 **각각이 어떤 결과로 이어지는지** 한 줄 설명을 붙인다. 예: "차분하고 조용한 — 여백을 넓게 쓰고 사진은 적게, 명조체 제목".
-
-Claude Code에서는 선택지 제시 도구를 쓴다. 그 외 환경에서는 번호를 매긴 목록으로 한 메시지에 묶어 보낸다. 어느 쪽이든 **사용자가 "1-A, 2-C, 상호는 ○○" 식으로 한 번에 답할 수 있어야 한다.**
+선택지에는 **각각이 어떤 결과로 이어지는지** 한 줄 설명을 붙인다. Claude Code에서는 선택지 제시 도구를 쓴다. 그 외 환경에서는 번호를 매긴 목록으로 한 메시지에 묶어 보낸다. 어느 쪽이든 **사용자가 "1-A, 2-C, 상호는 ○○" 식으로 한 번에 답할 수 있어야 한다.**
 
 답을 받으면 **제작이 끝날 때까지 더 묻지 않는다.** 나머지는 전부 업종 통념으로 직접 정하고 STEP 2부터 STEP 7까지 멈추지 않고 간다.
 
@@ -447,6 +514,54 @@ L3는 이렇게 붙인다. npm도 번들러도 필요 없다.
 
 **사진에서도 마찬가지다.** 기본 프롬프트는 `no 3D render`를 넣지만, 사용자가 3D 렌더 이미지를 원하면 그 금지어를 빼고 만든다. `pick.mjs photo` 결과의 `negative`에서 해당 항목만 제거하면 된다.
 
+### 2-6-2. 프리미엄 자동 모드 (L0.5) — imweb·apple 수준으로
+
+**목표 품질**: imweb 테마(Fresh Grove·MONDAY COFFEE)와 [apple.com/kr](https://www.apple.com/kr/) 수준. 대형 제품 히어로, "더 알아보기/방문하기" 2링크, 큼직한 여백, 세련된 내비, 스크롤에 반응하는 인터랙티브.
+
+**언제 켜는가** — STEP 1-1-2에서 `premium --match`가 `basic` 이상이거나 사용자가 "알아서 해줘"라고 했을 때. 기본값은 켬이다.
+
+**모티프는 조회해서 쓴다.**
+
+```bash
+node {ROOT}/scripts/pick.mjs premium                 # 전체 모티프 목록
+node {ROOT}/scripts/pick.mjs premium --id scroll-reveal   # CSS/JS/포니테일 노트
+```
+
+각 모티프의 `css`·`js`를 가져와 팔레트·서체와 조합한다.
+
+#### 프리미엄의 세 원칙
+
+**1. 프리미엄은 장식이 아니라 행동이다.** 스크롤하면 내용이 살아나고, 호버하면 반응한다. 하지만 이는 **모든 요소에 모션을 도배하라는 뜻이 아니다.** authored moment를 하나 골라 살리고, 나머지는 조용히 둔다. 스크롤 리빌은 본문 블록에만, 스테거는 카드 목록에만.
+
+**2. 포니테일 사다리를 통과한다.** `{ROOT}/vendor/ponytail/AGENTS.md`의 사다리를 적용한다. 이 모션이 JS 없이 CSS로 되나? 네이티브(`scroll-snap`, `backdrop-filter`, `<dialog>`)로 되나? 되면 라이브러리도 JS도 안 쓴다. **불필요한 코드는 AI 티의 다른 이름이다.** 고급스럽게 만들되, 과하게 짜지 마라.
+
+**3. 레퍼런스는 베끼지 않는다.** imweb·apple의 **구도·분위기·위계만** 본다. HTML/CSS를 복제하지 않는다. "애플처럼"은 여백·위계·제품 중심을 뜻하지, 애플의 레이아웃을 그대로 가져오라는 뜻이 아니다. **이 조합이 왜 이 가게에만 있는가**를 아트 디렉션 카드에 한 줄 쓴다. 구조×팔레트×서체×모티프 조합이 같은 업종의 다른 결과물과 겹치지 않게, 모티프 중 하나는 반드시 다르게 고른다.
+
+#### 모티프 선택 규칙
+
+| 모티프 | 언제 |
+|---|---|
+| `scroll-reveal` | 첫 섹션의 본문 블록에. 모든 섹션에 도배하지 마라 |
+| `stagger` | 카드·목록이 3개 이상일 때. `--i`로 순차 등장 |
+| `parallax-hero` | 히어로 배경 이미지가 있고 스크롤이 충분할 때 |
+| `floating-nav` | 멀티섹션 페이지. 상단 고정 대신 떠 있는 pill 내비 |
+| `mobile-overlay-menu` | 내비 링크 4개 이상. 모바일 필수 |
+| `double-bezel-card` | 카드형 콘텐츠(메뉴·상품·서비스). 카드 안 카드는 금지 |
+| `pill-cta` | 주요 행동 버튼(문의·예약·구입) 하나에 |
+| `signature-easing` | 모든 전환에 `cubic-bezier(.16,1,.3,1)`. linear 금지 |
+| `marquee` | 협력사·인증·파트너 로고가 여러 개일 때 |
+| `apple-hero` | 브랜드·제품 중심 페이지 히어로. 2링크 + 대형 이미지 |
+
+**모티프를 넣을 때 반드시 함께 넣는 것.**
+
+- `prefers-reduced-motion: reduce`에서 전부 끈다
+- JS가 죽어도 내용이 보여야 한다. 리빌 요소는 이미 보이는 상태에서 시작
+- 애니메이션은 `transform`·`opacity`만
+- `backdrop-filter`는 fixed/sticky에만
+- **STEP 5 기계 검사는 그대로 통과해야 한다.** 프리미엄 모드라고 면제되지 않는다. 특히 `hero-eyebrow-chip`(눈썹 라벨)과 `nested-cards`(카드 안 카드)를 조심하라
+
+**STEP 5 검수에 포니테일 리뷰를 추가한다.** 빌드된 `site/`에서 불필요한 의존성·중복 코드·과잉 컴포넌트를 찾아 제거한다. `vendor/ponytail/skills/ponytail-review/SKILL.md`를 참고한다.
+
 ### 2-7. 브리프가 이긴다
 
 디텍터는 보라·바이올렛 액센트를 `ai-color-palette`로 경고한다. 그런데 **사용자가 "보라색으로 해줘"라고 명시했으면 보라가 맞다.**
@@ -563,7 +678,15 @@ curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-im
   | python -c "import sys,json,base64;d=json.load(sys.stdin);[open('site/assets/hero.jpg','wb').write(base64.b64decode(p['inlineData']['data'])) for c in d['candidates'] for p in c['content']['parts'] if 'inlineData' in p]"
 ```
 
-**C-3. 실사 스톡.** 웹 검색으로 업종 키워드 + `unsplash`를 찾고 `images.unsplash.com/photo-...` CDN URL을 추출한다. 뒤에 `?w=1600&q=80&fm=jpg&fit=crop`을 붙인다. 페이지 하단에 출처를 작게 밝힌다.
+**C-3. 실사 스톡.** `pick.mjs photo`가 주는 `stock`을 먼저 쓴다. `stock.search`는 Unsplash 검색 키워드, `stock.fallbacks`는 이미 검증된 CDN URL이다.
+
+```bash
+node {ROOT}/scripts/pick.mjs photo --industry 카페   # stock.search + stock.fallbacks
+```
+
+- `stock.fallbacks`에서 하나 고른 뒤 `?w=1600&q=80&fm=jpg&fit=crop`을 붙인다. **URL이 살아 있는지 확인 후 넣는다.**
+- 어울리는 게 없으면 `stock.search`의 키워드로 Unsplash를 새로 검색해 `images.unsplash.com/photo-...` CDN URL을 추출한다.
+- 페이지 하단에 출처를 작게 밝힌다.
 
 **C-4. 사진 없이.** 억지로 넣지 말고 타이포그래피 주도로 간다. 큰 헤드라인, 넓은 여백, 색면 블록, CSS 노이즈. 어설픈 이미지보다 이쪽이 훨씬 고급스럽다.
 
