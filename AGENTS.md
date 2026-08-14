@@ -91,6 +91,7 @@ npm ci --prefix vendor/impeccable
 node scripts/pick.mjs layouts  --asset "공간·분위기가 자산"        # 구조 10종
 node scripts/pick.mjs presets  --industry 카페                     # 업종별 표준 카드 7종
 node scripts/pick.mjs premium  --match "고급스럽게 인터랙티브하게"   # 프리미엄 레벨 판정
+node scripts/pick.mjs premium  --archetype editorial-warm          # 비주얼 아키타입 사양
 node scripts/pick.mjs palettes --hue 보라 --industry 카페 --auto-fix  # 팔레트 93세트, 대비 자동 보정
 node scripts/pick.mjs fonts    --industry 카페                     # 서체 페어링 9종
 node scripts/pick.mjs photo    --industry 카페                     # 사진 프롬프트 + 실사 스톡 키워드·URL
@@ -98,7 +99,7 @@ node scripts/pick.mjs tools    --section 색상                      # 디자인
 ```
 
 - **`presets`** — 업종별 표준 아트 디렉션. 구조·모드·3다이얼·방문자 질문·"이 가게에만 있는 것" 아이디어가 들어 있다. "알아서 해줘"와 질문의 근거가 된다.
-- **`premium`** — 브리프를 프리미엄 트리거 사전으로 스캔해 레벨(off/basic/full)을 판정한다. full이면 STEP 2-6-2에서 인터랙티브 모티프를 조합한다.
+- **`premium`** — 브리프를 프리미엄 트리거 사전으로 스캔해 레벨(off/basic/full)을 판정한다. full이면 STEP 2-6-2에서 **비주얼 아키타입 하나를 고른 뒤**(`--archetype`) 그 규정에 모든 것을 종속시킨다. 아키타입마다 업종·팔레트 톤·타이포·모티프 조합이 다르다.
 - **`palettes --auto-fix`** — 대비 미달인 `ink`·`muted`·`accent`를 자동 보정해 항상 4.5:1을 보장한다. 팔레트 조회에는 항상 붙인다.
 
 | 경로 | 내용 |

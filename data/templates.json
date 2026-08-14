@@ -1,0 +1,59 @@
+{
+  "_comment": "템플릿·테마 참고 사이트 DB. '사진이나 템플릿 사이트를 적극 활용' 요청에 응답한다. 목적은 레퍼런스 수집이지 복제가 아니다 — 구도·분위기·섹션 흐름을 보고 독창적으로 조합한다(브리프가 이기고, 레퍼런스는 참고만).",
+
+  "sites": [
+    {
+      "name": "imweb 테마",
+      "url": "https://imweb.me/theme/",
+      "note": "쇼핑몰·비즈니스·블로그·이벤트·포트폴리오·커뮤니티·예약 7개 카테고리, 수십 개 테마. 한국 소상공인 사이트의 표준 수준을 보여준다",
+      "use": "업종별로 어울리는 테마를 열어 섹션 흐름·여백·타이포를 본다. Fresh Grove(유기농 쇼핑몰)·MONDAY COFFEE(카페)·Volt.X(테크)·Vinyasa(요가) 등",
+      "level": "full"
+    },
+    {
+      "name": "Framer 템플릿",
+      "url": "https://www.framer.com/templates/",
+      "note": "모던·미니멀 랜딩 템플릿이 많다. 애니메이션(리빌·스테거·패럴랙스) 참고에 좋다",
+      "use": "히어로·모션·카드 구도를 참고. 특히 인터랙티브 모티프를 어떻게 살리는지",
+      "level": "basic"
+    },
+    {
+      "name": "Webflow 템플릿",
+      "url": "https://webflow.com/templates",
+      "note": "비즈니스·에이전시·쇼핑몰 템플릿. 그리드·폼·상세 레이아웃이 강하다",
+      "use": "비즈니스·쇼핑몰 페이지의 정보 구조를 참고",
+      "level": "basic"
+    },
+    {
+      "name": "Wix 템플릿",
+      "url": "https://www.wix.com/website/templates",
+      "note": "업종별 템플릿이 방대하다. 레스토랑·미용실·클리닉 등",
+      "use": "소상공인 업종(식당·미용실·네일 등)의 표준 섹션 구성을 참고",
+      "level": "basic"
+    },
+    {
+      "name": "Squarespace 템플릿",
+      "url": "https://www.squarespace.com/templates",
+      "note": "에디토리얼·포트폴리오 느낌이 강하다. 여백과 타이포가 세련됨",
+      "use": "editorial-warm·bold-editorial 아키타입의 타이포·여백 참고",
+      "level": "basic"
+    },
+    {
+      "name": "Godaddy 템플릿",
+      "url": "https://www.godaddy.com/websites/website-builder",
+      "note": "단순한 소상공인 사이트가 많다",
+      "use": "정보가 적은 페이지(poster 구조)의 기준 참고",
+      "level": "off"
+    }
+  ],
+
+  "archtypeRefs": {
+    "_comment": "아키타입별로 참고할 만한 템플릿·테마. premium --archetype 응답과 함께 본다.",
+    "editorial-warm": ["imweb MONDAY COFFEE", "imweb Fresh Grove", "imweb Our-mind", "Squarespace 에디토리얼"],
+    "dark-gallery": ["imweb TIME STOOD STILL", "imweb Attention", "imweb ETERNAL.B"],
+    "neon-modern": ["imweb Volt.X", "imweb MULTIPLY", "Framer 다크 랜딩"],
+    "clean-minimal": ["imweb I am Jane", "imweb WISE", "Framer 미니멀"],
+    "bold-editorial": ["imweb STORE", "imweb DIVINE", "Squarespace 볼드 타이포"],
+    "soft-nature": ["imweb Vinyasa", "imweb circle pilates", "imweb PIT A PET"],
+    "corporate-trust": ["imweb GLOBAL LOGISTICS", "imweb Benuity", "Webflow 비즈니스"]
+  }
+}

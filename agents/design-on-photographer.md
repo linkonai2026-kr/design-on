@@ -49,14 +49,15 @@ curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-im
 
 ## C-3. 실사 스톡
 
-`pick.mjs photo`가 주는 `stock`을 먼저 쓴다. `stock.search`는 Unsplash 검색 키워드, `stock.fallbacks`는 이미 검증된 CDN URL이다.
+`pick.mjs photo`가 주는 `stock`과 `photoSites`를 적극 쓴다. `stock.search`는 검색 키워드, `stock.fallbacks`는 검증된 CDN URL, `photoSites`는 사진 사이트 5곳의 검색 URL이다.
 
 ```bash
-node {ROOT}/scripts/pick.mjs photo --industry 카페   # stock.search + stock.fallbacks
+node {ROOT}/scripts/pick.mjs photo --industry 카페   # stock + photoSites
 ```
 
-- `stock.fallbacks`에서 하나 고른 뒤 `?w=1600&q=80&fm=jpg&fit=crop`을 붙인다. **URL이 살아 있는지 확인 후 넣는다.**
-- 어울리는 게 없으면 `stock.search`의 키워드로 Unsplash를 새로 검색해 `images.unsplash.com/photo-...` CDN URL을 추출한다. 핫링크가 허용되고 영구적이다.
+- `stock.fallbacks`에서 하나 고른 뒤 CDN 파라미터를 붙인다(Unsplash `?w=1600&q=80&fm=jpg&fit=crop`). **URL이 살아 있는지 확인 후 넣는다.**
+- 어울리는 게 없으면 **`photoSites` 검색 URL을 열어** 사진을 고른다. Unsplash → Pexels(`?auto=compress&cs=tinysrgb&w=1600`) → Pixabay 순으로 돌려 본다. **한 사이트가 안 되면 다른 사이트로 넘어간다.**
+- **Pinterest는 레퍼런스·무드보드용으로만.** `i.pinimg.com`은 영속적이지 않아 페이지에 직접 넣지 않는다. 구도를 참고해 다른 사이트에서 찾거나 AI로 만든다.
 - 페이지 하단에 출처를 작게 밝히도록 메모를 남긴다.
 
 **실사 스톡이 AI 생성 이미지보다 AI 티가 덜 나는 경우가 많다.** 애매하면 이쪽이 안전하다.

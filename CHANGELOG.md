@@ -6,6 +6,59 @@ design-on의 버전별 변경 사항입니다. 형식은 [Keep a Changelog](http
 
 ---
 
+## [4.5.0] — 2026-08-15
+
+### 이번 버전의 요점
+
+**사진과 템플릿 사이트를 적극 활용합니다.** 사진은 Unsplash 한 곳에 기대지 않고 Unsplash·Pexels·Pixabay·Pinterest·Openverse 5곳의 검색 URL을 자동 생성해 돌려 봅니다. 디자인은 빈손으로 시작하지 않고 imweb·Framer·Webflow·Wix 등 템플릿 사이트를 레퍼런스로 수집합니다 — 구도·분위기만 보고, HTML은 베끼지 않습니다.
+
+### 추가
+
+- **사진 사이트 5곳** (`photo-recipes.json`의 `photoSites`, `pick.mjs photo`) — Unsplash · Pexels · Pixabay · Pinterest · Openverse. 업종 검색 키워드로 각 사이트 검색 URL을 자동 생성
+  - Pinterest는 레퍼런스·무드보드용 (핫링크가 영속적이지 않아 페이지에 직접 넣지 않음)
+  - 한 사이트가 안 되면 다른 사이트로 넘어간다
+- **템플릿 참고 사이트** (`data/templates.json`, `pick.mjs templates`) — imweb 테마 · Framer · Webflow · Wix · Squarespace · Godaddy. 아키타입별 참고 테마 제공
+- PLAYBOOK STEP 2-6-2 "템플릿·테마 사이트를 레퍼런스로 적극 활용" + C-3 사진 사이트 순회 배선
+
+### 변경
+
+- C-3 실사 스톡 절차 — Unsplash만 고집하지 않고 사진 사이트 5곳을 순회
+- README "사진은 어떻게 넣나" — 사진 사이트 검색 URL 자동 생성 안내
+
+### 수정
+
+- 없음
+
+---
+
+## [4.4.0] — 2026-08-15
+
+### 이번 버전의 요점
+
+**결과물이 업종마다 다른 얼굴을 갖게 됩니다.** 프리미엄 모드가 "항상 애플 스타일"로 수렴하던 문제를 고쳤습니다. imweb 테마들의 다양성을 담은 **비주얼 아키타입 7종**을 추가해, 카페는 크림 편집, 쇼핑몰은 네온 테크, 공방은 다크 갤러리처럼 업종·브랜드에 맞는 얼굴이 나옵니다. 그리고 완성된 사이트를 **`design-on.json`에 저장**해 이후에 고치기 쉽게 했습니다.
+
+### 추가
+
+- **비주얼 아키타입 7종** (`data/premium.json`의 `archetypes`, `pick.mjs premium --archetype`)
+  - 에디토리얼 웜 · 다크 갤러리 · 네온 모던 테크 · 클린 미니멀 · 볼드 에디토리얼 · 소프트 네이처 · 코퍼레이트 트러스트
+  - 각각 팔레트 톤·타이포·구도·어울리는 모티프·참고 테마를 규정. imweb 테마(MONDAY COFFEE·TIME STOOD STILL·Volt.X 등)에서 추출
+  - `premium --match`가 업종 단어로 어울리는 아키타입을 추천
+  - `apple-hero`는 `clean-minimal`의 옵션으로 격하 — 모든 페이지의 기본값이 아니다
+- **STEP 8-6 설정 저장** — 완성 후 `site/design-on.json`에 아트 디렉션·프리미엄·실제 정보 저장
+- **STEP 8-7 유지보수 안내** — "전화번호 바꿔줘" "아까 그 느낌으로 다시" 같은 요청을 받을 수 있게, 다음 세션에서 저장 파일을 먼저 읽고 재사용
+
+### 변경
+
+- 예시 5종을 **각자 다른 아키타입**으로 재생성 — cafe(에디토리얼 웜) · salon(클린 미니멀) · shop(네온 모던 테크) · studio(다크 갤러리, 기존 유지) · tax(볼드 에디토리얼, 제목 Black Han Sans)
+- PLAYBOOK STEP 2-6-2에 "아키타입을 먼저 고른다" 절차 추가
+
+### 수정
+
+- `pick.mjs premium --match`가 `--match` 다음의 공백 문장을 자르던 버그 — free 인자까지 이어 붙여 전체 브리프를 스캔
+- `premium --archetype` 응답에 메타 키(`_comment`)가 섞이던 문제
+
+---
+
 ## [4.3.0] — 2026-08-15
 
 ### 이번 버전의 요점
@@ -171,6 +224,8 @@ v1의 문제는 하나였습니다. **결과물에서 AI 티가 났습니다.** 
 
 - 초기 버전 (`design-kit`). 질문 우선 흐름과 컬러 팔레트·디자인 툴 DB
 
+[4.5.0]: https://github.com/linkonai2026-kr/design-on/compare/v4.4.0...v4.5.0
+[4.4.0]: https://github.com/linkonai2026-kr/design-on/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/linkonai2026-kr/design-on/compare/v4.2.0...v4.3.0
 [4.2.0]: https://github.com/linkonai2026-kr/design-on/compare/v4.1.0...v4.2.0
 [4.1.0]: https://github.com/linkonai2026-kr/design-on/compare/v4.0.0...v4.1.0

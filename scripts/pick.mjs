@@ -382,6 +382,17 @@ function photo() {
   if (!hit) hit = all.recipes.find((r) => has(r.industry, '카페'));
   const asm = (b) => [b.subject, b.light, all.universal.camera, `${b.mood}, {PALETTE} tones`, all.universal.negative]
     .filter(Boolean).join('. ') + '.';
+
+  // 실사 스톡 검색 URL을 사진 사이트별로 만든다. 검색 키워드를 그대로 쿼리로 쓴다.
+  const stock = hit.stock ?? { search: [], fallbacks: [] };
+  const searchQueries = stock.search.length ? stock.search : stock.fallbacks.slice(0, 2);
+  const photoSites = (all.universal.photoSites ?? []).map((s) => ({
+    name: s.name,
+    imageHost: s.imageHost,
+    note: s.note,
+    queries: searchQueries.map((query) => s.url.replace('{QUERY}', encodeURIComponent(query))),
+  }));
+
   return {
     industry: hit.industry,
     matched,
@@ -391,8 +402,9 @@ function photo() {
       detail: hit.detail.map(asm),
       space: asm(hit.space),
     },
-    // C-3 실사 스톡: 검색 키워드 + 검증된 URL 후보. 생성이 안 되는 환경에서 바로 쓴다.
-    stock: hit.stock ?? null,
+    // C-3 실사 스톡: 검색 키워드 + 검증된 URL 후보 + 사진 사이트별 검색 URL.
+    stock,
+    photoSites,
     replace: '{PALETTE}를 STEP 2에서 고른 팔레트 색 이름으로 바꿔라. 예: muted plum and warm cream',
     rules: all.universal.rules,
     note: hit.note,
@@ -439,10 +451,24 @@ function layouts() {
 
 // --- premium (프리미엄 자동 모드) -------------------------------------------
 // 사용자 브리프를 스캔해 레벨(off/basic/full)을 정하고, 인터랙티브 모티프의
-// CSS/JS/사용조건/포니테일 노트를 준다. --match "<브리프>" 또는 --id <모티프>.
+// CSS/JS/사용조건/포니테일 노트를 준다. --match "<브리프>" / --id <모티프> / --archetype <이름>.
 function premium() {
   const all = read('premium.json');
-  const match = opt.match ?? (free.length ? free.join(' ') : null);
+  // --match 다음 값은 첫 단어만 opt.match가 되고 나머지는 free로 온다. 둘을 이어 붙인다.
+  const match = [opt.match, ...free].filter(Boolean).join(' ') || null;
+  // _comment 같은 메타 키를 제외한 아키타입만 대상으로 삼는다
+  const archIds = Object.keys(all.archetypes ?? {}).filter((k) => !k.startsWith('_'));
+  const archetypes = Object.fromEntries(archIds.map((k) => [k, all.archetypes[k]]));
+
+  // 0) --archetype: 비주얼 아키타입 하나의 전체 사양
+  if (opt.archetype) {
+    const key = Object.keys(archetypes).find(
+      (k) => k === opt.archetype || has(archetypes[k].name, opt.archetype));
+    if (!key) {
+      return { error: `"${opt.archetype}"에 해당하는 아키타입이 없다.`, available: Object.keys(archetypes) };
+    }
+    return { archetype: { id: key, ...archetypes[key] }, rules: all.rules };
+  }
 
   // 1) --match: 브리프를 트리거 사전으로 스캔한다
   if (opt.match || (free.length && !opt.id)) {
@@ -454,15 +480,20 @@ function premium() {
       }
     }
     const level = hit.full.length ? 'full' : hit.basic.length ? 'basic' : 'off';
+    // 업종 단어로 어울리는 아키타입을 추천한다 (코퍼레이트→corporate-trust, 테크→neon-modern 등)
+    const archKey = Object.keys(archetypes).find((k) =>
+      [...(archetypes[k].industry || '').split('·'), archetypes[k].name]
+        .some((w) => has(w, brief) || has(brief, w)));
     return {
       level,
       matchedFull: hit.full,
       matchedBasic: hit.basic,
+      archetype: archKey ? { id: archKey, name: archetypes[archKey].name, motifs: archetypes[archKey].motifs } : null,
       motifs: level === 'off' ? [] : all.motifs.map((m) => m.id),
       rules: level === 'off' ? [] : all.rules,
       note: level === 'off'
         ? '프리미엄 트리거가 없다. 요청이 "알아서 해줘"면 basic으로 간다.'
-        : '프리미엄 모드. STEP 2-6-2를 보고 모티프를 골라 조합한다. 레퍼런스는 베끼지 않는다.',
+        : '프리미엄 모드. STEP 2-6-2를 보고 아키타입 하나를 고른 뒤 모티프를 조합한다. 레퍼런스는 베끼지 않는다.',
     };
   }
 
@@ -477,8 +508,31 @@ function premium() {
   return {
     levels: all.triggers.levels,
     rules: all.rules,
+    archetypes: Object.entries(archetypes).map(([id, a]) => ({ id, name: a.name, vibe: a.vibe, motifs: a.motifs })),
     motifs: all.motifs.map((m) => ({ id: m.id, name: m.name, useWhen: m.useWhen })),
-    next: '하나를 고른 뒤 `pick.mjs premium --id <id>`로 CSS/JS/포니테일 노트를 받아라.',
+    next: '아키타입을 고른 뒤 `pick.mjs premium --archetype <id>`로 전체 사양을 받고, 모티프는 `--id <모티프>`로 받아라.',
+  };
+}
+
+// --- templates (템플릿·테마 참고 사이트) ------------------------------------
+// imweb·Framer·Webflow·Wix 등을 레퍼런스로 안내한다. 복제 대상이 아니라
+// 구도·분위기·섹션 흐름을 보는 참고다. --archetype으로 아키타입별 참고 테마도 준다.
+function templates() {
+  const all = read('templates.json');
+  const arch = opt.archetype ?? (free.length ? free[0] : null);
+  if (arch) {
+    const refs = all.archtypeRefs?.[arch];
+    return {
+      archetype: arch,
+      references: refs ?? [],
+      sites: all.sites.filter((s) => s.level !== 'off'),
+      note: '레퍼런스는 구도·분위기만 본다. HTML을 베끼지 않는다. 브리프가 이긴다.',
+    };
+  }
+  return {
+    sites: all.sites,
+    archtypeRefs: all.archtypeRefs,
+    next: '`pick.mjs templates --archetype editorial-warm`으로 아키타입별 참고 테마를 받아라.',
   };
 }
 
@@ -486,7 +540,7 @@ function premium() {
 const TABLE = {
   palettes, palette: palettes, tools, tool: tools, sections,
   fonts, font: fonts, photo, photos: photo, layouts, layout: layouts,
-  presets, preset: presets, premium,
+  presets, preset: presets, premium, templates, template: templates,
 };
 
 if (!cmd || !TABLE[cmd]) {
@@ -497,7 +551,9 @@ if (!cmd || !TABLE[cmd]) {
   node scripts/pick.mjs palettes --hue 보라 --industry 카페 [--preview] [--auto-fix] [--limit 6]
   node scripts/pick.mjs presets  --industry 카페
   node scripts/pick.mjs premium  --match "고급스럽게 인터랙티브하게"
+  node scripts/pick.mjs premium  --archetype editorial-warm
   node scripts/pick.mjs premium  --id scroll-reveal
+  node scripts/pick.mjs templates --archetype editorial-warm
   node scripts/pick.mjs fonts    --mood 따뜻함 --lang ko [--limit 3]
   node scripts/pick.mjs photo    --industry 카페
   node scripts/pick.mjs tools    --section 색상 [--free] [--limit 8]
@@ -506,6 +562,7 @@ if (!cmd || !TABLE[cmd]) {
 --preview: 브라우저에서 열리는 팔레트 미리보기 HTML을 만든다(design-on-palette-preview.html).
 --auto-fix: 대비 미달인 ink/muted/accent를 자동 보정해 항상 4.5:1 이상을 보장한다.
 --match: 브리프를 프리미엄 트리거 사전으로 스캔해 레벨(off/basic/full)을 판정한다.
+--archetype: 비주얼 아키타입(editorial-warm·dark-gallery·neon-modern 등 8종) 전체 사양.
 기본 팔레트 후보는 6개까지 뽑는다. HEX만으로는 일반 사용자가 색을 못 알아본다.
 
 JSON 전체를 읽지 마라. tools.json은 262KB(약 87,000 토큰)다.

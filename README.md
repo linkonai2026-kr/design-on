@@ -8,7 +8,7 @@
 
 **Claude Code와 Codex 양쪽에서 똑같이 쓸 수 있습니다.**
 
-현재 **v4.3.0**입니다. 무엇이 바뀌었는지는 [CHANGELOG.md](CHANGELOG.md)에 정리해 두었습니다.
+현재 **v4.5.0**입니다. 무엇이 바뀌었는지는 [CHANGELOG.md](CHANGELOG.md)에 정리해 두었습니다.
 
 ---
 
@@ -452,6 +452,29 @@ node scripts/pick.mjs premium --id scroll-reveal              # 모티프 CSS/JS
 - **포니테일 사다리** — 고급스럽게 만들되 과하게 짜지 않는다. JS 없이 CSS로 되는 모션은 JS를 안 쓴다. 불필요한 라이브러리·중복 코드·과잉 컴포넌트를 STEP 5에서 제거한다
 - **레퍼런스는 베끼지 않는다** — imweb·apple의 구도·분위기·위계만 참고하고, 각 사용자 요청마다 독창적으로 조합해 새롭게 만든다
 
+**프리미엄이 항상 애플 스타일이 되지는 않습니다.** imweb 테마들이 저마다 다른 얼굴을 갖는 것처럼, 업종·브랜드에 맞는 **비주얼 아키타입**을 골라 적용합니다.
+
+| 아키타입 | 업종 | 참고 |
+|---|---|---|
+| 에디토리얼 웜 | 카페·공방·서점 | imweb MONDAY COFFEE·Fresh Grove |
+| 다크 갤러리 | 포트폴리오·갤러리 | imweb TIME STOOD STILL·Attention |
+| 네온 모던 테크 | 테크·스타트업·SaaS | imweb Volt.X·MULTIPLY |
+| 클린 미니멀 | 비즈니스·에스테틱 | imweb I am Jane·WISE |
+| 볼드 에디토리얼 | 쇼핑몰·패션·푸드 | imweb STORE·DIVINE |
+| 소프트 네이처 | 필라테스·반려동물·키즈 | imweb Vinyasa·circle pilates |
+| 코퍼레이트 트러스트 | 기업·법률·금융 | imweb GLOBAL LOGISTICS·Benuity |
+
+```bash
+node scripts/pick.mjs premium --archetype editorial-warm   # 아키타입 전체 사양
+```
+
+## 만든 후 고치는 법
+
+완성된 사이트는 **`site/design-on.json`에 설정이 저장**됩니다. 다음에 이렇게 말씀하시면 됩니다.
+
+- "전화번호 바꿔줘", "메뉴 하나 추가해줘" — 그냥 말씀하시면 반영합니다
+- "아까 그 느낌으로 다시 만들어줘" — 저장된 색·서체·구성을 재사용해 만듭니다
+
 ---
 
 ## 사진은 어떻게 넣나
@@ -462,8 +485,12 @@ node scripts/pick.mjs premium --id scroll-reveal              # 모티프 CSS/JS
 |---|---|---|
 | 1 | **에이전트 내장 이미지 생성** | Codex처럼 이미지를 직접 만들 수 있는 환경. 설정 불필요 |
 | 2 | Gemini API | `GEMINI_API_KEY`를 넣어둔 경우 |
-| 3 | 실사 스톡 사진 | 웹 검색으로 Unsplash 사진을 찾아옴 |
+| 3 | 실사 스톡 사진 | 사진 사이트 5곳(Unsplash·Pexels·Pixabay·Pinterest·Openverse) 검색 URL을 자동 생성 |
 | 4 | 사진 없이 타이포그래피로 | 위가 다 안 될 때 |
+
+```bash
+node scripts/pick.mjs photo --industry 카페   # 사진 프롬프트 + 사진 사이트 검색 URL
+```
 
 ```bash
 export GEMINI_API_KEY="발급받은-키"
@@ -471,7 +498,7 @@ export GEMINI_API_KEY="발급받은-키"
 
 **Codex에서는 키가 필요 없습니다.** 1번 경로를 먼저 씁니다.
 
-참고로 3번 실사 사진이 AI 생성 이미지보다 "AI 티"가 덜 나는 경우가 많습니다. 키가 없어도 결과물은 충분히 괜찮습니다.
+참고로 3번 실사 사진이 AI 생성 이미지보다 "AI 티"가 덜 나는 경우가 많습니다. 한 사이트에서 안 찾아지면 다른 사이트로 넘어가며 돌려 봅니다. Pinterest는 구도·분위기 참고용입니다(핫링크가 영속적이지 않아 페이지에 직접 넣지 않습니다).
 
 ---
 
@@ -487,6 +514,8 @@ Instagram [@suraj.dsgn](https://www.instagram.com/suraj.dsgn/)의 게시물 325�
 | 컬러 팔레트 | **93세트** | 정확한 HEX 색상값 369개, 어울리는 업종 |
 | 업종별 표준 카드 | **7종** | 구조·모드·3다이얼·방문자 질문·"이 가게에만 있는 것" 아이디어 |
 | 프리미엄 모티프 | **10종** | 스크롤 리빌·패럴랙스·플로팅 내비·더블베젤 카드 등 인터랙티브 레시피 |
+| 비주얼 아키타입 | **7종** | imweb 테마에서 추출한 브랜드 '얼굴' — 팔레트 톤·타이포·구도·모티프 조합 |
+| 템플릿 참고 사이트 | **6곳** | imweb·Framer·Webflow·Wix·Squarespace 등 + 아키타입별 참고 테마 |
 
 색을 고를 때 감으로 정하지 않고 이 팔레트 DB에서 근거를 갖고 고릅니다. 팔레트를 고를 때 **`--auto-fix`가 대비 미달 색을 자동 보정**해, 어떤 팔레트를 골라도 본문이 안 읽히는 결과물이 나오지 않게 합니다.
 
@@ -538,7 +567,8 @@ design-on/
 │   └── design-on-korean.md          한국어 검수
 ├── data/layouts.json        페이지 구조 아키텍처 10종
 ├── data/presets.json        업종별 표준 아트 디렉션 7종
-├── data/premium.json        프리미엄 모티프 10종 + 트리거 사전
+├── data/premium.json        프리미엄 모티프 10종 + 비주얼 아키타입 7종 + 트리거 사전
+├── data/templates.json      템플릿·테마 참고 사이트 6곳 + 아키타입별 참고 테마
 ├── data/fonts.json          서체 페어링 9종 + 라틴 폴백 5종
 ├── data/palettes.json       컬러 팔레트 93세트
 ├── data/tools.json          디자인 툴 894개

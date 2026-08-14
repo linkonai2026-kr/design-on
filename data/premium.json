@@ -32,6 +32,87 @@
     "레퍼런스(imweb·apple)는 구도·분위기만 본다. HTML/CSS를 베끼지 않는다. '애플처럼'은 여백·위계·제품 중심을 뜻하지 복제를 뜻하지 않는다."
   ],
 
+  "archetypes": {
+    "_comment": "비주얼 아키타입 = 브랜드의 전반적인 '얼굴'. imweb 테마들의 다양성에서 추출했다. 아트 디렉션 카드에서 업종·브랜드 성격으로 하나를 고르고, 그 규정(팔레트 톤·타이포·구도·모티프)에 모든 것을 종속시킨다. 모티프처럼 조회할 수 있다.",
+    "editorial-warm": {
+      "name": "에디토리얼 웜",
+      "vibe": "따뜻한 편집 디자인. 크림·세이지·에스프레소 톤, 명조 제목, 큼직한 여백, 종이 질감",
+      "referenced": ["imweb MONDAY COFFEE", "imweb Fresh Grove", "imweb Our-mind", "imweb Lullaby"],
+      "industry": "카페·베이커리·공방·서점·브런치",
+      "palette": "따뜻한 뉴트럴 + 새이지/브라운 액센트. bg는 크림이 아닌 새이지·브라운 틴트",
+      "fonts": "한글 제목 명조(Nanum Myeongjo·Gowun Batang) + 본문 Pretendard + 라틴 Gambetta",
+      "layout": "에디토리얼 단(editorial-column) 또는 목차 주도(index-first). 히어로는 사진 없이 문장으로",
+      "motifs": ["scroll-reveal", "signature-easing", "pill-cta", "stagger"],
+      "avoid": ["네온", "다크 배경", "가운데 정렬 큰 제목 + 버튼 2개"]
+    },
+    "dark-gallery": {
+      "name": "다크 갤러리",
+      "vibe": "어두운 갤러리. 딥 다크 배경 + 흰 글씨, 큰 이미지, 갤러리 그리드, 몰입감",
+      "referenced": ["imweb TIME STOOD STILL", "imweb Attention", "imweb ETERNAL.B", "imweb Jazz festival"],
+      "industry": "포트폴리오·갤러리·브랜드·공연·컨퍼런스",
+      "palette": "차콜·딥 네이비 배경 + 밝은 텍스트 + 소량의 메탈릭/앰버 액센트",
+      "fonts": "한글 제목 고딕(Song Myung·Black Han Sans) + 본문 Pretendard + 라틴 Boska/Sentient",
+      "layout": "전면 사진 연속(full-bleed-frames) 또는 포스터(poster). 이미지가 전부다",
+      "motifs": ["scroll-reveal", "stagger", "marquee"],
+      "avoid": ["밝은 크림 배경", "회색 텍스트 on 색 배경", "카드 안 카드"]
+    },
+    "neon-modern": {
+      "name": "네온 모던 테크",
+      "vibe": "다크 + 네온 액센트. 대담한 산세리프, 그리드 오버레이, 기술적 느낌",
+      "referenced": ["imweb Volt.X", "imweb MULTIPLY", "imweb Startup", "imweb ZIGULAB"],
+      "industry": "테크·스타트업·이벤트·개발자·SaaS",
+      "palette": "딥 블랙/네이비 배경 + 네온(라임·시안·마젠타) 액센트 + 흰 텍스트",
+      "fonts": "한글 제목 Black Han Sans + 본문 Pretendard + 라틴 Clash Display",
+      "layout": "카탈로그 그리드(catalog-grid) 또는 시간축(timeline). 그리드 라인을 살린다",
+      "motifs": ["scroll-reveal", "parallax-hero", "mobile-overlay-menu", "pill-cta"],
+      "avoid": ["크림·베이지", "명조 제목", "옅은 파스텔"]
+    },
+    "clean-minimal": {
+      "name": "클린 미니멀",
+      "vibe": "화이트·그레이 미니멀. 얇은 라인, 큰 여백, 단정한 산세리프",
+      "referenced": ["imweb I am Jane", "imweb WISE", "imweb SOF", "imweb Blank."],
+      "industry": "비즈니스·에스테틱·컨설팅·쇼룸",
+      "palette": "화이트·아이보리 배경 + 거의 블랙에 가까운 ink + 단일 액센트",
+      "fonts": "한글 제목 Gowun Dodum + 본문 Pretendard + 라틴 Switzer",
+      "layout": "고정 분할(split-fixed) 또는 문서형(document). 얇은 라인으로 구분",
+      "motifs": ["scroll-reveal", "signature-easing", "apple-hero", "pill-cta"],
+      "avoid": ["컬러풀", "네온", "둥근 카드 도배"]
+    },
+    "bold-editorial": {
+      "name": "볼드 에디토리얼",
+      "vibe": "대담한 대문자 타이포, 강한 대비, 매거진 구도. 크고 자신 있는 제목",
+      "referenced": ["imweb STORE", "imweb DIVINE", "imweb Oops!", "imweb yummy yummy"],
+      "industry": "쇼핑몰·패션·푸드·라이프스타일",
+      "palette": "높은 대비. 단색 배경 + 비비드 액센트(레드·옐로·오렌지)",
+      "fonts": "한글 제목 Black Han Sans·Jua + 본문 Pretendard + 라틴 Clash Display",
+      "layout": "카탈로그 그리드(catalog-grid) 또는 에디토리얼 단(editorial-column). 큰 번호·큰 이미지",
+      "motifs": ["stagger", "scroll-reveal", "pill-cta", "marquee"],
+      "avoid": ["지나치게 옅은 파스텔", "미니멀한 여백 과잉", "작은 글씨"]
+    },
+    "soft-nature": {
+      "name": "소프트 네이처",
+      "vibe": "파스텔·에어리, 둥근 형태, 자연 사진, 부드러운 톤",
+      "referenced": ["imweb Vinyasa", "imweb circle pilates", "imweb PIT A PET", "imweb fruits basket"],
+      "industry": "필라테스·요가·웰니스·반려동물·키즈",
+      "palette": "파스텔(새이지·핑크·스카이) + 따뜻한 화이트 배경",
+      "fonts": "한글 제목 Jua·Gowun Dodum + 본문 Pretendard + 라틴 Chillax",
+      "layout": "카탈로그 그리드 또는 전면 사진 연속. 둥근 모서리 허용(적당히)",
+      "motifs": ["scroll-reveal", "stagger", "signature-easing"],
+      "avoid": ["다크 배경", "강한 대비", "샤프한 모서리 남용"]
+    },
+    "corporate-trust": {
+      "name": "코퍼레이트 트러스트",
+      "vibe": "기업·전문 서비스. 신뢰감 있는 블루·네이비, 깔끔한 표, 견고한 구조",
+      "referenced": ["imweb GLOBAL LOGISTICS", "imweb Benuity", "imweb my cleaning", "imweb Coasis"],
+      "industry": "기업·법률·금융·물류·청소 서비스",
+      "palette": "화이트 배경 + 딥 네이비·스틸 블루 + 소량의 골드/시안 액센트",
+      "fonts": "한글 제목 Pretendard(굵게) + 본문 Pretendard + 라틴 Switzer",
+      "layout": "문서형(document) 또는 고정 분할(split-fixed). 표·리스트 중심",
+      "motifs": ["scroll-reveal", "signature-easing"],
+      "avoid": ["명조 제목 과잉", "네온", "파스텔"]
+    }
+  },
+
   "motifs": [
     {
       "id": "scroll-reveal",

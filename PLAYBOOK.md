@@ -58,7 +58,8 @@ design-on은 아래를 **저장소 안에 이미 갖고 있다.** 설치를 기�
 | `{ROOT}/data/presets.json` | **업종별 표준 아트 디렉션 7종. "알아서 해줘"의 출발점** | `pick presets`로 조회 |
 | `{ROOT}/data/premium.json` | **프리미엄 모티프 10종 + 트리거 사전. imweb·apple 수준** | `pick premium`으로 조회 |
 | `{ROOT}/data/fonts.json` | 서체 페어링 9종 (Pretendard + 한글 제목 + Fontshare 라틴) | `pick fonts`로 조회 |
-| `{ROOT}/data/photo-recipes.json` | 업종별 사진 프롬프트 레시피 + 실사 스톡 키워드·URL 7종 | `pick photo`로 조회 |
+| `{ROOT}/data/photo-recipes.json` | 업종별 사진 프롬프트 + 실사 스톡 키워드·사진 사이트 5곳 검색 URL | `pick photo`로 조회 |
+| `{ROOT}/data/templates.json` | 템플릿·테마 참고 사이트 (imweb·Framer·Webflow·Wix) + 아키타입별 참고 테마 | `pick templates`로 조회 |
 | `{ROOT}/data/tools.json` | 디자인 툴·사이트 894개 | `pick tools`로 조회 |
 | `{ROOT}/vendor/impeccable/reference/craft-floor.md` | 품질 하한선, 절대 금지 | STEP 4, STEP 5 |
 | `{ROOT}/vendor/impeccable/reference/*.md` | 25종 레퍼런스 (new-work, typeset, layout, animate, clarify, colorize, audit, critique …) | 필요할 때 |
@@ -77,6 +78,7 @@ node {ROOT}/scripts/pick.mjs layouts  --id index-first
 node {ROOT}/scripts/pick.mjs presets  --industry 카페
 node {ROOT}/scripts/pick.mjs palettes --hue 보라 --industry 카페 --preview --auto-fix --limit 6
 node {ROOT}/scripts/pick.mjs premium  --match "고급스럽게 인터랙티브하게"
+node {ROOT}/scripts/pick.mjs templates --archetype editorial-warm
 node {ROOT}/scripts/pick.mjs fonts    --industry 카페
 node {ROOT}/scripts/pick.mjs photo    --industry 카페
 node {ROOT}/scripts/pick.mjs tools    --section 색상 --limit 8
@@ -537,6 +539,37 @@ node {ROOT}/scripts/pick.mjs premium --id scroll-reveal   # CSS/JS/포니테일 
 
 **3. 레퍼런스는 베끼지 않는다.** imweb·apple의 **구도·분위기·위계만** 본다. HTML/CSS를 복제하지 않는다. "애플처럼"은 여백·위계·제품 중심을 뜻하지, 애플의 레이아웃을 그대로 가져오라는 뜻이 아니다. **이 조합이 왜 이 가게에만 있는가**를 아트 디렉션 카드에 한 줄 쓴다. 구조×팔레트×서체×모티프 조합이 같은 업종의 다른 결과물과 겹치지 않게, 모티프 중 하나는 반드시 다르게 고른다.
 
+#### 아키타입을 먼저 고른다 — 매번 같은 얼굴이 나오는 것을 막는다
+
+**프리미엄이 항상 애플 스타일이 되면 안 된다.** imweb 테마들이 저마다 다른 얼굴을 갖는 것처럼, **업종·브랜드 성격에 맞는 비주얼 아키타입을 하나 고른다.** 이게 결과물의 전반적인 얼굴을 정하고, 모든 결정(팔레트 톤·타이포·구도·모티프)을 거기에 종속시킨다.
+
+```bash
+node {ROOT}/scripts/pick.mjs premium --archetype editorial-warm   # 아키타입 전체 사양
+```
+
+| 아키타입 | 언제 | 참고 테마 |
+|---|---|---|
+| `editorial-warm` | 카페·베이커리·공방·서점 | imweb MONDAY COFFEE·Fresh Grove |
+| `dark-gallery` | 포트폴리오·갤러리·브랜드·공연 | imweb TIME STOOD STILL·Attention |
+| `neon-modern` | 테크·스타트업·이벤트·SaaS | imweb Volt.X·MULTIPLY |
+| `clean-minimal` | 비즈니스·에스테틱·컨설팅 | imweb I am Jane·WISE |
+| `bold-editorial` | 쇼핑몰·패션·푸드 | imweb STORE·DIVINE |
+| `soft-nature` | 필라테스·요가·반려동물·키즈 | imweb Vinyasa·circle pilates |
+| `corporate-trust` | 기업·법률·금융·물류 | imweb GLOBAL LOGISTICS·Benuity |
+
+**고른 근거를 아트 디렉션 카드에 한 줄 쓴다.** 예: "원두 목록이 자산이니 에디토리얼 웜으로, 명조 제목 + 크림·새이지 톤으로 간다." 아키타입의 `motifs`가 어울리는 모티프 조합을 이미 제시하니, 그 안에서 상황에 맞게 고른다. `apple-hero`는 `clean-minimal`의 옵션일 뿐 모든 페이지의 기본값이 아니다.
+
+**템플릿·테마 사이트를 레퍼런스로 적극 활용한다.** 빈손으로 만들지 마라. 어울리는 테마를 열어 섹션 흐름·여백·타이포를 보고 감을 잡는다. 단, **구도·분위기만 보고 HTML을 베끼지 않는다.**
+
+```bash
+node {ROOT}/scripts/pick.mjs templates --archetype editorial-warm   # 아키타입별 참고 테마
+node {ROOT}/scripts/pick.mjs templates                               # 사이트 목록 (imweb·Framer·Webflow·Wix 등)
+```
+
+- `templates`의 `references`에 아키타입별로 어울리는 테마가 있다 (예: editorial-warm → imweb MONDAY COFFEE·Fresh Grove)
+- imweb 테마 · Framer · Webflow · Wix · Squarespace를 돌아보며 **이 가게에 맞는 구도를 수집**한다
+- 수집한 구도를 **그대로 복제하지 말고** 아키타입 규정·팔레트·서체와 독창적으로 조합한다
+
 #### 모티프 선택 규칙
 
 | 모티프 | 언제 |
@@ -678,14 +711,20 @@ curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-im
   | python -c "import sys,json,base64;d=json.load(sys.stdin);[open('site/assets/hero.jpg','wb').write(base64.b64decode(p['inlineData']['data'])) for c in d['candidates'] for p in c['content']['parts'] if 'inlineData' in p]"
 ```
 
-**C-3. 실사 스톡.** `pick.mjs photo`가 주는 `stock`을 먼저 쓴다. `stock.search`는 Unsplash 검색 키워드, `stock.fallbacks`는 이미 검증된 CDN URL이다.
+**C-3. 실사 스톡.** `pick.mjs photo`가 주는 `stock`과 `photoSites`를 적극 쓴다.
 
 ```bash
-node {ROOT}/scripts/pick.mjs photo --industry 카페   # stock.search + stock.fallbacks
+node {ROOT}/scripts/pick.mjs photo --industry 카페   # stock + photoSites (5개 사이트 검색 URL)
 ```
 
-- `stock.fallbacks`에서 하나 고른 뒤 `?w=1600&q=80&fm=jpg&fit=crop`을 붙인다. **URL이 살아 있는지 확인 후 넣는다.**
-- 어울리는 게 없으면 `stock.search`의 키워드로 Unsplash를 새로 검색해 `images.unsplash.com/photo-...` CDN URL을 추출한다.
+- `stock.fallbacks`에서 하나 고른 뒤 CDN 파라미터를 붙인다(Unsplash `?w=1600&q=80&fm=jpg&fit=crop`). **URL이 살아 있는지 확인 후 넣는다.**
+- 어울리는 게 없으면 **`photoSites`의 검색 URL을 그대로 열어** 사진을 고른다. 사진 사이트 5곳이 각각 검색 URL을 준다.
+  - **Unsplash** — `images.unsplash.com/photo-...` 주소를 그대로 쓸 수 있다
+  - **Pexels** — `images.pexels.com/photos/...` 주소에 `?auto=compress&cs=tinysrgb&w=1600`
+  - **Pixabay** — `cdn.pixabay.com/...` 핫링크, 상업 이용 무료
+  - **Pinterest** — **레퍼런스·무드보드용으로만.** `i.pinimg.com`은 영속적이지 않아 페이지에 직접 넣지 않는다. 구도·분위기를 참고해 같은 느낌의 사진을 다른 사이트에서 찾거나 AI로 만든다
+  - **Openverse** — 오픈소스 검색, 저작권 상태를 직접 확인
+- **한 사이트가 안 되면 다른 사이트로 넘어간다.** Unsplash에서 안 찾아지면 Pexels·Pixabay를 시도한다. 포기하지 말고 돌려 본다.
 - 페이지 하단에 출처를 작게 밝힌다.
 
 **C-4. 사진 없이.** 억지로 넣지 말고 타이포그래피 주도로 간다. 큰 헤드라인, 넓은 여백, 색면 블록, CSS 노이즈. 어설픈 이미지보다 이쪽이 훨씬 고급스럽다.
@@ -1021,6 +1060,8 @@ npm ci --prefix {ROOT}/vendor/impeccable
 
 **STEP 7까지 만든 것은 껍데기다.** 상호명·전화번호·주소·영업시간·가격이 전부 지어낸 값이다. 예전 방식은 맨 아래에 이런 주석을 남기고 끝냈다.
 
+**STEP 8은 두 가지를 한다.** (1) 지어낸 값을 실제 정보로 바꾼다. (2) **완성된 설정을 `site/design-on.json`으로 저장**해, 이후에 "전화번호 바꿔줘" "아까 그 느낌으로 다시" 같은 **유지보수 요청**을 받을 수 있게 한다. (8-6·8-7)
+
 ```html
 <!-- 아래 정보는 예시입니다. 실제 정보로 교체하세요: 주소, 전화번호, 영업시간 -->
 ```
@@ -1192,6 +1233,58 @@ curl -s -o /dev/null -w "%{http_code}" "https://images.unsplash.com/photo-XXXX?w
 원페이지로 만들었으면 여기서 한 줄 더. "메뉴나 소개를 따로 페이지로 나누고 싶으면 말씀해 주세요."
 
 SNS 홍보용 짧은 영상이 필요하다면 [animos.app/editor](https://animos.app/editor)를 안내한다. 브라우저 툴이라 에이전트가 대신 조작할 수 없으니 **사용자가 직접 만드는 수동 자료로만** 언급한다.
+
+### 8-6. 설정을 저장한다 — 앞으로의 유지보수를 위한 기록
+
+**STEP 8이 끝나면 `site/design-on.json`을 쓴다.** 이 파일이 "이후에 어떻게 고치나"의 답이다. 같은 상점 페이지를 다시 만들거나, 나중에 내용을 바꾸라는 요청이 오면 이 파일을 먼저 읽고 그 위에 반영한다.
+
+```json
+{
+  "version": 4,
+  "updated": "2026-08-15",
+  "artDirection": {
+    "industry": "카페",
+    "archetype": "editorial-warm",
+    "layout": "index-first",
+    "palette": "Champagne/Coffee",
+    "fonts": { "display": "Gowun Batang", "body": "Pretendard", "latin": "Switzer" },
+    "dial": { "variance": 6, "motion": 2, "density": 3 }
+  },
+  "premium": { "level": "full", "motifs": ["scroll-reveal", "stagger", "pill-cta"] },
+  "info": {
+    "상호": "달빛다방",
+    "전화": "02-1234-5678",
+    "주소": "서울 서대문구 연희로11가길 00, 1층",
+    "영업시간": "화~일 8:30–19:00",
+    "휴무": "매주 월요일",
+    "메뉴": ["핸드드립 5,500원", "라떼 5,000원", "스콘 3,500원", "원두 200g 16,000원"]
+  }
+}
+```
+
+**쓰는 법.**
+
+- `artDirection` — STEP 2 아트 디렉션 카드의 값. 구조·팔레트·서체·다이얼·**아키타입**(STEP 2-6-2)
+- `premium` — 프리미엄 레벨과 쓴 모티프
+- `info` — STEP 8에서 사용자가 실제로 준 값만. "패스"한 항목은 적지 않는다
+
+**왜 이 파일인가.** 이 파일이 있으면 다음 요청이 "달빛다방 전화번호 바꿔줘"든 "아까 그 느낌으로 다시 만들어줘"든, 처음부터 다시 추론하지 않고 저장된 결정을 재사용한다. 이게 **유지보수를 가능하게 하는 핵심**이다.
+
+### 8-7. 유지보수 안내 — 사용자가 앞으로 어떻게 쓰는지 알려준다
+
+설정을 저장한 뒤, 이 도구로 만든 사이트를 **앞으로 어떻게 고치는지** 사용자가 알게 한다.
+
+```
+이제 다 됐습니다. 앞으로 내용을 바꾸고 싶을 때 이렇게 하시면 됩니다.
+
+  - "전화번호 바꿔줘" "메뉴 하나 추가해줘" — 이 대화에서 그냥 말씀하시면 됩니다
+  - "아까 그 느낌으로 다시 만들어줘" — 기존 설정(색·서체·구성)을 기억해 같은 느낌으로 다시 만듭니다
+  - 파일을 직접 열어 보시면 `site/index.html`입니다. 메모장으로 열어서 글자만 바꿔도 됩니다
+
+설정은 `site/design-on.json`에 저장해 두었습니다. 다음에 다시 만들 때 자동으로 참고합니다.
+```
+
+**다음 세션에서** `site/design-on.json`이 있으면 **먼저 읽는다.** 사용자 요청이 이전 결정과 겹치는지 확인하고, 겹치면 그 값을 기준으로 반영한다. "아까 그 느낌으로" → 저장된 `artDirection`·`premium`을 그대로 쓰고 새 내용만 반영한다.
 
 ---
 

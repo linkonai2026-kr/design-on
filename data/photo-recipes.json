@@ -19,7 +19,39 @@
       "사람은 정면 클로즈업을 피한다. 손·뒷모습·측면이 자연스럽다.",
       "팔레트 색을 프롬프트에 녹인다. 예: muted plum and warm cream tones.",
       "불완전함을 명시한다. lived-in, natural imperfections, unstyled.",
-      "완벽하게 정돈된 플랫레이는 AI 티가 가장 크게 난다."
+      "완벽하게 정돈된 플랫레이를 AI 티가 가장 크게 난다."
+    ],
+    "photoSites": [
+      {
+        "name": "Unsplash",
+        "url": "https://unsplash.com/s/photos/{QUERY}",
+        "imageHost": "images.unsplash.com",
+        "note": "검색 결과 이미지의 주소가 images.unsplash.com/photo-...면 그대로 쓸 수 있다. ?w=1600&q=80&fm=jpg&fit=crop 붙이기"
+      },
+      {
+        "name": "Pexels",
+        "url": "https://www.pexels.com/search/{QUERY}/",
+        "imageHost": "images.pexels.com",
+        "note": "images.pexels.com/photos/... 주소에 ?auto=compress&cs=tinysrgb&w=1600 붙이기"
+      },
+      {
+        "name": "Pixabay",
+        "url": "https://pixabay.com/images/search/{QUERY}/",
+        "imageHost": "cdn.pixabay.com",
+        "note": "핫링크가 원본 품질로 나온다. 상업 이용 무료"
+      },
+      {
+        "name": "Pinterest",
+        "url": "https://www.pinterest.com/search/pins/?q={QUERY}",
+        "imageHost": null,
+        "note": "레퍼런스·무드보드용. i.pinimg.com 주소는 영속적이지 않아 페이지에 직접 넣지 않는다. 구도·분위기 참고만"
+      },
+      {
+        "name": "Openverse",
+        "url": "https://openverse.org/search/image?q={QUERY}",
+        "imageHost": null,
+        "note": "오픈소스 이미지 검색. 저작권 상태를 직접 확인해야 한다"
+      }
     ]
   },
   "recipes": [

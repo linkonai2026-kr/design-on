@@ -1,4 +1,4 @@
-<!-- 미용실 시술·가격 안내 페이지. 팔레트: Terracotta Clay/Olive Accent(신규). 서체: Gowun Batang + Pretendard + Switzer(숫자). 구조: index-first -->
+<!-- 미용실 시술·가격 안내 페이지(클린 미니멀 아키타입). 팔레트: Pebble/Cadet Blue(신규). 서체: Gowun Dodum + Pretendard + Switzer(숫자). 구조: index-first -->
 <!doctype html>
 <html lang="ko">
 <head>
@@ -9,17 +9,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap">
 <style>
 :root{
-  --bg:#F5E3CD;
-  --surface:#EEDCC1;
-  --ink:#5A2E25;
-  --accent:#813E2E;
-  --muted:#6E5C55;
-  --line:#DCC5A6;
-  --serif:"Gowun Batang",serif;
+  --bg:#FFFFFF;
+  --surface:#F4F6F8;
+  --ink:#1A1A1E;
+  --accent:#3B4751;
+  --muted:#6B7076;
+  --line:#E3E6EA;
+  --serif:"Gowun Dodum",sans-serif;
   --sans:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;
   --num:"Switzer",var(--sans);
   --pad:20px;
@@ -33,63 +33,57 @@ body{
   word-break:keep-all;overflow-wrap:break-word;
 }
 .wrap{max-width:860px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
-h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.35;text-wrap:balance;margin:0}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.4;text-wrap:balance;margin:0}
 p{text-wrap:pretty;margin:0}
 a{color:inherit}
 .num{font-family:var(--num);font-weight:500;letter-spacing:.01em}
+a,button{transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .5s cubic-bezier(.16,1,.3,1),background-color .3s cubic-bezier(.16,1,.3,1),color .3s cubic-bezier(.16,1,.3,1),border-color .3s cubic-bezier(.16,1,.3,1)}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}*{transition:none!important}}
 
-/* ── 헤더: 상호·전화·영업시간 한 줄 압축 ── */
-.site-head{padding-top:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+/* ── 헤더: 얇은 라인으로 구분 ── */
+.site-head{padding-top:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
 .site-head .wrap{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 24px;justify-content:space-between}
-.mark{font-family:var(--serif);font-size:17px;font-weight:700;letter-spacing:.04em;text-decoration:none}
+.mark{font-family:var(--serif);font-size:17px;letter-spacing:.04em;text-decoration:none}
 .head-meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px;color:var(--muted)}
 .head-meta .tel{color:var(--ink);font-weight:600;text-decoration:none}
 
-/* ── 첫 화면: 시술표 ── */
-.sheet{padding-top:44px;padding-bottom:72px}
-.sheet .lead{font-family:var(--serif);font-size:clamp(1.5rem,3.6vw,2.2rem);line-height:1.5;max-width:30ch}
-.sheet .sub{color:var(--muted);margin-top:14px;max-width:52ch}
-.cat{margin-top:56px}
-.cat h2{font-size:1.6rem;margin-bottom:4px}
-.cat .cat-note{font-size:12px;color:var(--muted);margin-bottom:6px}
-.rows{display:grid}
-.row{
-  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:baseline;
-  padding-top:16px;padding-bottom:16px;border-bottom:1px solid var(--line);
-  transition:background-color 180ms cubic-bezier(.2,0,0,1);
-}
-.row:first-of-type{border-top:1px solid var(--line)}
-.row:hover,.row:focus-within{background:rgba(129,62,46,.06)}
-.row .name{font-weight:600}
-.row .desc{display:block;font-family:var(--sans);font-size:12px;color:var(--muted);margin-top:3px;max-width:56ch}
-.row .price{font-family:var(--num);font-size:17px;font-weight:600;white-space:nowrap}
-.row .price small{font-size:.8rem;color:var(--muted);font-weight:400;margin-left:2px}
-
-/* ── 오늘 예약 여부 (이 가게에만 있는 것) ── */
-.open-badge{
-  display:inline-flex;align-items:center;gap:8px;margin-top:28px;
-  border:1px solid var(--line);padding:9px 15px;border-radius:2px;font-size:12px;color:var(--muted);
-}
+/* ── 시술표 ── */
+.sheet{padding-top:52px;padding-bottom:80px}
+.sheet .lead{font-size:clamp(1.6rem,3.6vw,2.3rem);line-height:1.5;max-width:28ch}
+.sheet .sub{color:var(--muted);margin-top:16px;max-width:52ch;font-size:15px}
+.open-badge{display:inline-flex;align-items:center;gap:8px;margin-top:32px;border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-size:12px;color:var(--muted)}
 .open-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
 .open-badge[data-open="yes"] .dot{background:var(--accent)}
 .open-badge[data-open="yes"] .word{color:var(--ink);font-weight:600}
+.cat{margin-top:64px}
+.cat h2{font-size:1.6rem;margin-bottom:4px}
+.cat .cat-note{font-size:12px;color:var(--muted);margin-bottom:4px}
+.rows{display:grid}
+.row{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:baseline;padding-top:17px;padding-bottom:17px;border-bottom:1px solid var(--line)}
+.row:first-of-type{border-top:1px solid var(--line)}
+.row .name{font-weight:600}
+.row .desc{display:block;font-family:var(--sans);font-size:12px;color:var(--muted);margin-top:3px;max-width:56ch}
+.row .price{font-family:var(--num);font-size:1.1rem;font-weight:600;white-space:nowrap}
 
 /* ── 안내 ── */
 .guide{padding-top:56px;padding-bottom:64px;background:var(--surface)}
-.guide h2{font-size:clamp(1.3rem,3vw,1.7rem);margin-bottom:20px}
-.guide ol{margin:0;padding-left:0;list-style:none;display:grid;gap:16px}
-.guide li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline}
-.guide li .no{font-family:var(--num);font-weight:600;color:var(--accent);width:24px}
+.guide h2{font-size:clamp(1.2rem,3vw,1.6rem);margin-bottom:24px}
+.guide ol{margin:0;padding-left:0;list-style:none;display:grid;gap:18px}
+.guide li{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:baseline}
+.guide li .no{font-family:var(--num);font-weight:600;color:var(--accent);width:22px}
 .guide li p{max-width:58ch}
-.guide .small{font-size:12px;color:var(--muted);margin-top:20px;max-width:52ch}
+.guide .small{font-size:12px;color:var(--muted);margin-top:24px;max-width:52ch}
 
 /* ── 찾아오는 길 ── */
 .visit{padding-top:56px;padding-bottom:64px}
-.visit h2{font-size:clamp(1.3rem,3vw,1.7rem);margin-bottom:20px}
+.visit h2{font-size:clamp(1.2rem,3vw,1.6rem);margin-bottom:24px}
 .info dl{margin:0}
 .info dt{font-size:12px;color:var(--muted);margin-top:18px}
 .info dd{margin:2px 0 0;font-size:17px}
 .info dd a{color:inherit}
+@media(min-width:768px){.info{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}}
 
 /* ── 푸터 ── */
 .site-foot{border-top:1px solid var(--line);padding-top:28px;padding-bottom:40px;font-size:12px;color:var(--muted)}
@@ -97,19 +91,8 @@ a{color:inherit}
 
 @media (min-width:768px){
   :root{--pad:40px}
-  .sheet{padding-top:64px;padding-bottom:96px}
-  .cat{margin-top:72px}
-  .info{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
-}
-
-/* ── authored moment: 첫 시술표 등장 1회 ── */
-@media (prefers-reduced-motion:no-preference){
-  .sheet .lead,.sheet .sub,.cat{animation:rise 520ms cubic-bezier(.2,0,0,1) both}
-  .sheet .sub{animation-delay:60ms}
-  .cat:nth-of-type(1){animation-delay:110ms}
-  .cat:nth-of-type(2){animation-delay:160ms}
-  .cat:nth-of-type(3){animation-delay:210ms}
-  @keyframes rise{from{transform:translateY(12px);opacity:.001}to{transform:none;opacity:1}}
+  .sheet{padding-top:72px;padding-bottom:104px}
+  .cat{margin-top:80px}
 }
 </style>
 </head>
@@ -130,15 +113,14 @@ a{color:inherit}
 
   <section class="sheet">
     <div class="wrap">
-      <h1 class="lead">원장 한 명이 시술합니다. 자리 예약은 하루 전까지 부탁드립니다.</h1>
-      <p class="sub">합정동에서 <span class="num">7</span>년째 운영하는 원맨샵입니다. 커트는 손질까지 포함한 가격이고, 펌·염색은 시술 전 상담 후 최종 견적을 드립니다.</p>
-
-      <p class="open-badge" id="openbadge" data-open="no">
+      <h1 class="lead reveal in">원장 한 명이 시술합니다. 자리 예약은 하루 전까지 부탁드립니다.</h1>
+      <p class="sub reveal in">합정동에서 <span class="num">7</span>년째 운영하는 원맨샵입니다. 커트는 손질까지 포함한 가격이고, 펌·염색은 시술 전 상담 후 최종 견적을 드립니다.</p>
+      <p class="open-badge reveal in" id="openbadge" data-open="no">
         <span class="dot"></span>
         <span><span class="word">영업시간 확인 중</span></span>
       </p>
 
-      <section class="cat" aria-labelledby="c1">
+      <section class="cat reveal" aria-labelledby="c1">
         <h2 id="c1">커트</h2>
         <p class="cat-note">손질·드라이 포함. 롱헤어는 <span class="num">3</span>천 원 추가입니다.</p>
         <div class="rows">
@@ -161,7 +143,7 @@ a{color:inherit}
         </div>
       </section>
 
-      <section class="cat" aria-labelledby="c2">
+      <section class="cat reveal" aria-labelledby="c2">
         <h2 id="c2">펌</h2>
         <p class="cat-note">가격에 세팅·드라이가 들어 있습니다. 탈색이 필요하면 시술 전에 견적을 따로 드립니다.</p>
         <div class="rows">
@@ -184,7 +166,7 @@ a{color:inherit}
         </div>
       </section>
 
-      <section class="cat" aria-labelledby="c3">
+      <section class="cat reveal" aria-labelledby="c3">
         <h2 id="c3">염색</h2>
         <p class="cat-note">염색약은 손상도에 따라 두 종류를 골라 씁니다. 가격은 같은 범위입니다.</p>
         <div class="rows">
@@ -211,29 +193,20 @@ a{color:inherit}
 
   <section class="guide">
     <div class="wrap">
-      <h2>예약은 이렇게</h2>
-      <ol>
-        <li>
-          <span class="no num">1</span>
-          <p>전화 또는 카카오톡으로 원하는 시술과 날짜를 남겨주세요.</p>
-        </li>
-        <li>
-          <span class="no num">2</span>
-          <p>하루 전에 확정 문자를 보내드립니다. 당일 예약은 오전 <span class="num">9</span>시 이전에만 받습니다.</p>
-        </li>
-        <li>
-          <span class="no num">3</span>
-          <p>늦으실 것 같으면 <span class="num">10</span>분 전에 연락 주세요. 이후 시술과 겹치면 시간을 옮겨드립니다.</p>
-        </li>
+      <h2 class="reveal">예약은 이렇게</h2>
+      <ol class="reveal">
+        <li><span class="no num">1</span><p>전화 또는 카카오톡으로 원하는 시술과 날짜를 남겨주세요.</p></li>
+        <li><span class="no num">2</span><p>하루 전에 확정 문자를 보내드립니다. 당일 예약은 오전 <span class="num">9</span>시 이전에만 받습니다.</p></li>
+        <li><span class="no num">3</span><p>늦으실 것 같으면 <span class="num">10</span>분 전에 연락 주세요. 이후 시술과 겹치면 시간을 옮겨드립니다.</p></li>
       </ol>
-      <p class="small">현금·카드 모두 됩니다. 시술 후 마음에 안 드시면 <span class="num">7</span>일 안에 다시 말씀해 주세요. 무료로 고쳐드립니다.</p>
+      <p class="small reveal">현금·카드 모두 됩니다. 시술 후 마음에 안 드시면 <span class="num">7</span>일 안에 다시 말씀해 주세요. 무료로 고쳐드립니다.</p>
     </div>
   </section>
 
   <section class="visit">
     <div class="wrap">
-      <h2>찾아오는 길</h2>
-      <div class="info">
+      <h2 class="reveal">찾아오는 길</h2>
+      <div class="info reveal">
         <dl>
           <dt>주소</dt>
           <dd>서울 마포구 합정동 <span class="num">366</span>-<span class="num">12</span>, <span class="num">2</span>층</dd>
@@ -247,7 +220,7 @@ a{color:inherit}
           <dd>매주 월요일</dd>
         </dl>
       </div>
-      <p class="sub" style="margin-top:24px"><span class="num">6</span>호선 합정역 <span class="num">3</span>번 출구에서 도보 <span class="num">3</span>분입니다. 건물 1층은 꽃집이고, 옆 계단으로 올라오시면 됩니다. 건물 주차는 없어서 인근 공영주차장을 이용해 주세요.</p>
+      <p class="sub reveal" style="margin-top:28px"><span class="num">6</span>호선 합정역 <span class="num">3</span>번 출구에서 도보 <span class="num">3</span>분입니다. 건물 1층은 꽃집이고, 옆 계단으로 올라오시면 됩니다. 건물 주차는 없어서 인근 공영주차장을 이용해 주세요.</p>
     </div>
   </section>
 
@@ -262,9 +235,18 @@ a{color:inherit}
 </footer>
 
 <script>
-// 지금 영업 중인지 계산한다. 서버 없이 방문자 시계로만 판단한다.
+// 스크롤 리빌. JS가 죽어도 내용은 보인다.
 (function () {
-  var CLOSED = 1;           // 월요일 휴무
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .15 });
+  document.querySelectorAll('.reveal:not(.in)').forEach(function (el) { io.observe(el); });
+})();
+
+// 지금 영업 중인지 계산한다.
+(function () {
+  var CLOSED = 1;
   var OPEN_MIN = 10 * 60, CLOSE_MIN = 20 * 60;
   var now = new Date();
   var day = now.getDay();

@@ -271,3 +271,58 @@ test('premium 모드와 ponytail vendor가 배선돼 있다', () => {
   assert.match(playbook, /포니테일 사다리/);
   assert.match(playbook, /vendor\/ponytail\/AGENTS\.md/);
 });
+
+test('premium 아키타입과 STEP 8 유지보수 흐름이 배선돼 있다', () => {
+  const premium = JSON.parse(readFileSync(path.join(root, 'data', 'premium.json'), 'utf8'));
+  const playbook = readFileSync(path.join(root, 'PLAYBOOK.md'), 'utf8');
+
+  // 아키타입이 6종 이상이고, 각각 모티프 조합을 갖는다.
+  const archIds = Object.keys(premium.archetypes ?? {}).filter((k) => !k.startsWith('_'));
+  assert.ok(archIds.length >= 6, `아키타입이 ${archIds.length}종뿐이다. imweb 다양성을 못 담는다.`);
+  for (const id of archIds) {
+    const a = premium.archetypes[id];
+    for (const field of ['name', 'vibe', 'industry', 'fonts', 'motifs']) {
+      assert.ok(a[field], `${id}에 ${field}가 없다.`);
+    }
+    assert.ok(a.motifs.length >= 2, `${id}의 모티프가 2개 미만이다.`);
+  }
+
+  // pick.mjs premium --archetype 이 아키타입 사양을 반환한다.
+  const out = execFileSync(process.execPath, [
+    path.join(root, 'scripts', 'pick.mjs'), 'premium', '--archetype', 'dark-gallery'
+  ], { encoding: 'utf8' });
+  const result = JSON.parse(out);
+  assert.equal(result.archetype.id, 'dark-gallery');
+  assert.ok(result.archetype.motifs.includes('scroll-reveal'));
+
+  // STEP 8 유지보수 흐름: 설정 저장 + 다음 세션 재사용 지침.
+  assert.match(playbook, /### 8-6\. 설정을 저장한다/);
+  assert.match(playbook, /design-on\.json/);
+  assert.match(playbook, /### 8-7\. 유지보수 안내/);
+  assert.match(playbook, /아까 그 느낌으로 다시/);
+});
+
+test('photo는 사진 사이트 검색 URL을, templates는 참고 테마를 준다', () => {
+  // photo --industry 카페 → photoSites에 여러 사진 사이트 검색 URL이 있다.
+  const photoOut = execFileSync(process.execPath, [
+    path.join(root, 'scripts', 'pick.mjs'), 'photo', '--industry', '카페'
+  ], { encoding: 'utf8' });
+  const photo = JSON.parse(photoOut);
+  assert.ok(photo.photoSites.length >= 4, `사진 사이트가 ${photo.photoSites.length}곳뿐이다.`);
+  const names = photo.photoSites.map((s) => s.name);
+  assert.ok(names.includes('Unsplash') && names.includes('Pexels'), 'Unsplash·Pexels가 빠졌다.');
+  for (const s of photo.photoSites) {
+    assert.ok(s.queries.length >= 1, `${s.name} 검색 URL이 없다.`);
+    assert.ok(s.queries[0].startsWith('http'), `${s.name} 검색 URL 형식이 잘못됐다.`);
+  }
+
+  // templates --archetype → 아키타입별 참고 테마 + 사이트 목록.
+  const tpl = JSON.parse(execFileSync(process.execPath, [
+    path.join(root, 'scripts', 'pick.mjs'), 'templates', '--archetype', 'editorial-warm'
+  ], { encoding: 'utf8' }));
+  assert.ok(tpl.references.length >= 2, 'editorial-warm 참고 테마가 2개 미만이다.');
+  assert.ok(tpl.sites.length >= 4, '템플릿 사이트 목록이 4개 미만이다.');
+
+  // data/templates.json 존재.
+  assert.ok(existsSync(path.join(root, 'data', 'templates.json')), 'data/templates.json 없음.');
+});

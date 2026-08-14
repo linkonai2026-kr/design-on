@@ -1,4 +1,4 @@
-<!-- 카페 브랜드 소개 페이지(프리미엄 모드). 팔레트: Champagne/Coffee. 서체: Gowun Batang + Pretendard + Switzer. 모티프: scroll-reveal + stagger + floating-nav + pill-cta + apple-hero + parallax -->
+<!-- 카페 브랜드 소개 페이지(Editorial Warm 아키타입). 팔레트: Champagne/Coffee. 서체: Gowun Batang + Pretendard + Switzer. 모티프: scroll-reveal + stagger + floating-nav + pill-cta -->
 <!doctype html>
 <html lang="ko">
 <head>
@@ -66,21 +66,19 @@ a,button,.card,.nav a,.cta,.day{transition:transform .5s cubic-bezier(.16,1,.3,1
 .stagger>*{opacity:0;transform:translateY(20px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i)*70ms)}
 .stagger.in>*{opacity:1;transform:none}
 
-/* ── 애플식 히어로 ── */
-.hero{min-height:88dvh;display:grid;place-content:center;text-align:center;padding-top:clamp(64px,10vw,120px);padding-bottom:clamp(48px,8vw,96px);overflow:hidden;position:relative}
-.hero .bg{
-  position:absolute;inset:0;z-index:-1;
-  background-image:url('https://images.unsplash.com/photo-1503240778100-fd245e17a273?w=1600&q=80&fm=jpg&fit=crop');
-  background-size:cover;background-position:center;
-  will-change:transform;
-}
-.hero .bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(244,239,230,.92),rgba(244,239,230,.55) 55%,var(--bg))}
-.hero h1{font-size:clamp(2.3rem,5.4vw,3.9rem);letter-spacing:-.03em;text-wrap:balance}
-.hero p{max-width:34ch;margin:18px auto 0;color:var(--muted);font-size:clamp(1.05rem,2vw,1.2rem)}
-.hero .links{display:flex;gap:22px;justify-content:center;margin-top:32px;align-items:center}
+/* ── 에디토리얼 히어로 (Editorial Warm) ── */
+.hero{min-height:88dvh;display:flex;align-items:center;padding-top:clamp(72px,12vw,140px);padding-bottom:clamp(48px,8vw,96px);position:relative}
+.hero .wrap{display:grid;gap:40px;align-items:center}
+@media(min-width:768px){.hero .wrap{grid-template-columns:7fr 5fr;gap:56px}}
+.hero h1{font-size:clamp(2.1rem,4.8vw,3.4rem);letter-spacing:-.02em;text-wrap:balance;line-height:1.35}
+.hero .lead{font-size:clamp(1.1rem,2.1vw,1.25rem);line-height:1.6;color:var(--muted);max-width:34ch;margin-top:24px}
+.hero .links{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:32px}
 .hero .links a.tlink{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .25s}
 .hero .links a.tlink:hover{border-bottom-color:var(--accent)}
-.hero .status{margin-top:36px}
+.hero .status{margin-top:32px}
+.hero-media{margin:0;position:relative;border-radius:4px;overflow:hidden;box-shadow:0 30px 70px -30px rgba(46,26,14,.35)}
+.hero-media img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.hero-media figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 20px;background:rgba(46,26,14,.72);color:var(--bg);font-size:12px;line-height:1.5}
 
 /* ── 알약 CTA ── */
 .cta{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;text-decoration:none;border:none;cursor:pointer;font-size:17px}
@@ -165,18 +163,23 @@ h2{font-size:clamp(1.7rem,3.6vw,2.4rem);margin-bottom:22px}
 <main id="top">
 
   <section class="hero">
-    <div class="bg" id="herobg"></div>
-    <div>
-      <h1>화요일에 볶은 원두로 수요일 아침을 엽니다</h1>
-      <p>연희동 골목 안쪽, 좌석 12개짜리 로스터리. 원두는 두 종류만 두고, 매주 화요일 오후에 볶습니다.</p>
-      <div class="links">
-        <a class="tlink" href="#menu">메뉴 보기</a>
-        <a class="cta" href="#visit">찾아오는 길<span class="arr">→</span></a>
+    <div class="wrap">
+      <div>
+        <h1 class="reveal in">화요일에 볶은 원두로 수요일 아침을 엽니다</h1>
+        <p class="lead reveal in">연희동 골목 안쪽, 좌석 12개짜리 로스터리. 원두는 두 종류만 두고, 매주 화요일 오후에 볶습니다.</p>
+        <div class="links reveal in">
+          <a class="tlink" href="#menu">메뉴 보기</a>
+          <a class="cta" href="#visit">찾아오는 길<span class="arr">→</span></a>
+        </div>
+        <p class="status reveal in" id="status" data-open="no">
+          <span class="dot"></span>
+          <span><span class="word">영업시간 확인 중</span></span>
+        </p>
       </div>
-      <p class="status" id="status" data-open="no">
-        <span class="dot"></span>
-        <span><span class="word">영업시간 확인 중</span></span>
-      </p>
+      <figure class="hero-media reveal in">
+        <img src="https://images.unsplash.com/photo-1503240778100-fd245e17a273?w=1200&q=80&fm=jpg&fit=crop" alt="나무 카운터 위에 놓인 라떼 한 잔과 접어 둔 행주">
+        <figcaption>로스팅은 매주 화요일 오후에 합니다. 그날은 가게 안이 조금 시끄럽습니다.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -303,15 +306,6 @@ h2{font-size:clamp(1.7rem,3.6vw,2.4rem);margin-bottom:22px}
       es.forEach(function (e) { if (e.isIntersecting) { st.classList.add('in'); so.disconnect(); } });
     }, { threshold: .2 });
     so.observe(st);
-  }
-
-  // parallax-hero
-  var bg = document.getElementById('herobg');
-  if (bg) {
-    addEventListener('scroll', function () {
-      var y = scrollY;
-      if (y < innerHeight) bg.style.transform = 'translateY(' + y * .3 + 'px)';
-    }, { passive: true });
   }
 })();
 
