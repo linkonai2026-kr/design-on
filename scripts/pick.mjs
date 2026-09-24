@@ -119,7 +119,8 @@ const HUES = {
 
 function hueWords(name) {
   if (!name) return null;
-  const k = norm(name);
+  // "보라색"·"블루 계열"·"어두운 톤" 처럼 붙는 접미사를 떼고 나서 매칭한다.
+  const k = norm(name).replace(/\s*(색|계열|톤)$/, '').trim() || norm(name);
   for (const [hue, words] of Object.entries(HUES)) {
     if (hue === k || words.some((w) => norm(w) === k)) return words;
   }
@@ -231,7 +232,7 @@ function palettes() {
     const byName = list.filter((p) => words.some((w) => has(p.name, w)));
     const byTone = list.filter((p) => words.some((w) => has(p.tone, w)));
     // 이름에 색이 든 세트가 있으면 그쪽이 진짜다. 톤 설명에 한 번 스친 것은 후순위로 민다.
-    list = byName.length >= limit ? byName : [...byName, ...byTone.filter((p) => !byName.includes(p))];
+    list = byName.length >= limitDefault ? byName : [...byName, ...byTone.filter((p) => !byName.includes(p))];
   }
   if (q) list = list.filter((p) => has(p.name, q) || has(p.tone, q) || has(p.industry, q));
 
@@ -272,7 +273,7 @@ function palettes() {
       },
       warn: [
         // 본문/배경 대비가 제일 중요한데 예전에는 이걸 경고하지 않았다.
-        // DB 68세트 중 17세트가 여기서 미달인데 조용히 통과시키고 있었다.
+        // 쓸 수 있는 83세트 중 18세트가 여기서 미달인데 조용히 통과시키고 있었다.
         contrast(ink, bg) < 4.5
           ? `본문 대비가 ${contrast(ink, bg)}:1로 4.5:1에 못 미친다. ink를 더 어둡게 만들어 쓰거나 다른 팔레트를 골라라. 그대로 쓰면 low-contrast로 잡힌다.`
           : null,
@@ -562,10 +563,10 @@ if (!cmd || !TABLE[cmd]) {
 --preview: 브라우저에서 열리는 팔레트 미리보기 HTML을 만든다(design-on-palette-preview.html).
 --auto-fix: 대비 미달인 ink/muted/accent를 자동 보정해 항상 4.5:1 이상을 보장한다.
 --match: 브리프를 프리미엄 트리거 사전으로 스캔해 레벨(off/basic/full)을 판정한다.
---archetype: 비주얼 아키타입(editorial-warm·dark-gallery·neon-modern 등 8종) 전체 사양.
+--archetype: 비주얼 아키타입(editorial-warm·dark-gallery·neon-modern 등 7종) 전체 사양.
 기본 팔레트 후보는 6개까지 뽑는다. HEX만으로는 일반 사용자가 색을 못 알아본다.
 
-JSON 전체를 읽지 마라. tools.json은 262KB(약 87,000 토큰)다.
+JSON 전체를 읽지 마라. tools.json은 268KB(약 87,000 토큰)다.
 이 명령은 같은 답을 수백 토큰으로 준다.`);
   process.exit(cmd ? 1 : 0);
 }

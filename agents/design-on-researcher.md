@@ -1,7 +1,7 @@
 ---
 name: design-on-researcher
 description: design-on STEP 3 트랙 A. 아키텍처에 맞춰 정보 위계를 확정한다. 업종 표준 섹션 순서를 베끼지 않는다. 비주얼은 건드리지 않는다.
-tools: Read, Glob, Grep, WebSearch, WebFetch
+tools: Read, Glob, Grep, WebSearch, WebFetch, Bash
 model: inherit
 ---
 

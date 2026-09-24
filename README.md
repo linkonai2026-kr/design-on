@@ -121,7 +121,7 @@ design-on이 먼저 팔레트 DB를 뒤져서 조건에 맞는 배색을 찾아�
 
 여기에 `1-A, 2-A, 3-A, 상호는 달빛다방` 이런 식으로 **한 번에 답하면 됩니다.**
 
-**여기서 묻는 건 이게 전부입니다.** 페이지 구조, 글꼴 조합, 여백, 사진, 문구는 묻지 않습니다. 저장소 안에 넣어둔 구조 10종·팔레트 90세트 이상·서체 페어링 9종·사진 레시피에서 **답하신 내용에 맞는 것을 골라 알아서 조립합니다.** 그래서 질문이 세 개로 끝납니다.
+**여기서 묻는 건 이게 전부입니다.** 페이지 구조, 글꼴 조합, 여백, 사진, 문구는 묻지 않습니다. 저장소 안에 넣어둔 구조 10종·팔레트 93세트·서체 페어링 9종·사진 레시피에서 **답하신 내용에 맞는 것을 골라 알아서 조립합니다.** 그래서 질문이 세 개로 끝납니다.
 
 귀찮으면 **"알아서 해줘"**라고 해도 됩니다. 첫 번째 후보와 업종 표준값으로 알아서 만듭니다.
 
@@ -200,19 +200,19 @@ C를 고르시면 HTML을 고치는 게 아니라 **색·분위기·서체부터
 
 `examples/salon/`이 **`index-first`(목차 주도) 구조의 실물**입니다. 미용실·식당·세무처럼 "값만 확인하러 오는 곳"은 히어로가 없고 시술표가 첫 화면이어야 합니다. 카페·공방과 나란히 열어 보면 구조가 실제로 다르다는 게 보입니다.
 
-넷의 실제 차이입니다.
+다섯의 실제 차이입니다.
 
-| | cafe | studio | shop | tax |
-|---|---|---|---|---|
-| 구성 | 원페이지 | **멀티페이지 3장** | 원페이지 | 원페이지 |
-| 배경 | `#FBF1FF` 연보라 | `#34150F` 진갈색 | `#F4F5FA` 연회색 | `#D1F2EB` 연민트 |
-| 본문 서체 | Pretendard (산세리프) | Pretendard (산세리프) | Pretendard (산세리프) | **Gowun Batang (세리프)** |
-| 제목 서체 | Nanum Myeongjo | Song Myung | Black Han Sans | Pretendard |
-| 라틴·숫자 | Gambetta | Boska | Pretendard | Switzer |
-| 본문 폭 | 1180px | 1240px | 1180px | **720px** |
-| 사진 | 3장 | 12장 | 8장 | **0장** |
-| 3D | — | **Three.js** | — | — |
-| 안티패턴 | **0건** | **0건** | **0건** | **0건** |
+| | cafe | salon | studio | shop | tax |
+|---|---|---|---|---|---|
+| 구성 | 원페이지 | 원페이지 | **멀티페이지 3장** | 원페이지 | 원페이지 |
+| 배경 | `#F5E8D0` 크림 | `#FFFFFF` 화이트 | `#34150F` 진갈색 | `#0B0F14` 다크 | `#D1F2EB` 연민트 |
+| 본문 서체 | Pretendard (산세리프) | Pretendard (산세리프) | Pretendard (산세리프) | Pretendard (산세리프) | **Gowun Batang (세리프)** |
+| 제목 서체 | Gowun Batang | Gowun Dodum | Song Myung | Black Han Sans | Black Han Sans |
+| 라틴·숫자 | Switzer | Switzer | Boska | Pretendard | Switzer |
+| 본문 폭 | 1180px | **860px** | 1240px | 가변 | **720px** |
+| 사진 | 2장 | 0장 | 12장 | 8장 | **0장** |
+| 3D | — | — | **Three.js** | — | — |
+| 안티패턴 | **0건** | **0건** | **0건** | **0건** | **0건** |
 
 `examples/tax/`가 v4의 요점입니다. **히어로가 없고 사진이 한 장도 없습니다.** 본문은 세리프고 제목이 산세리프로 뒤집혀 있습니다. 세무사무소에 스톡 사진을 깔면 오히려 싸구려로 보이고, 이곳에서 파는 것은 분위기가 아니라 신뢰이기 때문입니다. 그래서 조판과 표와 각주로만 만들었습니다. 같은 도구가 만든 [`examples/studio/`](examples/studio/index.html)와 나란히 열어 보시면 차이가 분명합니다.
 
@@ -529,6 +529,7 @@ design-on은 혼자 만든 게 아닙니다. 아래 프로젝트들의 지식과
 | [tasteskill](https://github.com/Leonxlnx/taste-skill) | Leonxlnx | MIT | 브리프 추론 + 3다이얼 + 디자인시스템 매핑 |
 | [UI Skills](https://github.com/ibelick/ui-skills) | Julien Thibeaut | MIT | 컴포넌트·타이포·모션 제약, 접근성 |
 | [emilkowalski/skill](https://github.com/emilkowalski/skill) | Emil Kowalski | MIT | 애니메이션 설계·검수, Apple 원칙 |
+| [ponytail](https://github.com/DietrichGebert/ponytail) | Dietrich Gebert | MIT | 과잉 설계를 막는 사다리 + STEP 5 리뷰 게이트 |
 
 **Impeccable이 v1과 v2를 가르는 부품입니다.** AI 티를 사람 판단이 아니라 코드로 잡게 해준 게 이겁니다.
 
@@ -671,7 +672,7 @@ v4에는 **STEP 8**이 생겼습니다. 다 만든 뒤에 직접 물어봅니다
 
 #### 토큰을 98% 줄였습니다
 
-design-on에 외부 절약 도구를 붙이기 전에 자기 자신을 재봤더니 병목이 안에 있었습니다. `data/tools.json`이 **262KB, 약 87,000 토큰**입니다. 리서치 트랙이 이걸 통째로 읽으면 그 세션 예산이 거기서 끝납니다.
+design-on에 외부 절약 도구를 붙이기 전에 자기 자신을 재봤더니 병목이 안에 있었습니다. `data/tools.json`이 **268KB, 약 87,000 토큰**입니다. 리서치 트랙이 이걸 통째로 읽으면 그 세션 예산이 거기서 끝납니다.
 
 `scripts/pick.mjs`를 만들어 JSON 통째 읽기를 대체했습니다. 실측입니다.
 

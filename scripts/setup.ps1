@@ -42,6 +42,10 @@ try {
 Write-Head "2/3  에이전트에 등록"
 
 # {ROOT} 자리를 실제 경로로 바꿔 쓴다
+# Windows PowerShell 5.1의 -Encoding utf8은 BOM을 붙인다. frontmatter(---)
+# 앞에 BOM이 붙으면 에이전트가 파일을 못 읽으므로 .NET API로 BOM 없이 쓴다.
+$Utf8NoBom = New-Object System.Text.UTF8Encoding $false
+
 function Install-File {
     param($Src, $Dest)
     $dir = Split-Path -Parent $Dest
@@ -49,14 +53,15 @@ function Install-File {
     $text = Get-Content -Raw -Encoding utf8 $Src
     $text = $text -replace '\{ROOT\}', $RootForAgent
     $text = $text -replace '\$\{CLAUDE_PLUGIN_ROOT\}', $RootForAgent
-    Set-Content -Path $Dest -Value $text -Encoding utf8
+    [System.IO.File]::WriteAllText($Dest, $text, $Utf8NoBom)
 }
 
 # 스킬 파일은 PLAYBOOK 위치를 절대경로로 알려줘야 한다
 function Add-PlaybookPointer {
     param($Path)
     $ptr = "`n## 실행 지침 원문`n`n반드시 이 파일을 읽고 그대로 따른다.`n`n    $RootForAgent/PLAYBOOK.md`n"
-    Add-Content -Path $Path -Value $ptr -Encoding utf8
+    $existing = Get-Content -Raw -Encoding utf8 $Path
+    [System.IO.File]::WriteAllText($Path, $existing + $ptr, $Utf8NoBom)
 }
 
 # --- Claude Code ---

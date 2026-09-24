@@ -1,5 +1,5 @@
 {
-  "name": "designon-vendored-impeccable-detector",
+  "name": "design-on-vendored-impeccable-detector",
   "private": true,
   "type": "module",
   "description": "Local dependency anchor so the vendored Impeccable detector resolves its parsers offline. Not published.",

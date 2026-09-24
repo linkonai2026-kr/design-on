@@ -15,7 +15,12 @@ const target = process.argv[2] || 'site/';
 if (!fs.existsSync(DETECTOR)) {
   console.error('디텍터를 찾을 수 없습니다: ' + DETECTOR);
   console.error('저장소가 온전한지 확인하거나 scripts/setup.sh를 다시 실행하세요.');
-  process.exit(2);
+  process.exit(3);
+}
+
+if (!fs.existsSync(target)) {
+  console.error('검사 대상 경로가 없습니다: ' + target);
+  process.exit(1);
 }
 
 const full = fs.existsSync(DEPS);

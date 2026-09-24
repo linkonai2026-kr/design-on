@@ -26,7 +26,7 @@ design-on은 혼자 만든 것이 아니다. 아래 프로젝트들의 지식과
 
 디텍터가 잡는 것 일부. `gradient-text`, `side-tab`, `nested-cards`, `dark-glow`, `cream-palette`, `ai-color-palette`, `hero-eyebrow-chip`, `kicker-above-heading`, `numbered-section-labels`, `overused-font`, `single-font`, `low-contrast`, `gray-on-color`, `tiny-text`, `tight-leading`, `skipped-heading`, `italic-serif-display`, `marquee`, `pulsing-dot`, `bounce-easing`.
 
-Apache-2.0 4조에 따라 원본 `LICENSE`와 `NOTICE.md`를 `vendor/impeccable/`에 함께 보존했다. 원본을 수정하지 않고 그대로 담았다.
+Apache-2.0 4조에 따라 원본 `LICENSE`와 `NOTICE.md`를 `vendor/impeccable/`에 함께 보존했다. 디텍터 코드 자체는 원본 그대로고, 오프라인에서 파서가 풀리도록 `package.json`/`package-lock.json`만 design-on이 추가했다(`scripts/update-vendor.sh`가 갱신할 때마다 다시 생성한다).
 
 > 원본 저장소에는 이 밖에도 Chrome 확장, CI용 CLI(`npx impeccable detect`), 훅 연동, 전용 서브에이전트 4종이 있다. design-on은 그중 스킬 페이로드와 디텍터만 쓴다. 전체 기능이 필요하면 원본을 직접 설치하는 편이 낫다.
 
