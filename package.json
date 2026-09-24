@@ -1,11 +1,11 @@
 {
   "name": "design-on",
-  "version": "4.5.0",
+  "version": "4.6.0",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "npm run test:repository && npm run test:visual",
-    "test:repository": "node --test tests/repository.test.mjs",
+    "test:repository": "node --test tests/repository.test.mjs tests/pick.test.mjs",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots"
   },

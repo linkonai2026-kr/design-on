@@ -8,7 +8,7 @@
 
 **Claude Code와 Codex 양쪽에서 똑같이 쓸 수 있습니다.**
 
-현재 **v4.5.0**입니다. 무엇이 바뀌었는지는 [CHANGELOG.md](CHANGELOG.md)에 정리해 두었습니다.
+현재 **v4.6.0**입니다. 무엇이 바뀌었는지는 [CHANGELOG.md](CHANGELOG.md)에 정리해 두었습니다.
 
 ---
 

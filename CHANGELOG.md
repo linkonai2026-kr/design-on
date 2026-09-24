@@ -6,6 +6,39 @@ design-on의 버전별 변경 사항입니다. 형식은 [Keep a Changelog](http
 
 ---
 
+## [4.6.0] — 2026-09-24
+
+### 이번 버전의 요점
+
+**오픈소스로 다듬기 쉽게 정리한 첫 단계입니다.** `scripts/pick.mjs`가 574줄짜리 단일 파일에서
+CLI 계약(`scripts/lib/cli.mjs`)과 조회 로직(`scripts/lib/query/*.mjs`, `scripts/lib/color.mjs`)이
+분리된 구조로 바뀌었습니다. 잘못된 인자를 조용히 삼키던 버그들도 이번에 없앴습니다.
+
+### 추가
+
+- `scripts/lib/`: `text.mjs`(문자열 매칭) · `color.mjs`(대비 계산·자동 보정) · `preview.mjs`(팔레트 미리보기) · `data.mjs`(JSON 로더) · `cli.mjs`(인자 파싱) · `query/*.mjs`(서브커맨드 9개)
+- `pick.mjs`의 명시적 종료 코드: `0`=정상, `1`=결과 0건(힌트와 함께), `2`=인자 오류
+- `tests/pick.test.mjs` — `color.mjs`/`cli.mjs` 단위 테스트 27종 + CLI 종료 코드 계약 테스트
+
+### 변경
+
+- `--hue 보라색`처럼 색 이름에 "색"·"계열"·"톤"이 붙어도 매칭한다 (전에는 0건이었다)
+- 팔레트 이름 매칭 개수를 셀 때 `--limit`이 아니라 실제 반환 개수 기준(`limitDefault`)으로 비교한다
+- `--auto-fix`: 보정 후 `warn`을 다시 계산해서 비운다(전에는 옛 경고가 남았다). 대비 판정은 반올림 전 값으로, 보정 루프는 정수 스텝으로 돈다. 한쪽 방향으로 밀어도 목표에 못 미치면 반대 방향도 시도한다
+- `--preview` 경로를 현재 작업 폴더 밖으로 못 쓰게 막고, 팔레트 이름·톤·HEX를 HTML에 넣기 전에 이스케이프한다
+- `scripts/slopcheck.mjs`: 없는 경로를 검사하면 `exit 1`(전에는 조용히 `exit 0`), 디텍터 부재는 `exit 3`으로 분리(전에는 `exit 2`)
+- `design-on-researcher` 에이전트에 `Bash` 도구 추가 — 지시받은 `pick.mjs` 명령을 실제로 실행할 수 있게 됐다
+- Windows 설치 스크립트(`setup.ps1`)가 BOM 없는 UTF-8로 파일을 쓴다 (전에는 BOM이 frontmatter를 깨뜨렸다)
+- 문서·데이터 수치 정합: 잘못된 팔레트 hex(`#9811`) 2건 제거, README 예시 비교표를 실제 HTML 기준으로 재작성, 팔레트/아키타입/파일 크기 수치를 실측값으로 통일
+- LICENSE·`plugin.json`의 저작권자를 실제 저장소 소유자로 정정, README 벤더 표에 누락됐던 ponytail 추가
+
+### 수정
+
+- `pick.mjs`의 `--limit`에 정수가 아닌 값(`abc`, `-1`, `0`)을 주면 조용히 빈 배열을 내던 것을 인자 오류로 고쳤다
+- `photo --industry`에 값을 안 주면 크래시하던 경로를 인자 검증 단계에서 막았다
+
+---
+
 ## [4.5.0] — 2026-08-15
 
 ### 이번 버전의 요점
